@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  matplotlib-example:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a set of commands using the runners shell
+      - name: Create matplotlib example plots
+        run: |
+          cd $GITHUB_WORKSPACE/examples/matplotlib
+          python3 example.py
+  #root-example:
+  #  runs-on: rootproject/root
+  #  steps:
+  #    - uses: uses: actions/checkout@v3
+     

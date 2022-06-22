@@ -23,7 +23,6 @@ jobs:
         run: |
           pip3 install --user numpy scipy matplotlib
 
-      # Runs a set of commands using the runners shell
       - name: Create matplotlib example plots
         run: |
           cd $GITHUB_WORKSPACE/examples/matplotlib
@@ -34,8 +33,51 @@ jobs:
         with:
           name: matplotlib-example
           path: $GITHUB_WORKSPACE/examples/matplotlib/example.matplotlib.png
-  #root-example:
-  #  runs-on: rootproject/root
-  #  steps:
-  #    - uses: uses: actions/checkout@v3
+
+  root-python-example:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          channels: conda-forge, defaults
+          activate-environment: CI
+
+      # TODO improve dependency management (cache!)
+      - name: set up dependencies
+        run: |
+          conda install root
      
+      - name: Create ROOT example plot using python
+        run: |
+          cd $GITHUB_WORKSPACE/examples/root/python
+          python3 example.py
+
+      - name: upload plot
+        uses: actions/upload-artifact@v3
+        with:
+          name: root-python-example
+          path: $GITHUB_WORKSPACE/examples/root/python/example.root.png
+
+  root-cpp-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # TODO improve dependency management (cache!)
+      - name: set up dependencies
+        run: |
+          conda install -c conda-forge root
+     
+      - name: Create ROOT example plot using python
+        run: |
+          cd $GITHUB_WORKSPACE/examples/root/cpp
+          root -b -q example.C
+
+      - name: upload plot
+        uses: actions/upload-artifact@v3
+        with:
+          name: root-cpp-example
+          path: $GITHUB_WORKSPACE/examples/root/cpp/example.root.png

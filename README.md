@@ -81,4 +81,7 @@ _[ Fill in as appropriate... ]_
 
 ## 3. Examples
 
+
+[![Example status](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
+
 _[ include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_

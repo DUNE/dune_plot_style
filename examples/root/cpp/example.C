@@ -13,9 +13,9 @@ void example()
   TCanvas c;
 
   // 1D histogram example
-  TH1D h1D("example1d", ";x label;y label", 100, -5, 5);
-  h1D.FillRandom("gaus",10000);
-  TLegend leg(0.6,0.7,0.8,0.85);
+  TH1D h1D("example1d", ";x label;y label", 50, -5, 5);
+  h1D.FillRandom("gaus",1000);
+  TLegend leg(0.6,0.65,0.8,0.8);
   leg.AddEntry("example1d","1D histogram","l");
   h1D.Draw();
   leg.Draw();
@@ -23,6 +23,52 @@ void example()
   dunestyle::WIP();
   dunestyle::SimulationSide();
   c.Print("example.root.pdf(");
+
+  // 1D data/mc comparison type plot
+  c.Clear();
+  TH1D* h1D_ratio = (TH1D*)h1D.Clone("h1D_ratio");
+  TPad p1("p1","p1",0.,0.35,1.,1.);
+  TPad p2("p2","p2",0.,0.,1.,0.35);
+  p1.SetBottomMargin(0.04);
+  p1.SetTopMargin(0.15);
+  p2.SetBottomMargin(0.3);
+  p2.SetTopMargin(0.04);
+  c.cd(); p1.Draw(); p1.cd();
+  h1D.GetXaxis()->SetLabelSize(0.);
+  h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
+
+  h1D.GetXaxis()->SetTickLength(1./0.65*h1D.GetXaxis()->GetTickLength());
+  h1D.GetXaxis()->SetLabelSize(1./0.65*h1D.GetXaxis()->GetLabelSize());
+  h1D.GetYaxis()->SetLabelSize(1./0.65*h1D.GetYaxis()->GetLabelSize());
+  h1D.GetXaxis()->SetTitleSize(1./0.65*h1D.GetXaxis()->GetTitleSize());
+  h1D.GetYaxis()->SetTitleSize(1./0.65*h1D.GetYaxis()->GetTitleSize());
+  h1D.GetYaxis()->SetTitleOffset(0.65*h1D.GetYaxis()->GetTitleOffset());
+  h1D.GetXaxis()->SetTitleOffset(0.65*h1D.GetXaxis()->GetTitleOffset());
+
+  h1D_ratio->GetXaxis()->SetTickLength(1./0.65*h1D_ratio->GetXaxis()->GetTickLength()*6.5/3.5);
+  h1D_ratio->GetXaxis()->SetLabelSize(1./0.65*h1D_ratio->GetXaxis()->GetLabelSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetLabelSize(1./0.65*h1D_ratio->GetYaxis()->GetLabelSize()*6.5/3.5);
+  h1D_ratio->GetXaxis()->SetTitleSize(1./0.65*h1D_ratio->GetXaxis()->GetTitleSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetTitleSize(1./0.65*h1D_ratio->GetYaxis()->GetTitleSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetTitleOffset(0.65*h1D_ratio->GetYaxis()->GetTitleOffset()*3.5/6.5);
+  h1D_ratio->GetXaxis()->SetTitleOffset(h1D_ratio->GetXaxis()->GetTitleOffset()*3.5/6.5);
+
+  h1D_ratio->GetYaxis()->SetTitle("ratio to fit");
+  leg.Clear();
+  h1D.Fit("gaus");
+  h1D.Draw("E");
+  TF1* fit = h1D.GetFunction("gaus");
+  leg.AddEntry(&h1D,"data","lep");
+  leg.AddEntry(fit,"fit","l");
+  leg.Draw();
+  h1D_ratio->Sumw2();
+  h1D_ratio->Divide(fit);
+  TF1 one("one","1.",-5,5);
+  c.cd(); p2.Draw(); p2.cd();
+  h1D_ratio->GetYaxis()->SetRangeUser(0.,2.);
+  h1D_ratio->Draw("E");
+  one.Draw("same");
+  c.Print("example.root.pdf");
 
   // 2D histogram example
   c.Clear();

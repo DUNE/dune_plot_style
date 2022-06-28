@@ -37,7 +37,6 @@ void example()
   c.cd(); p1.Draw(); p1.cd();
   h1D.GetXaxis()->SetLabelSize(0.);
   h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
-
   h1D.GetXaxis()->SetTickLength(1./0.65*h1D.GetXaxis()->GetTickLength());
   h1D.GetXaxis()->SetLabelSize(1./0.65*h1D.GetXaxis()->GetLabelSize());
   h1D.GetYaxis()->SetLabelSize(1./0.65*h1D.GetYaxis()->GetLabelSize());
@@ -45,7 +44,6 @@ void example()
   h1D.GetYaxis()->SetTitleSize(1./0.65*h1D.GetYaxis()->GetTitleSize());
   h1D.GetYaxis()->SetTitleOffset(0.65*h1D.GetYaxis()->GetTitleOffset());
   h1D.GetXaxis()->SetTitleOffset(0.65*h1D.GetXaxis()->GetTitleOffset());
-
   h1D_ratio->GetXaxis()->SetTickLength(1./0.65*h1D_ratio->GetXaxis()->GetTickLength()*6.5/3.5);
   h1D_ratio->GetXaxis()->SetLabelSize(1./0.65*h1D_ratio->GetXaxis()->GetLabelSize()*6.5/3.5);
   h1D_ratio->GetYaxis()->SetLabelSize(1./0.65*h1D_ratio->GetYaxis()->GetLabelSize()*6.5/3.5);
@@ -53,7 +51,6 @@ void example()
   h1D_ratio->GetYaxis()->SetTitleSize(1./0.65*h1D_ratio->GetYaxis()->GetTitleSize()*6.5/3.5);
   h1D_ratio->GetYaxis()->SetTitleOffset(0.65*h1D_ratio->GetYaxis()->GetTitleOffset()*3.5/6.5);
   h1D_ratio->GetXaxis()->SetTitleOffset(h1D_ratio->GetXaxis()->GetTitleOffset()*3.5/6.5);
-
   h1D_ratio->GetYaxis()->SetTitle("ratio to fit");
   leg.Clear();
   h1D.Fit("gaus");
@@ -95,11 +92,9 @@ void example()
   //TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(1))); // doesn't work?
   TH1I l2_h("l2_h","l2_h",1,0,1); l2_h.SetFillColor(palette->GetValueColor((h2D.GetContourLevel(2)-h2D.GetContourLevel(0))/2.));
   TH1I l3_h("l3_h","l3_h",1,0,1); l3_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(2)));
-
   leg.AddEntry(&l1_h,"level 1 contour","f");
   leg.AddEntry(&l2_h,"level 2 contour","f");
   leg.AddEntry(&l3_h,"level 3 contour","f");
-
   h2D.Draw("cont1");
   leg.Draw();
   dunestyle::CenterTitles(&h2D);

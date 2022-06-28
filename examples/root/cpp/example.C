@@ -3,6 +3,7 @@
 ///
 
 #include "TCanvas.h"
+#include "TColor.h"
 #include "TH1D.h"
 
 #include "DUNEStyle.h"
@@ -83,9 +84,24 @@ void example()
 
   // 2D contour example
   c.Clear();
-  double levels[3] = {500,5000,25000};
+  leg.Clear();
+  double level1 = 500.;
+  double level2 = 5000.;
+  double level3 = 25000.;
+  double levels[3] = {level1,level2,level3};
   h2D.SetContour(3,levels);
+  TPaletteAxis *palette = (TPaletteAxis*)h2D.GetListOfFunctions()->FindObject("palette");
+  TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(0)));
+  //TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(1))); // doesn't work?
+  TH1I l2_h("l2_h","l2_h",1,0,1); l2_h.SetFillColor(palette->GetValueColor((h2D.GetContourLevel(2)-h2D.GetContourLevel(0))/2.));
+  TH1I l3_h("l3_h","l3_h",1,0,1); l3_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(2)));
+
+  leg.AddEntry(&l1_h,"level 1 contour","f");
+  leg.AddEntry(&l2_h,"level 2 contour","f");
+  leg.AddEntry(&l3_h,"level 3 contour","f");
+
   h2D.Draw("cont1");
+  leg.Draw();
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
   dunestyle::SimulationSide();

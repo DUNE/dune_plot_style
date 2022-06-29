@@ -62,6 +62,7 @@ void example()
   h1D_ratio->Sumw2();
   h1D_ratio->Divide(fit);
   TF1 one("one","1.",-5,5);
+  dunestyle::CornerLabel("MC/Data Comparison Example");
   c.cd(); p2.Draw(); p2.cd();
   h1D_ratio->GetYaxis()->SetRangeUser(0.,2.);
   h1D_ratio->Draw("E");
@@ -76,7 +77,7 @@ void example()
   h2D.Draw("colz");
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
-  dunestyle::CornerLabel("Neutrino beam");
+  dunestyle::CornerLabel("2D Histogram Example");
   c.Print("example.root.pdf");
 
   // 2D contour example
@@ -100,7 +101,7 @@ void example()
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
   dunestyle::SimulationSide();
-  dunestyle::CornerLabel("Neutrino beam");
+  dunestyle::CornerLabel("2D Contour Example");
   c.Print("example.root.pdf");
 
   // stacked histogram
@@ -122,7 +123,7 @@ void example()
   leg.AddEntry("hs2","two hist","f");
   leg.AddEntry("hs3","three hist","f");
   leg.Draw();
-  dunestyle::CornerLabel("Stacked histograms");
+  dunestyle::CornerLabel("Stacked Histograms Example");
   c.Print("example.root.pdf)");
 
 }

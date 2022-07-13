@@ -3,6 +3,7 @@
 ///
 
 #include "TCanvas.h"
+#include "TColor.h"
 #include "TH1D.h"
 
 #include "DUNEStyle.h"
@@ -13,9 +14,9 @@ void example()
   TCanvas c;
 
   // 1D histogram example
-  TH1D h1D("example1d", ";x label;y label", 100, -5, 5);
-  h1D.FillRandom("gaus",10000);
-  TLegend leg(0.6,0.7,0.8,0.85);
+  TH1D h1D("example1d", ";x label;y label", 50, -5, 5);
+  h1D.FillRandom("gaus",1000);
+  TLegend leg(0.6,0.65,0.8,0.8);
   leg.AddEntry("example1d","1D histogram","l");
   h1D.Draw();
   leg.Draw();
@@ -23,6 +24,50 @@ void example()
   dunestyle::WIP();
   dunestyle::SimulationSide();
   c.Print("example.root.pdf(");
+
+  // 1D data/mc comparison type plot
+  c.Clear();
+  TH1D* h1D_ratio = (TH1D*)h1D.Clone("h1D_ratio");
+  TPad p1("p1","p1",0.,0.35,1.,1.);
+  TPad p2("p2","p2",0.,0.,1.,0.35);
+  p1.SetBottomMargin(0.04);
+  p1.SetTopMargin(0.15);
+  p2.SetBottomMargin(0.3);
+  p2.SetTopMargin(0.04);
+  c.cd(); p1.Draw(); p1.cd();
+  h1D.GetXaxis()->SetLabelSize(0.);
+  h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
+  h1D.GetXaxis()->SetTickLength(1./0.65*h1D.GetXaxis()->GetTickLength());
+  h1D.GetXaxis()->SetLabelSize(1./0.65*h1D.GetXaxis()->GetLabelSize());
+  h1D.GetYaxis()->SetLabelSize(1./0.65*h1D.GetYaxis()->GetLabelSize());
+  h1D.GetXaxis()->SetTitleSize(1./0.65*h1D.GetXaxis()->GetTitleSize());
+  h1D.GetYaxis()->SetTitleSize(1./0.65*h1D.GetYaxis()->GetTitleSize());
+  h1D.GetYaxis()->SetTitleOffset(0.65*h1D.GetYaxis()->GetTitleOffset());
+  h1D.GetXaxis()->SetTitleOffset(0.65*h1D.GetXaxis()->GetTitleOffset());
+  h1D_ratio->GetXaxis()->SetTickLength(1./0.65*h1D_ratio->GetXaxis()->GetTickLength()*6.5/3.5);
+  h1D_ratio->GetXaxis()->SetLabelSize(1./0.65*h1D_ratio->GetXaxis()->GetLabelSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetLabelSize(1./0.65*h1D_ratio->GetYaxis()->GetLabelSize()*6.5/3.5);
+  h1D_ratio->GetXaxis()->SetTitleSize(1./0.65*h1D_ratio->GetXaxis()->GetTitleSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetTitleSize(1./0.65*h1D_ratio->GetYaxis()->GetTitleSize()*6.5/3.5);
+  h1D_ratio->GetYaxis()->SetTitleOffset(0.65*h1D_ratio->GetYaxis()->GetTitleOffset()*3.5/6.5);
+  h1D_ratio->GetXaxis()->SetTitleOffset(h1D_ratio->GetXaxis()->GetTitleOffset()*3.5/6.5);
+  h1D_ratio->GetYaxis()->SetTitle("ratio to fit");
+  leg.Clear();
+  h1D.Fit("gaus");
+  h1D.Draw("E");
+  TF1* fit = h1D.GetFunction("gaus");
+  leg.AddEntry(&h1D,"data","lep");
+  leg.AddEntry(fit,"fit","l");
+  leg.Draw();
+  h1D_ratio->Sumw2();
+  h1D_ratio->Divide(fit);
+  TF1 one("one","1.",-5,5);
+  dunestyle::CornerLabel("MC/Data Comparison Example");
+  c.cd(); p2.Draw(); p2.cd();
+  h1D_ratio->GetYaxis()->SetRangeUser(0.,2.);
+  h1D_ratio->Draw("E");
+  one.Draw("same");
+  c.Print("example.root.pdf");
 
   // 2D histogram example
   c.Clear();
@@ -32,18 +77,31 @@ void example()
   h2D.Draw("colz");
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
-  dunestyle::CornerLabel("Neutrino beam");
+  dunestyle::CornerLabel("2D Histogram Example");
   c.Print("example.root.pdf");
 
   // 2D contour example
   c.Clear();
-  double levels[3] = {500,5000,25000};
+  leg.Clear();
+  double level1 = 500.;
+  double level2 = 5000.;
+  double level3 = 25000.;
+  double levels[3] = {level1,level2,level3};
   h2D.SetContour(3,levels);
+  TPaletteAxis *palette = (TPaletteAxis*)h2D.GetListOfFunctions()->FindObject("palette");
+  TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(0)));
+  //TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(1))); // doesn't work?
+  TH1I l2_h("l2_h","l2_h",1,0,1); l2_h.SetFillColor(palette->GetValueColor((h2D.GetContourLevel(2)-h2D.GetContourLevel(0))/2.));
+  TH1I l3_h("l3_h","l3_h",1,0,1); l3_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(2)));
+  leg.AddEntry(&l1_h,"level 1 contour","f");
+  leg.AddEntry(&l2_h,"level 2 contour","f");
+  leg.AddEntry(&l3_h,"level 3 contour","f");
   h2D.Draw("cont1");
+  leg.Draw();
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
   dunestyle::SimulationSide();
-  dunestyle::CornerLabel("Neutrino beam");
+  dunestyle::CornerLabel("2D Contour Example");
   c.Print("example.root.pdf");
 
   // stacked histogram
@@ -65,7 +123,7 @@ void example()
   leg.AddEntry("hs2","two hist","f");
   leg.AddEntry("hs3","three hist","f");
   leg.Draw();
-  dunestyle::CornerLabel("Stacked histograms");
+  dunestyle::CornerLabel("Stacked Histograms Example");
   c.Print("example.root.pdf)");
 
 }

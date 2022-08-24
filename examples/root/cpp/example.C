@@ -6,7 +6,7 @@
 #include "TColor.h"
 #include "TH1D.h"
 
-#include "DUNEStyle.h"
+#include "../../../root/cpp/include/DUNEStyle.h"
 
 void example()
 {
@@ -25,6 +25,7 @@ void example()
   dunestyle::SimulationSide();
   c.Print("example.root.pdf(");
 
+  /*
   // 1D data/mc comparison type plot
   c.Clear();
   TH1D* h1D_ratio = (TH1D*)h1D.Clone("h1D_ratio");
@@ -125,5 +126,6 @@ void example()
   leg.Draw();
   dunestyle::CornerLabel("Stacked Histograms Example");
   c.Print("example.root.pdf)");
+  */
 
 }

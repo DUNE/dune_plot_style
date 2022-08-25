@@ -1,6 +1,3 @@
-# assuming that we want to change the name eventually to match the other
-# products that are available in the dune UPS db
-
 FILE=TABLE 
 PRODUCT=dune-plot-style
 VERSION=XXVERSIONXX
@@ -11,11 +8,9 @@ QUALIFIERS = ""
 
 ACTION=SETUP 
 
-  # what do these do?
   setupEnv()
   prodDir()
 
-  # setup environment variables
   EnvSet(DUNE-PLOT-STYLE_VERSION, ${UPS_PROD_VERSION} )
   EnvSet(DUNE-PLOT-STYLE_DIR, ${UPS_PROD_DIR} )
   EnvSet(DUNE-PLOT-STYLE_INC, ${UPS_PROD_DIR}/root/cpp/include/)

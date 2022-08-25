@@ -18,22 +18,24 @@ Then you can call dunestyle.enable() to turn it on.
 from matplotlib import pyplot as plt
 
 def enable():
-	assert "dune" in plt.style.available, "Can't locate DUNE matplotlib style sheet file!"
+    #assert "dune" in plt.style.available, "Can't locate DUNE matplotlib style sheet file!"
 
-	plt.style.use("dune")
+    #plt.style.use("dune")
 
-	print("DUNE plot style enabled")
+    plt.style.use('/sdf/home/a/amogan/dune-plot-style/matplotlib/stylelib/dune.mplstyle')
+
+    print("DUNE plot style enabled")
 
 
 import builtins
 _IMPORT_FLAG_NAME = "DUNESTYLE_ENABLE_AUTOMATICALLY"
 if _IMPORT_FLAG_NAME not in builtins.__dict__ or builtins.__dict__[_IMPORT_FLAG_NAME]:
-	enable()
+    enable()
 
 
 ##########   Utility functions below  ################
 
 def WIP(transform=None):
-	plt.text(0, 1.05, r"DUNE Work In Progress",
-	         fontdict={"fontsize": 24, "color": "blue"},
-	         transform=transform if transform is not None else plt.gca().transAxes)
+    plt.text(0, 1.05, r"DUNE Work In Progress",
+	     fontdict={"fontsize": 24, "color": "blue"},
+	     transform=transform if transform is not None else plt.gca().transAxes)

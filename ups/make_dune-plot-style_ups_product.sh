@@ -56,7 +56,18 @@ fi
 # -----------------------------------------------------------------------------
 
 # clone to temp directory
-git clone -b ${version} git@github.com:DUNE/${reponame}.git ${tmpdir}/${reponame}
+git clone git@github.com:DUNE/${reponame}.git ${tmpdir}/${reponame}-preorg
+
+# TODO use this
+# git clone -b ${version} git@github.com:DUNE/${reponame}.git ${tmpdir}/${reponame}-preorg
+
+echo "reorganising into ${tmpdir}/${reponamei}"
+mkdir -p ${tmpdir}/${reponame}/python/dunestyle
+mv ${tmpdir}/${reponame}-preorg/src/matplotlib/stylelib  ${tmpdir}/${reponame}/
+mv ${tmpdir}/${reponame}-preorg/src/root/cpp/include     ${tmpdir}/${reponame}/
+mv ${tmpdir}/${reponame}-preorg/src/*                    ${tmpdir}/${reponame}/
+
+tree ${tmpdir}/${reponame}
 
 proddir=${path}/${reponame}
 dest=${proddir}/${version}/NULL

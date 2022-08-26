@@ -66,6 +66,7 @@ mv ${tmpdir}/${reponame}-preorg/src/root/cpp/include     ${tmpdir}/${reponame}/
 mv ${tmpdir}/${reponame}-preorg/src/__init__.py          ${tmpdir}/${reponame}/python/dunestyle/
 mv ${tmpdir}/${reponame}-preorg/src/matplotlib/python/*  ${tmpdir}/${reponame}/python/dunestyle/matplotlib
 mv ${tmpdir}/${reponame}-preorg/src/root/python/*        ${tmpdir}/${reponame}/python/dunestyle/root
+rm -rf ${tmpdir}/${reponame}-preorg
 
 proddir=${path}/${reponame}
 dest=${proddir}/${version}/NULL

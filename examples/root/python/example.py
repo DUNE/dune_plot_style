@@ -4,8 +4,7 @@ PyROOT placeholder example.  we can do way better than this.
 import ROOT
 import numpy as np
 
-#import dunestyle.root as dunestyle
-import dunestyle as dunestyle
+import dunestyle.root as dunestyle
 
 c = ROOT.TCanvas()
 

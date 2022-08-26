@@ -24,10 +24,10 @@ if [ ${#@} != 1 ]; then
 fi 
 
 # useful vars
-prodpath=/grid/fermiapp/products/dune/
-prodname="dune-plot-style" 
+path=/grid/fermiapp/products/dune/
+reponame="dune-plot-style" 
 version=$1
-tmpdir=/tmp/${prodname}_${version}
+tmpdir=/tmp/${reponame}_${version}
 
 if [[ ! ${version} =~ v[0-9][0-9]_[0-9][0-9] ]]; then
   echo ""
@@ -35,9 +35,9 @@ if [[ ! ${version} =~ v[0-9][0-9]_[0-9][0-9] ]]; then
   usage
 fi
 
-echo "Tagging ${prodname} ${version}"
+echo "Tagging ${reponame} ${version}"
 
-source ${prodpath}/setup_dune.sh
+source ${path}/setup_dune.sh
 setup upd
 
 echo "Printing active products"
@@ -56,12 +56,12 @@ fi
 # -----------------------------------------------------------------------------
 
 # clone to temp directory
-git clone git@github.com:DUNE/${prodname}.git ${tmpdir}/${prodname}
+git clone -b ${version} git@github.com:DUNE/${reponame}.git ${tmpdir}/${reponame}
 
-proddir=${prodpath}/${prodname}
+proddir=${path}/${reponame}
 dest=${proddir}/${version}/NULL
 
-echo "$prodname will be created in $dest"
+echo "$reponame will be created in $dest"
 
 if [ ! -d "${proddir}" ]; then
   mkdir -p ${proddir}
@@ -71,7 +71,7 @@ fi
 # in general we won't want to do this
 if [ -d "${proddir}/${version}" ]; then
   echo ""
-  echo "Product ${prodname} with version ${version} already exists." 
+  echo "Product ${reponame} with version ${version} already exists." 
   echo "Making it again will over-write the existing one."
   echo ""
   read -p "Are you sure you want to proceed (y/n)? " -n 1 -r
@@ -87,10 +87,10 @@ fi
 
 # now copy the code to it's location in the /grid area
 mkdir -p ${dest}
-rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/${prodname}/* ${dest}
+rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/* ${dest}
 
 # update the ups table to give the correct version number
-ups_table=${dest}/ups/${prodname}.table
+ups_table=${dest}/ups/${reponame}.table
 if [ ! -f "${ups_table}" ] ; then
   echo ""
   echo "Error! UPS table ${ups_table} does not exist!"
@@ -103,13 +103,13 @@ echo "Updating table file"
 sed -i -e "s:XXVERSIONXX:${version}:" \
   ${ups_table}
 
-echo"Declaring product ${prodname} with version ${version} to UPS."
+echo"Declaring product ${reponame} with version ${version} to UPS."
 
 # declare to ups
-ups declare -f NULL -z ${prodpath} \
-  -r ${prodpath}/${prodname}/${version}/NULL \
-  -m ${prodname}.table \
-  ${prodname} ${version}
+ups declare -f NULL -z ${path} \
+  -r ${path}/${reponame}/${version}/NULL \
+  -m ${reponame}.table \
+  ${reponame} ${version}
 
 retval=$?
 test $retval -ne 0 && echo "Error! 'ups declare' returned non-zero - BAILING" && exit 1
@@ -117,7 +117,7 @@ test $retval -ne 0 && echo "Error! 'ups declare' returned non-zero - BAILING" &&
 # add to upd
 cd ${proddir}/${version}/NULL/
 
-upd addproduct ${prodname} ${version} 
+upd addproduct ${reponame} ${version} 
 retval=$?
 test $retval -ne 0 && echo "Error! 'upd addproduct' returned non-zero - BAILING" && exit 1
 

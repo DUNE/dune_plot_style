@@ -18,10 +18,12 @@ Then you can call dunestyle.enable() to turn it on.
 from matplotlib import pyplot as plt
 
 def enable():
-	assert "dune" in plt.style.available, "Can't locate DUNE matplotlib style sheet file!"
+	import os
 
-	plt.style.use("dune")
+	print(os.environ['MPLCONFIGDIR']+"/dune.mplstyle")
 
+	assert os.path.exists(os.environ['MPLCONFIGDIR'].split(':')[0]+"/dune.mplstyle"), "Can't locate DUNE matplotlib style sheet file!"
+	plt.style.use(os.environ['MPLCONFIGDIR'].split(':')[0]+"/dune.mplstyle")
 	print("DUNE plot style enabled")
 
 

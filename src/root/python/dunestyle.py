@@ -18,6 +18,7 @@ Then you can call dunestyle.enable() to turn it on.
 import builtins
 
 CPP_HEADER = "DUNEStyle.h"
+UPS_VAR = "DUNE_PLOT_STYLE_INC"
 
 
 def enable():
@@ -25,10 +26,16 @@ def enable():
 	import sys
 	import ROOT
 
+
 	search_paths = [os.path.curdir, os.path.join(os.path.dirname(__file__), "../cpp/include")]
-	ups_var = "DUNE_PLOT_STYLE_INC"
-	if ups_var in os.environ:
-		search_paths.insert(0, os.environ[ups_var])
+	try:
+		from dunestyle import data as data_module
+		search_paths.insert(0, data_module.__path__[0])
+	except:
+		pass
+
+	if UPS_VAR in os.environ:
+		search_paths.insert(0, os.environ[UPS_VAR])
 
 	found_path = None
 	for search_paths in search_paths:

@@ -13,6 +13,8 @@ void example()
 
   TCanvas *c;
 
+  dunestyle::ColorBlindPalette();
+
   // 1D histogram example
   TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
   h1D->FillRandom("gaus",1000);

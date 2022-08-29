@@ -25,8 +25,11 @@ namespace dunestyle
 {
   bool SetDuneStyle()
   {
+
     // Defaults to classic style, but that's OK, we can fix it
     TStyle* duneStyle = new TStyle("duneStyle", "DUNE Style");
+
+    duneStyle->SetPalette(kViridis);
 
     // Center title
     duneStyle->SetTitleAlign(22);
@@ -168,6 +171,11 @@ namespace dunestyle
     histo->GetXaxis()->CenterTitle();
     histo->GetYaxis()->CenterTitle();
     histo->GetZaxis()->CenterTitle();
+  }
+
+  void ColorBlindPalette()
+  {
+    gStyle->SetPalette(kCividis);
   }
 
   /// A nice monochrome palette (white -> red)

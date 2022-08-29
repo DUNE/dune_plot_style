@@ -15,6 +15,7 @@ Then you can call dunestyle.enable() to turn it on.
 :date:   March 2022
 """
 
+import os
 from matplotlib import pyplot as plt
 
 def enable():
@@ -22,7 +23,7 @@ def enable():
 
     #plt.style.use("dune")
 
-    plt.style.use('/sdf/home/a/amogan/dune-plot-style/matplotlib/stylelib/dune.mplstyle')
+    plt.style.use('{:s}/matplotlib/stylelib/dune.mplstyle'.format(os.environ['DUNEPLOTSTYLE_DIR']))
 
     print("DUNE plot style enabled")
 
@@ -38,4 +39,14 @@ if _IMPORT_FLAG_NAME not in builtins.__dict__ or builtins.__dict__[_IMPORT_FLAG_
 def WIP(transform=None):
     plt.text(0, 1.05, r"DUNE Work In Progress",
 	     fontdict={"fontsize": 24, "color": "blue"},
+	     transform=transform if transform is not None else plt.gca().transAxes)
+
+def Simulation(transform=None):
+    plt.text(1.0, 1.05, r"DUNE Simulation", horizontalalignment='right',
+	     fontdict={"fontsize": 18, "color": "gray"},
+	     transform=transform if transform is not None else plt.gca().transAxes)
+
+def SimulationSide(transform=None):
+    plt.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
+	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)

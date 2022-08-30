@@ -17,7 +17,6 @@ import dunestyle.matplotlib as dunestyle
 # (relevant in the data/MC plot, where we want to convert the
 # histogram to points).
 mu, sigma = 0, 1
-nbins = 50
 x_gaus = np.random.normal(mu, sigma, 1000)
 
 hist, bin_edges = np.histogram(x_gaus, bins=50, range=(-5,5))
@@ -25,7 +24,7 @@ bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
 # Dummy error values; just for illlustration
 y_error = np.std(x_gaus)/np.sqrt(x_gaus.size)*hist
 
-# 1D Gaussian example
+### 1D Gaussian example ###
 # The "stairs" plot is the easiest way to plot a histogram
 # from a numpy histogram. If you're not using a numpy histogram,
 # then use plt.hist().
@@ -37,7 +36,7 @@ dunestyle.WIP()
 dunestyle.SimulationSide()
 plt.savefig("example.1Dhist.matplotlib.png")
 
-# Data/MC example
+### Data/MC example ###
 # For this example, we take our "data" from the above 1D Gaussian histogram
 
 # Gaus fits are not as straightforward in matplotlib as they are
@@ -80,6 +79,7 @@ ax0.plot(x_fit, y_fit, color='r', label="Fit")
 ax0.errorbar(x=bin_centers, y=hist,
              yerr=y_error, fmt='o', capsize=0.5, label="Data")
 ax0.legend()
+dunestyle.CornerLabel("Data/MC")
 
 # Bottom plot
 ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
@@ -89,6 +89,27 @@ ax1.axhline(color="r", zorder=-1)
 ax1.set_xlabel("x label")
 ax1.set_ylabel("Residuals")
 plt.savefig("example.datamc.matplotlib.png")
+
+### 2D Histogram Example ###
+mean = (0, 0)
+cov = [[0.5,-0.5],[-0.5,1]]
+throws = np.random.multivariate_normal(mean, cov, 10000000)
+xbins = np.arange(100)
+ybins = np.arange(100)
+xrange = [-5,5]
+yrange = [-5,5]
+fig, ax = plt.subplots()
+hist2d = ax.hist2d(throws[:,0],throws[:,1], bins=100, range=[[-5,5],[-5,5]])
+ax.set_xlabel("x label")
+ax.set_ylabel("y label")
+# Add z-axis colorbar. When creating hist2d, it returns
+# (counts, xedges, yedges, image), in that order. We need
+# the image to be called by fig.colorbar(). See
+# https://stackoverflow.com/questions/42387471/how-to-add-a-colorbar-for-a-hist2d-plot
+fig.colorbar(hist2d[3])
+dunestyle.CornerLabel("2D Histogram Example")
+dunestyle.Simulation()
+plt.savefig("example.2Dhist.matplotlib.png")
 
 x = np.linspace(-5, 5, 500)
 y = scipy.stats.norm.pdf(x)

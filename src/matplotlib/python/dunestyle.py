@@ -19,13 +19,13 @@ import os
 from matplotlib import pyplot as plt
 
 def enable():
-    #assert "dune" in plt.style.available, "Can't locate DUNE matplotlib style sheet file!"
+	import os
 
-    #plt.style.use("dune")
+	print(os.environ['MPLCONFIGDIR']+"/dune.mplstyle")
 
-    plt.style.use('{:s}/matplotlib/stylelib/dune.mplstyle'.format(os.environ['DUNEPLOTSTYLE_DIR']))
-
-    print("DUNE plot style enabled")
+	assert os.path.exists(os.environ['MPLCONFIGDIR'].split(':')[0]+"/dune.mplstyle"), "Can't locate DUNE matplotlib style sheet file!"
+	plt.style.use(os.environ['MPLCONFIGDIR'].split(':')[0]+"/dune.mplstyle")
+	print("DUNE plot style enabled")
 
 
 import builtins

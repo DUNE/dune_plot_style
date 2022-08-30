@@ -50,3 +50,8 @@ def SimulationSide(transform=None):
     plt.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
 	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
+
+def CornerLabel(label, transform=None):
+    plt.text(-0.10, 1.05, "{:s}".format(label), horizontalalignment='left',
+	fontdict={"fontsize": 14, "color": "gray"},
+	transform=transform if transform is not None else plt.gca().transAxes)

@@ -11,6 +11,8 @@ import matplotlib.gridspec as gridspec
 
 import dunestyle.matplotlib as dunestyle
 
+from plotting_helpers import Gauss, CovEllipse
+
 ### Simple 1D Gaussian example ###
 def Gauss1D():
     x = np.linspace(-5, 5, 500)
@@ -22,40 +24,27 @@ def Gauss1D():
     plt.legend()
     dunestyle.WIP()
     dunestyle.SimulationSide()
-    plt.savefig("example.gaussian.matplotlib.png")
+    plt.savefig("example.matplotlib.gaus.png")
 
-# The next two example plots will use the same Gaussian distribution.
-# Here, we save the Gaussian as a numpy histogram, but this isn't 
+# This example saves a Gaussian as a numpy histogram, but this isn't 
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
 # (relevant in the data/MC plot, where we want to convert the
 # histogram to points).
 
+### 1D histogram example ###
 def Hist1D():
     mu, sigma = 0, 1
     x_gaus = np.random.normal(mu, sigma, 1000)
-    counts, bin_edges = np.histogram(x_gaus, bins=30)
-    bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
 
-    # Bin errors go as sigma/sqrt(N), where N is the bin count
-    # TODO What about 0 bins?
-    std_dev = np.std(x_gaus)
-    y_errors = np.array([std_dev/np.sqrt(bin_count) if bin_count != 0 else 1e-3 for bin_count in counts])
-
-    ### 1D histogram example ###
-    # Can plot histograms from numpy hists using either stairs or hist, but
-    # the syntax is slightly different between the two
-    #plt.stairs(counts, bin_edges, fill=False, label="Hist", linewidth=1.5)
-    #plt.hist(bin_edges[:-1], bin_edges, weights=counts, fill=False, label="Hist", linewidth=1.5)
     plt.hist(x_gaus, histtype='step', label="Hist", linewidth=1.5)
     plt.xlabel('x label')
     plt.ylabel('y label')
-    # Don't need this next line if plotting using numpy histogram
     plt.xlim(-5,5)
     plt.legend()
     dunestyle.WIP()
     dunestyle.SimulationSide()
-    plt.savefig("example.1Dhist.matplotlib.png")
+    plt.savefig("example.matplotlib.hist1D.png")
 
 ### Data/MC example ###
 # For this example, we take our "data" from the above 1D Gaussian histogram
@@ -64,8 +53,8 @@ def Hist1D():
 # in ROOT. See the second example at
 # https://physics.nyu.edu/pine/pymanual/html/chap8/chap8_fitting.html
 
-def Gauss(x, H, A, x0, sigma):
-    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
+#def Gauss(x, H, A, x0, sigma):
+#    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
 
 def DataMC():
     # Use SciPy's curve_fit function to return optimal fit
@@ -117,7 +106,7 @@ def DataMC():
     ax1.set_xlabel("x label")
     ax1.set_ylabel("Ratio to Fit")
     ax1.set_ylim(0,2)
-    plt.savefig("example.datamc.matplotlib.png")
+    plt.savefig("example.matplotlib.datamc.png")
 
 ### 2D Histogram Example ###
 def cov_ellipse(xdata, ydata, cov, q=None, nsig=None, facecolor='none', **kwargs):
@@ -178,13 +167,13 @@ def Hist2DContour():
     fig.colorbar(hist2d[3])
     npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
 
-    ellip_1sig = cov_ellipse(throws[:,0], throws[:,1], npcov, nsig=1, 
+    ellip_1sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=1, 
                              edgecolor='firebrick', label=r"1$\sigma$",
                              linewidth=2)
-    ellip_2sig = cov_ellipse(throws[:,0], throws[:,1], npcov, nsig=2, 
+    ellip_2sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=2, 
                              edgecolor='fuchsia', label=r"2$\sigma$", 
                              linewidth=2, linestyle='--')
-    ellip_3sig = cov_ellipse(throws[:,0], throws[:,1], npcov, nsig=3, 
+    ellip_3sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=3, 
                              edgecolor='cyan', label=r"3$\sigma$", 
                              linewidth=2, linestyle=':')
     ax.add_patch(ellip_1sig)
@@ -196,7 +185,7 @@ def Hist2DContour():
     dunestyle.CornerLabel("2D Histogram Example")
     dunestyle.Simulation()
     plt.legend()
-    plt.savefig("example.2Dhist.matplotlib.png")
+    plt.savefig("example.matplotlib.hist2D.png")
 
 ### Stacked histogram example ###
 def HistStacked():
@@ -212,7 +201,7 @@ def HistStacked():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
-    plt.savefig("example.stackedhist.matplotlib.png")
+    plt.savefig("example.matplotlib.histstacked.png")
 
 ### Overlayed histogram example ###
 def HistOverlay():
@@ -230,7 +219,7 @@ def HistOverlay():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
-    plt.savefig("example.overlayhist.matplotlib.png")
+    plt.savefig("example.matplotlib.histoverlay.png")
 
 if __name__ == '__main__':
     Gauss1D()

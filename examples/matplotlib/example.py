@@ -26,12 +26,6 @@ def Gauss1D():
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.gaus.png")
 
-# This example saves a Gaussian as a numpy histogram, but this isn't 
-# strictly necessary. It just makes data manipulation easier and 
-# allows us to manipulate the histogram data without drawing it
-# (relevant in the data/MC plot, where we want to convert the
-# histogram to points).
-
 ### 1D histogram example ###
 def Hist1D():
     mu, sigma = 0, 1
@@ -56,37 +50,51 @@ def Hist1D():
 #def Gauss(x, H, A, x0, sigma):
 #    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
 
+# This example saves a Gaussian as a numpy histogram, but this isn't 
+# strictly necessary. It just makes data manipulation easier and 
+# allows us to manipulate the histogram data without drawing it
+# (relevant in the data/MC plot, where we want to convert the
+# histogram to points).
+
+### Data/MC example
+# This example uses matplotlib's errorbar method to plot
+# a 1D Gaussian histogram as "data." Since errorbar requires
+# x- and y- values (as opposed to hist, which only requires x-values),
+# we store the data as a numpy histogram
 def DataMC():
-    # Use SciPy's curve_fit function to return optimal fit
-    # parameters (popt) and the covariance matrix (pconv)
     mu, sigma = 0, 1
-    x_gaus = np.random.normal(mu, sigma, 1000)
-    counts, bin_edges = np.histogram(x_gaus, bins=30)
+    np.random.seed(89)
+    x_gaus = np.random.normal(mu, sigma, 10000)
+    counts, bin_edges = np.histogram(x_gaus, bins=20)
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
     std_dev = np.std(x_gaus)
     y_errors = np.array([std_dev/np.sqrt(bin_count) if bin_count != 0 else 1e-3 for bin_count in counts])
 
+    # Use SciPy's curve_fit function to return optimal fit
+    # parameters (popt) and the covariance matrix (pconv)
     # Note that you need to give curve_fit a good initial guess
-    # in order for it to converge (see p0 below)
+    # for fit parameters in order for it to converge (see p0 below)
     mean = sum(bin_centers * counts) / sum(counts)
     sigma = np.sqrt(sum(counts * (bin_centers - mean) ** 2) / sum(counts))
     popt, pcov = curve_fit(Gauss, bin_centers, counts, 
                            p0=[min(bin_centers), max(bin_centers), mean, sigma],
                            sigma=y_errors)
 
-    # Unpack fit parameters from popt and uncertainties from 
-    # diagonal of covariance matrix
+    # Unpack optimal fit parameters and uncertainties from 
+    # diagonal of covariance matrix 
     H, A, x0, sig = popt
     dH, dA, dx0, dsig = [np.sqrt(pcov[j,j]) for j in range(popt.size)]
 
+    # Create fitting function
+    x_fit = np.linspace(-4, 4, 100)
+    y_fit = Gauss(x_fit, H, A, x0, sig)
+
     ratio = counts/Gauss(bin_centers, H, A, x0, sigma)
+    residuals = (counts - Gauss(bin_centers, H, A, x0, sigma)) / Gauss(bin_centers, H, A, x0, sigma)
+    chi2 = ((residuals**2)).sum() / float(bin_centers.size-2)
 
     fig = plt.figure(figsize=(10,6))
     gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[3, 1])
-
-    # Create fitting function
-    x_fit = np.linspace(-5, 5, 500)
-    y_fit = Gauss(x_fit, H, A, x0, sig)
 
     # Top plot
     ax0 = fig.add_subplot(gs[0, 0])
@@ -94,59 +102,32 @@ def DataMC():
     ax0.plot(x_fit, y_fit, color='r', label="Fit")
     ax0.errorbar(x=bin_centers, y=counts,
                  yerr=y_errors, fmt='o', capsize=1, label="Data")
+    ax0.text(0.75, 0.70, 'Gauss Fit Parameters:', 
+             fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
+             transform=ax0.transAxes)
+    ax0.text(0.75, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
+             .format(H, dH), transform=ax0.transAxes)
+    ax0.text(0.75, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+             .format(A, dA), transform=ax0.transAxes)
+    ax0.text(0.75, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+             .format(x0, dx0), transform=ax0.transAxes)
+    ax0.text(0.75, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+             .format(sig, dsig), transform=ax0.transAxes)
+    ax0.text(0.75, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
+             .format(chi2),transform=ax0.transAxes)
     ax0.legend()
     ax0.set_xlim(-5,5)
     dunestyle.CornerLabel("Data/MC")
 
     # Bottom plot
     ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
-    ax1.errorbar(x=bin_centers, y=ratio,
+    ax1.errorbar(x=bin_centers, y=residuals,
                  yerr=y_errors, fmt='o', capsize=1, label="Ratio")
-    ax1.axhline(y=1, color="r", zorder=-1)
+    ax1.axhline(y=0, color="r", zorder=-1)
     ax1.set_xlabel("x label")
-    ax1.set_ylabel("Ratio to Fit")
-    ax1.set_ylim(0,2)
+    ax1.set_ylabel("(Data - Fit)/Fit")
+    ax1.set_ylim(-1,1)
     plt.savefig("example.matplotlib.datamc.png")
-
-### 2D Histogram Example ###
-def cov_ellipse(xdata, ydata, cov, q=None, nsig=None, facecolor='none', **kwargs):
-    """
-    Parameters
-    ----------
-    cov : (2, 2) array
-        Covariance matrix.
-    q : float, optional
-        Confidence level, should be in (0, 1)
-    nsig : int, optional
-        Confidence level in unit of standard deviations. 
-        E.g. 1 stands for 68.3% and 2 stands for 95.4%.
-
-    Returns
-    -------
-    width, height, angle :
-         The lengths of two axises and the angle angle in degree
-    for the ellipse.
-    """
-
-    if q is not None:
-        q = np.asarray(q)
-    elif nsig is not None:
-        q = 2 * scipy.stats.norm.cdf(nsig) - 1
-    else:
-        raise ValueError('One of `q` and `nsig` should be specified.')
-    r2 = scipy.stats.chi2.ppf(q, 2)
-
-    val, vec = np.linalg.eigh(cov)
-    width, height = 2 * np.sqrt(val[:, None] * r2)
-    angle = np.degrees(np.arctan2(*vec[::-1, 0]))
-
-    xmean = np.mean(xdata)
-    ymean = np.mean(ydata)
-
-    ellipse = Ellipse(xy=(xmean,ymean), width=width, height=height, angle=angle,
-                          facecolor=facecolor, **kwargs)
-
-    return ellipse
 
 def Hist2DContour():
     mean = (0, 0)
@@ -160,20 +141,23 @@ def Hist2DContour():
     fig, ax = plt.subplots()
     hist2d = ax.hist2d(throws[:,0],throws[:,1], bins=100, cmin=1,
                        range=[xrange,yrange])
-    # Add z-axis colorbar. When creating hist2d, it returns
-    # (counts, xedges, yedges, image), in that order. We need
-    # the image to be called by fig.colorbar(). See
+
+    ## Add z-axis colorbar. 
+    # When creating hist2d, it returns (counts, xedges, yedges, image), 
+    # in that order. We need the image to be called by fig.colorbar(). See
     # https://stackoverflow.com/questions/42387471/how-to-add-a-colorbar-for-a-hist2d-plot
     fig.colorbar(hist2d[3])
-    npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
 
-    ellip_1sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=1, 
+    # If you need to calculate the covariance yourself, use numpy's method
+    #npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
+
+    ellip_1sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=1, 
                              edgecolor='firebrick', label=r"1$\sigma$",
                              linewidth=2)
-    ellip_2sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=2, 
+    ellip_2sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=2, 
                              edgecolor='fuchsia', label=r"2$\sigma$", 
                              linewidth=2, linestyle='--')
-    ellip_3sig = CovEllipse(throws[:,0], throws[:,1], npcov, nsig=3, 
+    ellip_3sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=3, 
                              edgecolor='cyan', label=r"3$\sigma$", 
                              linewidth=2, linestyle=':')
     ax.add_patch(ellip_1sig)
@@ -194,8 +178,10 @@ def HistStacked():
     x3 = np.random.normal(-1, 1, 1000)
     nbins = 50
     plt.figure()
-    hist_labels = ['Hist 1', 'Hist 2', 'Hist 3']
-    plt.hist([x1,x2,x3], nbins, histtype='step', stacked=True, linewidth=2, label=hist_labels)
+    # Can choose one of matplotlib's built-in color patlettes if you prefer
+    plt.style.use('tableau-colorblind10')
+    hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
+    plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
     dunestyle.WIP()
@@ -210,10 +196,10 @@ def HistOverlay():
     x3 = np.random.normal(-1, 1, 1000)
     nbins = 50
     plt.figure()
-    plt.style.use('tableau-colorblind10')
-    plt.hist(x1, nbins, histtype='step', linewidth=2, label="Hist 1")
-    plt.hist(x2, nbins, histtype='step', linewidth=2, label="Hist 2")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Hist 3")
+    plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
+    plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
+    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Red Hist")
+    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Blue Hist")
     plt.xlabel('x label')
     plt.ylabel('y label')
     dunestyle.WIP()
@@ -222,9 +208,9 @@ def HistOverlay():
     plt.savefig("example.matplotlib.histoverlay.png")
 
 if __name__ == '__main__':
-    Gauss1D()
-    Hist1D()
+    #Gauss1D()
+    #Hist1D()
     DataMC()
-    Hist2DContour()
-    HistStacked()
-    HistOverlay()
+    #Hist2DContour()
+    #HistStacked()
+    #HistOverlay()

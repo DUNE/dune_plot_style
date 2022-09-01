@@ -6,7 +6,7 @@
 #include "TColor.h"
 #include "TH1D.h"
 
-#include "../../../root/cpp/include/DUNEStyle.h"
+#include "DUNEStyle.h"
 
 void example()
 {

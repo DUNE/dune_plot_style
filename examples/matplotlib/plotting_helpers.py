@@ -1,7 +1,7 @@
 # Helper functions for example.py. Mostly copied from StackOverflow
 
 import numpy as np
-import scipy.stats as stats
+import scipy.stats 
 from matplotlib.patches import Ellipse
 
 def Gauss(x, H, A, x0, sigma):
@@ -29,10 +29,10 @@ def CovEllipse(xdata, ydata, cov, q=None, nsig=None, facecolor='none', **kwargs)
     if q is not None:
         q = np.asarray(q)
     elif nsig is not None:
-        q = 2 * stats.norm.cdf(nsig) - 1
+        q = 2 * scipy.stats.norm.cdf(nsig) - 1
     else:
         raise ValueError('One of `q` and `nsig` should be specified.')
-    r2 = stats.chi2.ppf(q, 2)
+    r2 = scipy.stats.chi2.ppf(q, 2)
 
     val, vec = np.linalg.eigh(cov)
     width, height = 2 * np.sqrt(val[:, None] * r2)

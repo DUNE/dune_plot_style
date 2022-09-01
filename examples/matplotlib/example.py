@@ -210,7 +210,7 @@ def HistOverlay():
 if __name__ == '__main__':
     #Gauss1D()
     #Hist1D()
-    DataMC()
+    #DataMC()
     #Hist2DContour()
-    #HistStacked()
+    HistStacked()
     #HistOverlay()

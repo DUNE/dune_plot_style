@@ -24,7 +24,7 @@ def Gauss1D():
     plt.legend()
     dunestyle.WIP()
     dunestyle.SimulationSide()
-    plt.savefig("../images/example.matplotlib.gaus.png")
+    plt.savefig("example.matplotlib.gaus.png")
 
 ### 1D histogram example ###
 def Hist1D():
@@ -38,7 +38,7 @@ def Hist1D():
     plt.legend()
     dunestyle.WIP()
     dunestyle.SimulationSide()
-    plt.savefig("../images/example.matplotlib.hist1D.png")
+    plt.savefig("example.matplotlib.hist1D.png")
 
 ### Data/MC example ###
 # For this example, we take our "data" from the above 1D Gaussian histogram
@@ -127,7 +127,7 @@ def DataMC():
     ax1.set_xlabel("x label")
     ax1.set_ylabel("(Data - Fit)/Fit")
     ax1.set_ylim(-1,1)
-    plt.savefig("../images/example.matplotlib.datamc.png")
+    plt.savefig("example.matplotlib.datamc.png")
 
 def Hist2DContour():
     mean = (0, 0)
@@ -169,7 +169,7 @@ def Hist2DContour():
     dunestyle.CornerLabel("2D Histogram Example")
     dunestyle.Simulation()
     plt.legend()
-    plt.savefig("../images/example.matplotlib.hist2D.png")
+    plt.savefig("example.matplotlib.hist2D.png")
 
 ### Stacked histogram example ###
 def HistStacked():
@@ -187,7 +187,7 @@ def HistStacked():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
-    plt.savefig("../images/example.matplotlib.histstacked.png")
+    plt.savefig("example.matplotlib.histstacked.png")
 
 ### Overlayed histogram example ###
 def HistOverlay():
@@ -205,7 +205,7 @@ def HistOverlay():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
-    plt.savefig("../images/example.matplotlib.histoverlay.png")
+    plt.savefig("example.matplotlib.histoverlay.png")
 
 if __name__ == '__main__':
     Gauss1D()

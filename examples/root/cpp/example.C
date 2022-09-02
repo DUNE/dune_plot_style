@@ -11,22 +11,23 @@
 void example()
 {
 
-  TCanvas c;
+  TCanvas *c;
 
   dunestyle::ColorBlindPalette();
 
   // 1D histogram example
-  TH1D h1D("example1d", ";x label;y label", 50, -5, 5);
-  h1D.FillRandom("gaus",1000);
-  TLegend leg(0.6,0.65,0.8,0.8);
-  leg.AddEntry("example1d","1D histogram","l");
-  h1D.Draw();
-  leg.Draw();
-  dunestyle::CenterTitles(&h1D);
+  TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
+  h1D->FillRandom("gaus",1000);
+  TLegend *leg = new TLegend(0.6,0.65,0.8,0.8);
+  leg->AddEntry("example1d","1D histogram","l");
+  h1D->Draw();
+  leg->Draw();
+  dunestyle::CenterTitles(h1D);
   dunestyle::WIP();
   dunestyle::SimulationSide();
-  c.Print("example.root.pdf(");
+  c->SaveAs("example.root.pdf(");
 
+  /*
   // 1D data/mc comparison type plot
   c.Clear();
   TH1D* h1D_ratio = (TH1D*)h1D.Clone("h1D_ratio");
@@ -127,5 +128,6 @@ void example()
   leg.Draw();
   dunestyle::CornerLabel("Stacked Histograms Example");
   c.Print("example.root.pdf)");
+  */
 
 }

@@ -44,6 +44,17 @@ dunestyle::SetDuneStyle();
 ### PyROOT
 
 _[**todo**: update ]_
+
+PyROOT comes pre-installed with most ROOT builds these days, but you should still check that your PyROOT and Python versions are the same:
+
+```bash
+root-config --has-pyroot # Gives "yes"
+
+# The output of these next two lines should match
+root-config --python3-version 
+python3 --version 
+```
+
 The PyROOT style tools are simply a wrapper around the C++ ones, and behave the same way once invoked, so wee the documentation above for more information about them.
 
 To apply the DUNE style, all you need is to import the `dunestyle` module:
@@ -71,7 +82,21 @@ The matplotlib style tools consist of two parts:
 * a ["style sheet"](https://matplotlib.org/stable/tutorials/introductory/customizing.html#using-style-sheets) file which sets most of the default stylings
 * an importable module which contains functions to apply watermarks, etc.  This module also applies the style sheet by default (this behavior can be disabled using the same mechanism as described in the [PyROOT section](#pyroot), above).
 
-To enable it, simply
+To enable it, you'll need to install `dune-plot-style/` as a Python module. This will setup the `$MPLCONFIGDIR` environment variable to pick up the style sheet. You'll also need to install a handful of common Python libraries for the examples to work. The recommended way to install these packages is to set up a virtual environment. This avoids potential package version conflicts and allows you to download the necessary packages on a remote server where you don't have root privileges, such as the GPVMs. 
+
+```
+cd path/to/dune-plot-style/ # Or wherever you like to store virtual environments
+python3 -m venv my_env
+source /my_env/bin/activate
+```
+
+You can then install `dune-plot-style/` and whatever other packages you need:
+```
+python3 -m pip install dune-plot-style/ # Trailing backslash is important
+python3 -m pip install matplotlib numpy scipy
+```
+
+Finally, to enable `dunestyle` in your scripts, simply
 ```python
 import dunestyle.matplotlib as dunestyle
 ```
@@ -84,4 +109,20 @@ _[ Fill in as appropriate... ]_
 
 [![Example status](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
 
-_[ include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
+_[**todo**: include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
+
+_[**todo**: add ROOT and PyROOT examples]_
+
+### matplotlib
+
+The matplotlib example script can be found in `dune-plot-style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
+
+```
+python3 example.py
+```
+
+from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above). Some of the example plots are shown below.
+
+_[**todo**: update image(s) in `examples/images/` to match what `example.py` produces]_
+
+![1D Gaussian](examples/images/example.matplotlib.png)

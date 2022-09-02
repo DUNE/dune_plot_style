@@ -123,6 +123,8 @@ python3 example.py
 
 from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above). Some of the example plots are shown below.
 
-_[**todo**: update image(s) in `examples/images/` to match what `example.py` produces]_
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.gaus.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
 
-![1D Gaussian](examples/images/example.matplotlib.png)
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>

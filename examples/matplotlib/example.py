@@ -28,10 +28,11 @@ def Gauss1D():
 
 ### 1D histogram example ###
 def Hist1D():
-    mu, sigma = 0, 1
-    x_gaus = np.random.normal(mu, sigma, 1000)
+    x = np.random.normal(0, 1, 1000)
 
-    plt.hist(x_gaus, histtype='step', label="Hist", linewidth=1.5)
+    plt.figure()
+    plt.style.use('tableau-colorblind10')
+    plt.hist(x, histtype='step', label="Hist", linewidth=2)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)

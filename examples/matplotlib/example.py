@@ -192,14 +192,14 @@ def HistStacked():
 ### Overlayed histogram example ###
 def HistOverlay():
     x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 1, 1, 1000)
-    x3 = np.random.normal(-1, 1, 1000)
-    nbins = 50
+    x2 = np.random.normal( 2, 1, 1000)
+    x3 = np.random.normal(-2, 1, 1000)
+    nbins = 25
     plt.figure()
+    plt.style.use('tableau-colorblind10')
     plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
     plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Red Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Blue Hist")
+    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
     plt.xlabel('x label')
     plt.ylabel('y label')
     dunestyle.WIP()

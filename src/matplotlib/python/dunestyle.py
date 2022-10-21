@@ -41,8 +41,9 @@ def WIP(transform=None):
 	     fontdict={"fontsize": 24, "color": "blue"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
-def Simulation(transform=None):
-    plt.text(1.0, 1.05, r"DUNE Simulation", horizontalalignment='right',
+def Simulation(x=1.0, y=1.05, align='right', transform=None):
+    #plt.text(1.0, 1.05, r"DUNE Simulation", horizontalalignment='right',
+    plt.text(x, y, r"DUNE Simulation", horizontalalignment=align,
 	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
@@ -51,7 +52,7 @@ def SimulationSide(transform=None):
 	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
-def CornerLabel(label, transform=None):
-    plt.text(-0.10, 1.05, "{:s}".format(label), horizontalalignment='left',
+def CornerLabel(label, align='left', transform=None):
+    plt.text(-0.10, 1.05, "{:s}".format(label), horizontalalignment=align,
 	fontdict={"fontsize": 14, "color": "gray"},
 	transform=transform if transform is not None else plt.gca().transAxes)

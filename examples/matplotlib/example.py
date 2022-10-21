@@ -167,7 +167,7 @@ def Hist2DContour():
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
     dunestyle.CornerLabel("2D Histogram Example")
-    dunestyle.Simulation()
+    dunestyle.Simulation(x=1.05) # Shift slightly right
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
 

@@ -101,8 +101,8 @@ def DataMC():
     ax0 = fig.add_subplot(gs[0, 0])
     ax0.set_ylabel("y label")
     ax0.plot(x_fit, y_fit, color='r', label="Fit")
-    ax0.errorbar(x=bin_centers, y=counts,
-                 yerr=y_errors, fmt='o', capsize=1, label="Data")
+    ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
+                 color='black', fmt='o', capsize=1, label="Data")
     ax0.text(0.75, 0.70, 'Gauss Fit Parameters:', 
              fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
              transform=ax0.transAxes)
@@ -122,8 +122,8 @@ def DataMC():
 
     # Bottom plot
     ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
-    ax1.errorbar(x=bin_centers, y=residuals,
-                 yerr=y_errors, fmt='o', capsize=1, label="Ratio")
+    ax1.errorbar(x=bin_centers, y=residuals, yerr=y_errors, 
+                 color='black', fmt='o', capsize=1, label="Ratio")
     ax1.axhline(y=0, color="r", zorder=-1)
     ax1.set_xlabel("x label")
     ax1.set_ylabel("(Data - Fit)/Fit")

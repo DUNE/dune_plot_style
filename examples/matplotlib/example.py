@@ -29,6 +29,9 @@ def Gauss1D():
     plt.xlabel("x label")
     plt.ylabel("y label")
     plt.legend()
+
+    # Scale y-axis so "Work in Progress" watermark fits in frame
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.gaus.png")
@@ -47,6 +50,7 @@ def Hist1D():
     plt.ylabel('y label')
     plt.xlim(-5,5)
     plt.legend()
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.hist1D.png")
@@ -168,7 +172,7 @@ def Hist2DContour():
     ax.set_ylabel("y label")
     ax.spines[:].set_color('black')
     dunestyle.CornerLabel("2D Histogram Example")
-    dunestyle.Simulation(x=1.05) # Shift slightly right
+    dunestyle.Simulation(x=1.15) # Shift slightly right 
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
 
@@ -187,6 +191,7 @@ def HistStacked():
     plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
@@ -207,6 +212,7 @@ def HistOverlay():
     plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()

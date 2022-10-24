@@ -37,8 +37,8 @@ if _IMPORT_FLAG_NAME not in builtins.__dict__ or builtins.__dict__[_IMPORT_FLAG_
 ##########   Utility functions below  ################
 
 def WIP(transform=None):
-    plt.text(0, 1.05, r"DUNE Work In Progress",
-	     fontdict={"fontsize": 24, "color": "blue"},
+    plt.text(0.05, 0.90, r"DUNE Work In Progress",
+	     fontdict={"fontsize": 12, "color": "blue"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
 def Simulation(x=1.0, y=1.05, align='right', transform=None):
@@ -47,12 +47,12 @@ def Simulation(x=1.0, y=1.05, align='right', transform=None):
 	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
-def SimulationSide(transform=None):
+def SimulationSide(x=1.05, y=0.5, align='right', transform=None):
     plt.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
 	     fontdict={"fontsize": 18, "color": "gray"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
-def CornerLabel(label, align='left', transform=None):
-    plt.text(-0.10, 1.05, "{:s}".format(label), horizontalalignment=align,
+def CornerLabel(label, transform=None):
+    plt.text(0, 1.05, "{:s}".format(label), horizontalalignment='left',
 	fontdict={"fontsize": 14, "color": "gray"},
 	transform=transform if transform is not None else plt.gca().transAxes)

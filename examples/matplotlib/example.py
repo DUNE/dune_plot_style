@@ -52,26 +52,13 @@ def Hist1D():
     plt.savefig("example.matplotlib.hist1D.png")
 
 ### Data/MC example ###
-# For this example, we take our "data" from the above 1D Gaussian histogram
-
 # Gaus fits are not as straightforward in matplotlib as they are
 # in ROOT. See the second example at
 # https://physics.nyu.edu/pine/pymanual/html/chap8/chap8_fitting.html
 
-#def Gauss(x, H, A, x0, sigma):
-#    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
-
 # This example saves a Gaussian as a numpy histogram, but this isn't 
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
-# (relevant in the data/MC plot, where we want to convert the
-# histogram to points).
-
-### Data/MC example
-# This example uses matplotlib's errorbar method to plot
-# a 1D Gaussian histogram as "data." Since errorbar requires
-# x- and y- values (as opposed to hist, which only requires x-values),
-# we store the data as a numpy histogram
 def DataMC():
     mu, sigma = 0, 1
     np.random.seed(89)

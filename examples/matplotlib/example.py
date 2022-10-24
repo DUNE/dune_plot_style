@@ -18,6 +18,13 @@ def Gauss1D():
     x = np.linspace(-5, 5, 500)
     y = scipy.stats.norm.pdf(x)
 
+    # Set axex color. For specific axes, you can use e.g.
+    # ax.spines['left'].set_color()
+    # Also, note this needs to come before plt.plot() or else
+    # matplotlib freaks out
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
+
     plt.plot(x, y, label="Gaussian")
     plt.xlabel("x label")
     plt.ylabel("y label")
@@ -30,8 +37,11 @@ def Gauss1D():
 def Hist1D():
     x = np.random.normal(0, 1, 1000)
 
+
     plt.figure()
     plt.style.use('tableau-colorblind10')
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
     plt.hist(x, histtype='step', label="Hist", linewidth=2)
     plt.xlabel('x label')
     plt.ylabel('y label')
@@ -94,7 +104,7 @@ def DataMC():
     residuals = (counts - Gauss(bin_centers, H, A, x0, sigma)) / Gauss(bin_centers, H, A, x0, sigma)
     chi2 = ((residuals**2)).sum() / float(bin_centers.size-2)
 
-    fig = plt.figure(figsize=(10,6))
+    fig = plt.figure(figsize=(8,6))
     gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[3, 1])
 
     # Top plot
@@ -103,19 +113,20 @@ def DataMC():
     ax0.plot(x_fit, y_fit, color='r', label="Fit")
     ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
                  color='black', fmt='o', capsize=1, label="Data")
-    ax0.text(0.75, 0.70, 'Gauss Fit Parameters:', 
+    ax0.text(0.70, 0.70, 'Gauss Fit Parameters:', 
              fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
              transform=ax0.transAxes)
-    ax0.text(0.75, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
              .format(H, dH), transform=ax0.transAxes)
-    ax0.text(0.75, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
              .format(A, dA), transform=ax0.transAxes)
-    ax0.text(0.75, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
              .format(x0, dx0), transform=ax0.transAxes)
-    ax0.text(0.75, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
              .format(sig, dsig), transform=ax0.transAxes)
-    ax0.text(0.75, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
+    ax0.text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
              .format(chi2),transform=ax0.transAxes)
+    ax0.spines[:].set_color('black')
     ax0.legend()
     ax0.set_xlim(-5,5)
     dunestyle.CornerLabel("Data/MC")
@@ -128,6 +139,7 @@ def DataMC():
     ax1.set_xlabel("x label")
     ax1.set_ylabel("(Data - Fit)/Fit")
     ax1.set_ylim(-1,1)
+    ax1.spines[:].set_color('black')
     plt.savefig("example.matplotlib.datamc.png")
 
 def Hist2DContour():
@@ -167,6 +179,7 @@ def Hist2DContour():
 
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
+    ax.spines[:].set_color('black')
     dunestyle.CornerLabel("2D Histogram Example")
     dunestyle.Simulation(x=1.05) # Shift slightly right
     plt.legend()
@@ -179,6 +192,8 @@ def HistStacked():
     x3 = np.random.normal(-1, 1, 1000)
     nbins = 50
     plt.figure()
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
     # Can choose one of matplotlib's built-in color patlettes if you prefer
     plt.style.use('tableau-colorblind10')
     hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
@@ -197,6 +212,8 @@ def HistOverlay():
     x3 = np.random.normal(-2, 1, 1000)
     nbins = 25
     plt.figure()
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
     plt.style.use('tableau-colorblind10')
     plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
     plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")

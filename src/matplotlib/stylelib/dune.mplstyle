@@ -1,6 +1,11 @@
 ## Placeholder matplotlib style file
 ## until we have an official DUNE one
 
+image.cmap: viridis
+
+# Global font size
+font.size: 12
+
 lines.linewidth : 2.0
 
 patch.linewidth: 0.5
@@ -13,12 +18,12 @@ text.hinting_factor : 8
 #mathtext.fontset : cm
 
 axes.facecolor: white # eeeeee
-axes.edgecolor: bcbcbc
+axes.edgecolor: 000000
 axes.grid : False
 axes.titlesize: 36
-axes.labelsize: large
-# Okabelto color scheme 
-axes.prop_cycle: cycler('color', ['000000', 'E69F00', '56B4E9', '009E73', 'F0E442', '0072B2', 'D55E00', 'CC79A7'])
+axes.labelsize: large # "large" relative to global value above
+# tableau-colorblind10 color scheme 
+axes.prop_cycle: cycler('color', ['006BA4', 'FF800E', 'ABABAB', '595959', '5F9ED1', 'C85200', '898989', 'A2C8EC', 'FFBC79', 'CFCFCF'])
 
 grid.color: b2b2b2
 grid.linestyle: --

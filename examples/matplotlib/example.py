@@ -15,42 +15,37 @@ from plotting_helpers import Gauss, CovEllipse
 
 ### Simple 1D Gaussian example ###
 def Gauss1D():
+    dunestyle.enable()
+
     x = np.linspace(-5, 5, 500)
     y = scipy.stats.norm.pdf(x)
 
-    # Set axex color. For specific axes, you can use e.g.
-    # ax.spines['left'].set_color()
-    # Also, note this needs to come before plt.plot() or else
-    # matplotlib freaks out
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-
     plt.plot(x, y, label="Gaussian")
     plt.xlabel("x label")
     plt.ylabel("y label")
     plt.legend()
 
     # Scale y-axis so "Work in Progress" watermark fits in frame
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
+    ax.set_ylim(0, 1.1*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.gaus.png")
 
 ### 1D histogram example ###
 def Hist1D():
+    dunestyle.enable()
+
     x = np.random.normal(0, 1, 1000)
 
-
     plt.figure()
-    plt.style.use('tableau-colorblind10')
     ax = plt.axes()
-    ax.spines[:].set_color('black')
     plt.hist(x, histtype='step', label="Hist", linewidth=2)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)
     plt.legend()
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
+    ax.set_ylim(0, 1.1*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.hist1D.png")
@@ -64,6 +59,8 @@ def Hist1D():
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
 def DataMC():
+    dunestyle.enable()
+
     mu, sigma = 0, 1
     np.random.seed(89)
     x_gaus = np.random.normal(mu, sigma, 10000)
@@ -104,20 +101,19 @@ def DataMC():
     ax0.plot(x_fit, y_fit, color='r', label="Fit")
     ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
                  color='black', fmt='o', capsize=1, label="Data")
-    ax0.text(0.70, 0.70, 'Gauss Fit Parameters:', 
-             fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
+    ax0.text(0.70, 0.70, 'Gauss Fit Params:', 
+             fontdict={'color': 'darkred', 'size': 12, 'weight': 'bold'},
              transform=ax0.transAxes)
-    ax0.text(0.70, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.62, 'H = {0:0.1f}$\pm${1:0.1f}'
              .format(H, dH), transform=ax0.transAxes)
-    ax0.text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.54, 'A = {0:0.2f}$\pm${1:0.2f}'
              .format(A, dA), transform=ax0.transAxes)
-    ax0.text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.48, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
              .format(x0, dx0), transform=ax0.transAxes)
-    ax0.text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.40, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
              .format(sig, dsig), transform=ax0.transAxes)
-    ax0.text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
+    ax0.text(0.70, 0.32, '$\chi^2/ndof$ = {0:0.2f}'
              .format(chi2),transform=ax0.transAxes)
-    ax0.spines[:].set_color('black')
     ax0.legend()
     ax0.set_xlim(-5,5)
     dunestyle.CornerLabel("Data/MC")
@@ -134,6 +130,8 @@ def DataMC():
     plt.savefig("example.matplotlib.datamc.png")
 
 def Hist2DContour():
+    dunestyle.enable()
+
     mean = (0, 0)
     cov = [[0.5,-0.5],[-0.5,1]]
     throws = np.random.multivariate_normal(mean, cov, 10000000)
@@ -170,7 +168,6 @@ def Hist2DContour():
 
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
-    ax.spines[:].set_color('black')
     dunestyle.CornerLabel("2D Histogram Example")
     dunestyle.Simulation(x=1.15) # Shift slightly right 
     plt.legend()
@@ -178,20 +175,20 @@ def Hist2DContour():
 
 ### Stacked histogram example ###
 def HistStacked():
+    dunestyle.enable()
+
     x1 = np.random.normal( 0, 1, 1000)
     x2 = np.random.normal( 1, 1, 1000)
     x3 = np.random.normal(-1, 1, 1000)
     nbins = 50
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
     # Can choose one of matplotlib's built-in color patlettes if you prefer
-    plt.style.use('tableau-colorblind10')
     hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
     plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
+    ax.set_ylim(0, 1.1*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
@@ -199,20 +196,20 @@ def HistStacked():
 
 ### Overlayed histogram example ###
 def HistOverlay():
+    dunestyle.enable()
+
     x1 = np.random.normal( 0, 1, 1000)
     x2 = np.random.normal( 2, 1, 1000)
     x3 = np.random.normal(-2, 1, 1000)
     nbins = 25
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-    plt.style.use('tableau-colorblind10')
     plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
     plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
     plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
     plt.xlabel('x label')
     plt.ylabel('y label')
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
+    ax.set_ylim(0, 1.1*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()

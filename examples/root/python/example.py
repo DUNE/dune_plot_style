@@ -1,10 +1,12 @@
 '''
-PyROOT placeholder example.  we can do way better than this.
+PyROOT examples.
 '''
 import ROOT
 import numpy as np
 
 import dunestyle.root as dunestyle
+
+ROOT.gROOT.SetBatch(True)
 
 c = ROOT.TCanvas()
 
@@ -32,20 +34,6 @@ p2.SetTopMargin(0.04)
 c.cd(); p1.Draw(); p1.cd()
 h1D.GetXaxis().SetLabelSize(0.)
 h1D_ratio.GetXaxis().SetTitleOffset(1.25)
-h1D.GetXaxis().SetTickLength(1./0.65*h1D.GetXaxis().GetTickLength())
-h1D.GetXaxis().SetLabelSize(1./0.65*h1D.GetXaxis().GetLabelSize())
-h1D.GetYaxis().SetLabelSize(1./0.65*h1D.GetYaxis().GetLabelSize())
-h1D.GetXaxis().SetTitleSize(1./0.65*h1D.GetXaxis().GetTitleSize())
-h1D.GetYaxis().SetTitleSize(1./0.65*h1D.GetYaxis().GetTitleSize())
-h1D.GetYaxis().SetTitleOffset(0.65*h1D.GetYaxis().GetTitleOffset())
-h1D.GetXaxis().SetTitleOffset(0.65*h1D.GetXaxis().GetTitleOffset())
-h1D_ratio.GetXaxis().SetTickLength(1./0.65*h1D_ratio.GetXaxis().GetTickLength()*6.5/3.5)
-h1D_ratio.GetXaxis().SetLabelSize(1./0.65*h1D_ratio.GetXaxis().GetLabelSize()*6.5/3.5)
-h1D_ratio.GetYaxis().SetLabelSize(1./0.65*h1D_ratio.GetYaxis().GetLabelSize()*6.5/3.5)
-h1D_ratio.GetXaxis().SetTitleSize(1./0.65*h1D_ratio.GetXaxis().GetTitleSize()*6.5/3.5)
-h1D_ratio.GetYaxis().SetTitleSize(1./0.65*h1D_ratio.GetYaxis().GetTitleSize()*6.5/3.5)
-h1D_ratio.GetYaxis().SetTitleOffset(0.65*h1D_ratio.GetYaxis().GetTitleOffset()*3.5/6.5)
-h1D_ratio.GetXaxis().SetTitleOffset(h1D_ratio.GetXaxis().GetTitleOffset()*3.5/6.5)
 h1D_ratio.GetYaxis().SetTitle('ratio to fit')
 leg.Clear()
 h1D.Fit('gaus')

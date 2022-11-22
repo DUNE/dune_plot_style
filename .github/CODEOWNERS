@@ -1,0 +1,5 @@
+# for now we just restrict access to everything to Plot Style Task Force.
+# once we go public we can hand off to APB?
+
+.github/              @DUNE/plot-style-tf
+/*                    @DUNE/plot-style-tf

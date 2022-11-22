@@ -18,49 +18,51 @@ def Gauss1D():
     x = np.linspace(-5, 5, 500)
     y = scipy.stats.norm.pdf(x)
 
+    # Set axex color. For specific axes, you can use e.g.
+    # ax.spines['left'].set_color()
+    # Also, note this needs to come before plt.plot() or else
+    # matplotlib freaks out
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
+
     plt.plot(x, y, label="Gaussian")
     plt.xlabel("x label")
     plt.ylabel("y label")
     plt.legend()
+
+    # Scale y-axis so "Work in Progress" watermark fits in frame
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.gaus.png")
 
 ### 1D histogram example ###
 def Hist1D():
-    mu, sigma = 0, 1
-    x_gaus = np.random.normal(mu, sigma, 1000)
+    x = np.random.normal(0, 1, 1000)
 
-    plt.hist(x_gaus, histtype='step', label="Hist", linewidth=1.5)
+
+    plt.figure()
+    plt.style.use('tableau-colorblind10')
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
+    plt.hist(x, histtype='step', label="Hist", linewidth=2)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)
     plt.legend()
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.hist1D.png")
 
 ### Data/MC example ###
-# For this example, we take our "data" from the above 1D Gaussian histogram
-
 # Gaus fits are not as straightforward in matplotlib as they are
 # in ROOT. See the second example at
 # https://physics.nyu.edu/pine/pymanual/html/chap8/chap8_fitting.html
 
-#def Gauss(x, H, A, x0, sigma):
-#    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
-
 # This example saves a Gaussian as a numpy histogram, but this isn't 
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
-# (relevant in the data/MC plot, where we want to convert the
-# histogram to points).
-
-### Data/MC example
-# This example uses matplotlib's errorbar method to plot
-# a 1D Gaussian histogram as "data." Since errorbar requires
-# x- and y- values (as opposed to hist, which only requires x-values),
-# we store the data as a numpy histogram
 def DataMC():
     mu, sigma = 0, 1
     np.random.seed(89)
@@ -93,40 +95,42 @@ def DataMC():
     residuals = (counts - Gauss(bin_centers, H, A, x0, sigma)) / Gauss(bin_centers, H, A, x0, sigma)
     chi2 = ((residuals**2)).sum() / float(bin_centers.size-2)
 
-    fig = plt.figure(figsize=(10,6))
+    fig = plt.figure(figsize=(8,6))
     gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[3, 1])
 
     # Top plot
     ax0 = fig.add_subplot(gs[0, 0])
     ax0.set_ylabel("y label")
     ax0.plot(x_fit, y_fit, color='r', label="Fit")
-    ax0.errorbar(x=bin_centers, y=counts,
-                 yerr=y_errors, fmt='o', capsize=1, label="Data")
-    ax0.text(0.75, 0.70, 'Gauss Fit Parameters:', 
+    ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
+                 color='black', fmt='o', capsize=1, label="Data")
+    ax0.text(0.70, 0.70, 'Gauss Fit Parameters:', 
              fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
              transform=ax0.transAxes)
-    ax0.text(0.75, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
              .format(H, dH), transform=ax0.transAxes)
-    ax0.text(0.75, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
              .format(A, dA), transform=ax0.transAxes)
-    ax0.text(0.75, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+    ax0.text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
              .format(x0, dx0), transform=ax0.transAxes)
-    ax0.text(0.75, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+    ax0.text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
              .format(sig, dsig), transform=ax0.transAxes)
-    ax0.text(0.75, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
+    ax0.text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
              .format(chi2),transform=ax0.transAxes)
+    ax0.spines[:].set_color('black')
     ax0.legend()
     ax0.set_xlim(-5,5)
     dunestyle.CornerLabel("Data/MC")
 
     # Bottom plot
     ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
-    ax1.errorbar(x=bin_centers, y=residuals,
-                 yerr=y_errors, fmt='o', capsize=1, label="Ratio")
+    ax1.errorbar(x=bin_centers, y=residuals, yerr=y_errors, 
+                 color='black', fmt='o', capsize=1, label="Ratio")
     ax1.axhline(y=0, color="r", zorder=-1)
     ax1.set_xlabel("x label")
     ax1.set_ylabel("(Data - Fit)/Fit")
     ax1.set_ylim(-1,1)
+    ax1.spines[:].set_color('black')
     plt.savefig("example.matplotlib.datamc.png")
 
 def Hist2DContour():
@@ -166,8 +170,9 @@ def Hist2DContour():
 
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
+    ax.spines[:].set_color('black')
     dunestyle.CornerLabel("2D Histogram Example")
-    dunestyle.Simulation()
+    dunestyle.Simulation(x=1.15) # Shift slightly right 
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
 
@@ -178,12 +183,15 @@ def HistStacked():
     x3 = np.random.normal(-1, 1, 1000)
     nbins = 50
     plt.figure()
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
     # Can choose one of matplotlib's built-in color patlettes if you prefer
     plt.style.use('tableau-colorblind10')
     hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
     plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()
@@ -192,16 +200,19 @@ def HistStacked():
 ### Overlayed histogram example ###
 def HistOverlay():
     x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 1, 1, 1000)
-    x3 = np.random.normal(-1, 1, 1000)
-    nbins = 50
+    x2 = np.random.normal( 2, 1, 1000)
+    x3 = np.random.normal(-2, 1, 1000)
+    nbins = 25
     plt.figure()
+    ax = plt.axes()
+    ax.spines[:].set_color('black')
+    plt.style.use('tableau-colorblind10')
     plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
     plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Red Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Blue Hist")
+    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.legend()

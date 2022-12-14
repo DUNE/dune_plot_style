@@ -20,6 +20,9 @@ axes.labelsize: large
 # Okabelto color scheme 
 axes.prop_cycle: cycler('color', ['000000', 'E69F00', '56B4E9', '009E73', 'F0E442', '0072B2', 'D55E00', 'CC79A7'])
 
+# Cividis is Colo(u)r Vision Deficiency friendly
+image.cmap: cividis
+
 grid.color: b2b2b2
 grid.linestyle: --
 grid.linewidth: 0.5

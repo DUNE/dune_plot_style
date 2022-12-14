@@ -8,13 +8,14 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.gridspec as gridspec
+from matplotlib.backends.backend_pdf import PdfPages
 
 import dunestyle.matplotlib as dunestyle
 
 from plotting_helpers import Gauss, CovEllipse
 
 ### Simple 1D Gaussian example ###
-def Gauss1D():
+def Gauss1D(pdf):
     x = np.linspace(-5, 5, 500)
     y = scipy.stats.norm.pdf(x)
 
@@ -35,9 +36,10 @@ def Gauss1D():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.gaus.png")
+    pdf.savefig()
 
 ### 1D histogram example ###
-def Hist1D():
+def Hist1D(pdf):
     x = np.random.normal(0, 1, 1000)
 
 
@@ -54,6 +56,7 @@ def Hist1D():
     dunestyle.WIP()
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.hist1D.png")
+    pdf.savefig()
 
 ### Data/MC example ###
 # Gaus fits are not as straightforward in matplotlib as they are
@@ -63,7 +66,7 @@ def Hist1D():
 # This example saves a Gaussian as a numpy histogram, but this isn't 
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
-def DataMC():
+def DataMC(pdf):
     mu, sigma = 0, 1
     np.random.seed(89)
     x_gaus = np.random.normal(mu, sigma, 10000)
@@ -132,8 +135,9 @@ def DataMC():
     ax1.set_ylim(-1,1)
     ax1.spines[:].set_color('black')
     plt.savefig("example.matplotlib.datamc.png")
+    pdf.savefig()
 
-def Hist2DContour():
+def Hist2DContour(pdf):
     mean = (0, 0)
     cov = [[0.5,-0.5],[-0.5,1]]
     throws = np.random.multivariate_normal(mean, cov, 10000000)
@@ -175,9 +179,10 @@ def Hist2DContour():
     dunestyle.Simulation(x=1.15) # Shift slightly right 
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
+    pdf.savefig()
 
 ### Stacked histogram example ###
-def HistStacked():
+def HistStacked(pdf):
     x1 = np.random.normal( 0, 1, 1000)
     x2 = np.random.normal( 1, 1, 1000)
     x3 = np.random.normal(-1, 1, 1000)
@@ -196,9 +201,10 @@ def HistStacked():
     dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histstacked.png")
+    pdf.savefig()
 
 ### Overlayed histogram example ###
-def HistOverlay():
+def HistOverlay(pdf):
     x1 = np.random.normal( 0, 1, 1000)
     x2 = np.random.normal( 2, 1, 1000)
     x3 = np.random.normal(-2, 1, 1000)
@@ -217,11 +223,16 @@ def HistOverlay():
     dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histoverlay.png")
+    pdf.savefig()
 
 if __name__ == '__main__':
-    Gauss1D()
-    Hist1D()
-    DataMC()
-    Hist2DContour()
-    HistStacked()
-    HistOverlay()
+    pdf = PdfPages("example.matplotlib.pdf")
+
+    Gauss1D(pdf)
+    Hist1D(pdf)
+    DataMC(pdf)
+    Hist2DContour(pdf)
+    HistStacked(pdf)
+    HistOverlay(pdf)
+
+    pdf.close()

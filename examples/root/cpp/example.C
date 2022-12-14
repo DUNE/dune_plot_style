@@ -16,8 +16,6 @@
 void example()
 {
 
-  dunestyle::ColorBlindPalette();
-
   TCanvas c;
 
   // 1D histogram example

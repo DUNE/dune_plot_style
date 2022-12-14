@@ -50,6 +50,25 @@ def Hist1D():
     dunestyle.SimulationSide()
     plt.savefig("example.matplotlib.hist1D.png")
 
+def Hist2DNoContour():
+    dunestyle.enable()
+
+    x = np.random.normal(0, 1, 10000000)
+    y = np.random.normal(0, 1, 10000000)
+
+    fig, ax = plt.subplots()
+    hist2d = ax.hist2d(x, y, label="Hist", bins=200, cmin=1)
+    fig.colorbar(hist2d[3])
+    plt.xlabel('x label')
+    plt.ylabel('y label')
+    plt.xlim(-3,3)
+    plt.ylim(-3,3)
+    #plt.legend()
+    #dunestyle.WIP(x=0.05, y=1.05)
+    #dunestyle.Simulation(x=1.15) # Shift slightly right 
+    plt.title('GnBu', fontsize=24)
+    plt.savefig("example.matplotlib.hist2DNoContour.gnbu.png")
+
 ### Data/MC example ###
 # Gaus fits are not as straightforward in matplotlib as they are
 # in ROOT. See the second example at
@@ -215,10 +234,28 @@ def HistOverlay():
     plt.legend()
     plt.savefig("example.matplotlib.histoverlay.png")
 
+def Lines():
+    color_list = plt.rcParams['axes.prop_cycle'].by_key()['color']
+    x = np.linspace(0, 10, 100)
+    plt.figure()
+    ax = plt.axes()
+    slope = 0
+    for ic, color in enumerate(color_list):
+        plt.plot(x, x*slope, label=color_list[ic], linewidth=3)
+        plt.xlabel('x label')
+        plt.ylabel('y label')
+        slope += 0.5
+    plt.legend()
+    plt.title('Tableau10-colorblind', fontsize=24)
+    plt.savefig("example.matplotlib.lines.tableau10.png")
+
 if __name__ == '__main__':
     Gauss1D()
     Hist1D()
     DataMC()
     Hist2DContour()
+    Hist2DNoContour()
     HistStacked()
     HistOverlay()
+    Lines()
+

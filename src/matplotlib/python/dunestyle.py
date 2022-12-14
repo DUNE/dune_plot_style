@@ -35,8 +35,8 @@ if _IMPORT_FLAG_NAME not in builtins.__dict__ or builtins.__dict__[_IMPORT_FLAG_
 
 ##########   Utility functions below  ################
 
-def WIP(transform=None):
-    plt.text(0.05, 0.90, r"DUNE Work In Progress",
+def WIP(x=0.05, y=0.90, align='left', transform=None):
+    plt.text(x, y, r"DUNE Work In Progress", horizontalalignment=align,
 	     fontdict={"fontsize": 12, "color": "blue"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 

@@ -206,6 +206,79 @@ namespace dunestyle
     gStyle->SetPalette(n_color_contours, colors);
   }
 
+  void SplitCanvas(TCanvas * c, double ysplit, TPad*& p1, TPad*& p2)
+  {
+    c->cd();
+    if (!p1)
+      p1 = new TPad("", "", 0, 0, 1, 1);
+    if (!p2)
+      p2 = new TPad("", "", 0, 0, 1, 1);
+
+    p1->SetBottomMargin(ysplit);
+    p2->SetTopMargin(1-ysplit);
+
+    // Draw p1 second since it's often the more important one, that the user
+    // would prefer to be able to interact with.
+    for(TPad* p: {p2, p1}){
+      p->SetFillStyle(0);
+      p->Draw();
+    }
+  }
+
+  std::vector<TGraph*> GetContourGraphs(TH2* h2, double level)
+  {
+    std::vector<TGraph*> ret;
+
+    std::unique_ptr<TH2> surf(dynamic_cast<TH2*>(h2->Clone("tmp_h2_for_drawing_graphs")));
+
+    TVirtualPad* bak = gPad;
+
+    const bool wasbatch = gROOT->IsBatch();
+    gROOT->SetBatch(); // User doesn't want to see our temporary canvas
+    TCanvas tmp;
+
+    gStyle->SetOptStat(0);
+
+    surf->SetContour(1, &level);
+    surf->Draw("cont list");
+
+    tmp.Update();
+    tmp.Paint();
+
+    gROOT->SetBatch(wasbatch);
+    gPad = bak;
+
+    // The graphs we need (contained inside TLists, contained inside
+    // TObjArrays) are in the list of specials. But we need to be careful about
+    // types, because other stuff can get in here too (TDatabasePDG for
+    // example).
+    TCollection* specs = gROOT->GetListOfSpecials();
+
+    TIter nextSpec(specs);
+    while(TObject* spec = nextSpec()){
+      if(!spec->InheritsFrom(TObjArray::Class())) continue;
+      auto conts = dynamic_cast<TObjArray*>(spec);
+
+      if(conts->IsEmpty()) continue;
+
+      if(!conts->At(0)->InheritsFrom(TList::Class())) continue;
+      auto cont = dynamic_cast<TList*>(conts->At(0));
+
+      TIter nextObj(cont);
+      // Contour could be split into multiple pieces
+      std::size_t piece = 0;
+      while(TObject* obj = nextObj()){
+        if(!obj->InheritsFrom(TGraph::Class())) continue;
+
+        ret.push_back(dynamic_cast<TGraph*>(obj->Clone(Form("%s_contour%f_piece%zu", obj->GetName(), level, piece))));
+        piece++;
+      } // end for obj
+    } // end for spec
+
+    return ret;
+  }
+
+
   bool SetDuneStyle()
   {
 

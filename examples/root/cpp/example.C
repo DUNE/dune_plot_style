@@ -33,16 +33,14 @@ void example()
   // 1D data/mc comparison type plot
   c.Clear();
   TH1D* h1D_ratio = (TH1D*)h1D->Clone("h1D_ratio");
-  TPad p1("p1","p1",0.,0.35,1.,1.);
-  TPad p2("p2","p2",0.,0.,1.,0.35);
-  p1.SetBottomMargin(0.04);
-  p1.SetTopMargin(0.15);
-  p2.SetBottomMargin(0.3);
-  p2.SetTopMargin(0.04);
-  c.cd(); p1.Draw(); p1.cd();
+  TPad * p1;
+  TPad * p2;
+  p1 = p2 = nullptr;
+  dunestyle::SplitCanvas(&c, 0.3, p1, p2);
+  c.cd(); p1->Draw(); p1->cd();
   h1D->GetXaxis()->SetLabelSize(0.);
   h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
-  h1D_ratio->GetYaxis()->SetTitle("ratio to fit");
+  h1D_ratio->GetYaxis()->SetTitle("(Data - Fit)/Fit");
   leg->Clear();
   h1D->Fit("gaus");
   h1D->Draw("E");
@@ -51,13 +49,14 @@ void example()
   leg->AddEntry(fit,"fit","l");
   leg->Draw();
   h1D_ratio->Sumw2();
+  h1D_ratio->Add(fit, -1);
   h1D_ratio->Divide(fit);
-  TF1 one("one","1.",-5,5);
+  TF1 zero("zero","0.",-5,5);
   dunestyle::CornerLabel("MC/Data Comparison Example");
-  c.cd(); p2.Draw(); p2.cd();
-  h1D_ratio->GetYaxis()->SetRangeUser(0.,2.);
+  c.cd(); p2->Draw(); p2->cd();
+  h1D_ratio->GetYaxis()->SetRangeUser(-1.,1.);
   h1D_ratio->Draw("E");
-  one.Draw("same");
+  zero.Draw("same");
   c.Print("example.root.pdf");
 
   // 2D histogram example

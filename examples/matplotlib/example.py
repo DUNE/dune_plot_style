@@ -69,11 +69,13 @@ def Hist1D(pdf):
 def DataMC(pdf):
     mu, sigma = 0, 1
     np.random.seed(89)
-    x_gaus = np.random.normal(mu, sigma, 10000)
-    counts, bin_edges = np.histogram(x_gaus, bins=20)
+    x_gaus = np.random.normal(mu, sigma, 1000)
+    counts, bin_edges = np.histogram(x_gaus, bins=50, range=(-5, 5))
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-    std_dev = np.std(x_gaus)
-    y_errors = np.array([std_dev/np.sqrt(bin_count) if bin_count != 0 else 1e-3 for bin_count in counts])
+#    std_dev = np.std(x_gaus)
+    abs_errors = np.sqrt(counts)
+    frac_errors = 100*np.ones_like(counts, dtype=float)  # default errors will be 10000% so that we ignore empty bins
+    frac_errors[counts > 0] = 1./np.sqrt(counts[counts > 0])
 
     # Use SciPy's curve_fit function to return optimal fit
     # parameters (popt) and the covariance matrix (pconv)
@@ -82,58 +84,65 @@ def DataMC(pdf):
     mean = sum(bin_centers * counts) / sum(counts)
     sigma = np.sqrt(sum(counts * (bin_centers - mean) ** 2) / sum(counts))
     popt, pcov = curve_fit(Gauss, bin_centers, counts, 
-                           p0=[min(bin_centers), max(bin_centers), mean, sigma],
-                           sigma=y_errors)
+                           p0=[max(bin_centers), mean, sigma],
+                           sigma=frac_errors)
 
     # Unpack optimal fit parameters and uncertainties from 
     # diagonal of covariance matrix 
-    H, A, x0, sig = popt
-    dH, dA, dx0, dsig = [np.sqrt(pcov[j,j]) for j in range(popt.size)]
+    A, x0, sig = popt
+    dA, dx0, dsig = [np.sqrt(pcov[j,j]) for j in range(popt.size)]
 
     # Create fitting function
     x_fit = np.linspace(-4, 4, 100)
-    y_fit = Gauss(x_fit, H, A, x0, sig)
+    y_fit = Gauss(x_fit, A, x0, sig)
+    fit_at_bin_ctrs = Gauss(bin_centers, A, x0, sig)
 
-    ratio = counts/Gauss(bin_centers, H, A, x0, sigma)
-    residuals = (counts - Gauss(bin_centers, H, A, x0, sigma)) / Gauss(bin_centers, H, A, x0, sigma)
-    chi2 = ((residuals**2)).sum() / float(bin_centers.size-2)
+    ratio = counts / fit_at_bin_ctrs
+    diff =  counts - fit_at_bin_ctrs
+    residuals = diff / fit_at_bin_ctrs
+    chi2 = (diff**2/fit_at_bin_ctrs).sum() / float(bin_centers.size-2)
 
     fig = plt.figure(figsize=(8,6))
-    gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[3, 1])
+    gs = fig.add_gridspec(nrows=2, ncols=1, height_ratios=[3, 1], hspace=0)
+    axs = gs.subplots(sharex=True)
+
+    # only show non-empty bins below
+    mask = np.nonzero(counts)
 
     # Top plot
-    ax0 = fig.add_subplot(gs[0, 0])
-    ax0.set_ylabel("y label")
-    ax0.plot(x_fit, y_fit, color='r', label="Fit")
-    ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
-                 color='black', fmt='o', capsize=1, label="Data")
-    ax0.text(0.70, 0.70, 'Gauss Fit Parameters:', 
+    axs[0].set_ylabel("y label")
+    axs[0].plot(x_fit, y_fit, color='r', label="Fit")
+    axs[0].errorbar(x=bin_centers[mask], y=counts[mask], yerr=abs_errors[mask],
+                 color='black', fmt='_', capsize=1, label="Data")
+    axs[0].text(0.70, 0.70, 'Gauss Fit Parameters:', 
              fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
-             transform=ax0.transAxes)
-    ax0.text(0.70, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
-             .format(H, dH), transform=ax0.transAxes)
-    ax0.text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
-             .format(A, dA), transform=ax0.transAxes)
-    ax0.text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
-             .format(x0, dx0), transform=ax0.transAxes)
-    ax0.text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
-             .format(sig, dsig), transform=ax0.transAxes)
-    ax0.text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
-             .format(chi2),transform=ax0.transAxes)
-    ax0.spines[:].set_color('black')
-    ax0.legend()
-    ax0.set_xlim(-5,5)
-    dunestyle.CornerLabel("Data/MC")
+             transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+             .format(A, dA), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+             .format(x0, dx0), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+             .format(sig, dsig), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
+             .format(chi2),transform=axs[0].transAxes)
+    axs[0].spines[:].set_color('black')
+    axs[0].legend()
+    axs[0].set_xlim(-5,5)
+    axs[0].set_ylim(bottom=0)
+    dunestyle.CornerLabel("MC/Data Comparison Example", ax=axs[0])
 
     # Bottom plot
-    ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
-    ax1.errorbar(x=bin_centers, y=residuals, yerr=y_errors, 
-                 color='black', fmt='o', capsize=1, label="Ratio")
-    ax1.axhline(y=0, color="r", zorder=-1)
-    ax1.set_xlabel("x label")
-    ax1.set_ylabel("(Data - Fit)/Fit")
-    ax1.set_ylim(-1,1)
-    ax1.spines[:].set_color('black')
+    axs[1].errorbar(x=bin_centers[mask], y=residuals[mask], yerr=frac_errors[mask],
+                    color='black', fmt='_', capsize=1, label="Ratio")
+    axs[1].axhline(y=0, color="r", zorder=-1)
+    axs[1].set_xlabel("x label")
+    axs[1].set_ylabel("(Data - Fit)/Fit")
+    axs[1].set_ylim(-0.99,0.99)
+    axs[1].spines[:].set_color('black')
+
+    for ax in axs:
+        ax.label_outer()
+
     plt.savefig("example.matplotlib.datamc.png")
     pdf.savefig()
 

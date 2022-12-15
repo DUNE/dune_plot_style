@@ -61,6 +61,7 @@ void example()
 
   // 2D histogram example
   c.Clear();
+  leg->Clear();
   TH2D h2D("example2d", ";x label;y label", 100, -5, 5, 100, -5, 5);
   TF2 cust_guas_2d("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
   h2D.FillRandom("cust_gaus_2d",1e7);
@@ -68,30 +69,37 @@ void example()
   dunestyle::CenterTitles(&h2D);
   dunestyle::Simulation();
   dunestyle::CornerLabel("2D Histogram Example");
-  c.Print("example.root.pdf");
 
-  // 2D contour example
-  c.Clear();
-  leg->Clear();
-  double level1 = 500.;
-  double level2 = 5000.;
-  double level3 = 25000.;
-  double levels[3] = {level1,level2,level3};
-  h2D.SetContour(3,levels);
-  TPaletteAxis *palette = (TPaletteAxis*)h2D.GetListOfFunctions()->FindObject("palette");
-  TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(0)));
-  //TH1I l1_h("l1_h","l1_h",1,0,1); l1_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(1))); // doesn't work?
-  TH1I l2_h("l2_h","l2_h",1,0,1); l2_h.SetFillColor(palette->GetValueColor((h2D.GetContourLevel(2)-h2D.GetContourLevel(0))/2.));
-  TH1I l3_h("l3_h","l3_h",1,0,1); l3_h.SetFillColor(palette->GetValueColor(h2D.GetContourLevel(2)));
-  leg->AddEntry(&l1_h,"level 1 contour","f");
-  leg->AddEntry(&l2_h,"level 2 contour","f");
-  leg->AddEntry(&l3_h,"level 3 contour","f");
-  h2D.Draw("cont1");
+  // compute the contour levels.
+  // this is a clumsy way of getting the cumuluative distribution function
+  TH1D tmp("tmp", "tmp", h2D.GetMaximum()+1, 0, h2D.GetMaximum()+1);
+  for (int i = 0; i < h2D.GetNcells()+1; i++)
+    tmp.Fill(h2D.GetBinContent(i), h2D.GetBinContent(i));
+  double cutoffs[3] = {0.997, 0.954, 0.682};
+  std::vector<double> levels;
+  int runSum = 0;
+  for (int i = 0; i < tmp.GetNcells(); i++)
+  {
+    if (levels.size() > 2)
+      break;
+    if (tmp.Integral(i, tmp.GetNcells()+1) < cutoffs[levels.size()]*h2D.Integral())
+      levels.push_back(i);
+  }
+  std::vector<int> linestyles = {kSolid, kDashed, kDotted};
+  for (std::size_t sigma : {1, 2, 3})
+  {
+    std::vector<TGraph*> graphs = dunestyle::GetContourGraphs(&h2D, levels[3-sigma]);
+    auto color = dunestyle::colors::NextColor();
+    for (TGraph * g : graphs)
+    {
+      g->SetLineColor(color);
+      g->SetLineStyle(linestyles[sigma-1]);
+      g->Draw("same");
+    }
+    leg->AddEntry(graphs.back(), Form("%zu#sigma", sigma), "l");
+  }
   leg->Draw();
-  dunestyle::CenterTitles(&h2D);
-  dunestyle::Simulation();
-  dunestyle::SimulationSide();
-  dunestyle::CornerLabel("2D Contour Example");
+
   c.Print("example.root.pdf");
 
   // stacked histogram

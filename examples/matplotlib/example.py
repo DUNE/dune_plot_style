@@ -167,19 +167,13 @@ def Hist2DContour(pdf):
 
     # If you need to calculate the covariance yourself, use numpy's method
     #npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
-
-    ellip_1sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=1, 
-                             edgecolor='firebrick', label=r"1$\sigma$",
-                             linewidth=2)
-    ellip_2sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=2, 
-                             edgecolor='fuchsia', label=r"2$\sigma$", 
-                             linewidth=2, linestyle='--')
-    ellip_3sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=3, 
-                             edgecolor='cyan', label=r"3$\sigma$", 
-                             linewidth=2, linestyle=':')
-    ax.add_patch(ellip_1sig)
-    ax.add_patch(ellip_2sig)
-    ax.add_patch(ellip_3sig)
+    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", "--", ":"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
+    cyc = cyc()
+    for nsig in range(1,4):
+        ellipse = CovEllipse(throws[:,0], throws[:,1], cov, nsig=nsig,
+                             label=r"{0}$\sigma$".format(nsig),
+                             linewidth=2, **next(cyc))
+        ax.add_patch(ellipse)
 
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")

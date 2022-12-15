@@ -75,13 +75,16 @@ namespace dunestyle
     /// If you would like all the colors in one package
     const std::map<Cycle, std::vector<Color_t>> kColorCycles
     {
+        // this ordering differs from the original Okabe-Ito ordering,
+        // which uses yellow (difficult to see on projectors) fairly early in the list.
+        // here we also get the DUNE logo colors in the first 4, which is nice.
         { Cycle::OkabeIto, { kBlack,
-                             kOkabeItoSkyBlue,
                              kOkabeItoVermilion,
-                             kOkabeItoBlueGreen,
+                             kOkabeItoSkyBlue,
                              kOkabeItoOrange,
-                             kOkabeItoBlue,
+                             kOkabeItoBlueGreen,
                              kOkabeItoRedPurple,
+                             kOkabeItoBlue,
                              kOkabeItoYellow }},
     };
     const auto kColourCycles = kColorCycles;   ///< Alias for \ref kColorCycles with BrEng spelling

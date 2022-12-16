@@ -40,18 +40,26 @@ def WIP(transform=None):
 	     fontdict={"fontsize": 12, "color": "blue"},
 	     transform=transform if transform is not None else plt.gca().transAxes)
 
-def Simulation(x=1.0, y=1.05, align='right', transform=None):
+def Simulation(x=1.0, y=1.05, align='right', ax=None, transform=None):
     #plt.text(1.0, 1.05, r"DUNE Simulation", horizontalalignment='right',
-    plt.text(x, y, r"DUNE Simulation", horizontalalignment=align,
-	     fontdict={"fontsize": 18, "color": "gray"},
-	     transform=transform if transform is not None else plt.gca().transAxes)
+    plotter = plt if ax is None else ax
+    plotter.text(x, y, r"DUNE Simulation", horizontalalignment=align,
+                 fontdict={"fontsize": 18, "color": "gray"},
+                 transform=transform if transform is not None else plt.gca().transAxes)
 
-def SimulationSide(x=1.05, y=0.5, align='right', transform=None):
-    plt.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
-	     fontdict={"fontsize": 18, "color": "gray"},
-	     transform=transform if transform is not None else plt.gca().transAxes)
+def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None):
+    plotter = plt if ax is None else ax
+    plotter.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
+	             fontdict={"fontsize": 18, "color": "gray"},
+	             transform=transform if transform is not None else plt.gca().transAxes)
 
-def CornerLabel(label, transform=None):
-    plt.text(0, 1.05, "{:s}".format(label), horizontalalignment='left',
-	fontdict={"fontsize": 14, "color": "gray"},
-	transform=transform if transform is not None else plt.gca().transAxes)
+def CornerLabel(label, ax=None, transform=None):
+    plotter = plt if ax is None else ax
+    if transform is None:
+        if ax is None:
+            transform = plt.gca().transAxes
+        else:
+            transform = ax.transAxes
+    plotter.text(0, 1.05, "{:s}".format(label), horizontalalignment='left',
+	             fontdict={"fontsize": 14, "color": "gray"},
+	             transform=transform if transform is not None else plt.gca().transAxes)

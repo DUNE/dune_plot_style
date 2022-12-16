@@ -92,13 +92,16 @@ namespace dunestyle
     /// A color cycler that runs through colors in order
     ///
     /// \param cycle  The dunestyle::colors::Cycle you want to run through
+    /// \param start  Start cycling from a particular color index.  (-1 continues from previous cycle.)
     /// \return       A color index known to TColor
-    Color_t NextColor(Cycle cycle = Cycle::OkabeIto)
+    Color_t NextColor(Cycle cycle = Cycle::OkabeIto, int start=-1)
     {
       static std::vector<std::size_t> counter(static_cast<std::size_t>(Cycle::NumCycles));
 
       const std::vector<Color_t> & colorVec = kColorCycles.at(cycle);
       auto cycleIdx = static_cast<std::size_t>(cycle);
+      if (start >= 0)
+        counter[cycleIdx] = start % colorVec.size();
       Color_t colorVal = colorVec[counter[cycleIdx]];
       counter[cycleIdx] = (counter[cycleIdx] + 1) % colorVec.size();
 

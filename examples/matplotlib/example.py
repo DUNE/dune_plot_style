@@ -10,9 +10,14 @@ from matplotlib.patches import Ellipse
 import matplotlib.gridspec as gridspec
 from matplotlib.backends.backend_pdf import PdfPages
 
+from cycler import cycler
+
 import dunestyle.matplotlib as dunestyle
 
 from plotting_helpers import Gauss, CovEllipse
+
+# how many histograms to draw in multi-hist plots
+N_HISTS = 8   # exhibits all the colors in the Okabe-Ito cycler
 
 ### Simple 1D Gaussian example ###
 def Gauss1D(pdf):
@@ -186,19 +191,17 @@ def Hist2DContour(pdf):
 
 ### Stacked histogram example ###
 def HistStacked(pdf):
-    x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 1, 1, 1000)
-    x3 = np.random.normal(-1, 1, 1000)
-    nbins = 50
+    hist_extent = (N_HISTS-1)
+    x = [np.random.normal(i, 1, 10000) for i in range(-hist_extent, hist_extent+2, 2)]
+    nbins = 100
     plt.figure()
     ax = plt.axes()
     ax.spines[:].set_color('black')
-    # Can choose one of matplotlib's built-in color patlettes if you prefer
-    plt.style.use('tableau-colorblind10')
-    hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
-    plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
+    hist_labels = ["Hist #{0}".format(i+1) for i in range(len(x))]
+    plt.hist(x, nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()
@@ -208,19 +211,17 @@ def HistStacked(pdf):
 
 ### Overlayed histogram example ###
 def HistOverlay(pdf):
-    x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 2, 1, 1000)
-    x3 = np.random.normal(-2, 1, 1000)
-    nbins = 25
+    hist_extent = (N_HISTS-1)
+    x = [np.random.normal(i, 1, 10000) for i in range(-hist_extent, hist_extent+2, 2)]
+    hist_labels = ["Hist #{0}".format(i+1) for i in range(len(x))]
+    nbins = 100
     plt.figure()
     ax = plt.axes()
     ax.spines[:].set_color('black')
-    plt.style.use('tableau-colorblind10')
-    plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
-    plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
+    plt.hist(x, nbins, histtype='step', linewidth=2, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
     dunestyle.SimulationSide()

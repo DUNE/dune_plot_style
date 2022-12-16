@@ -8,10 +8,72 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "THStack.h"
+#include "TLegendEntry.h"
+#include "TMath.h"
+#include "Math/IntegratorOptions.h"
 #include "TLegend.h"
 #include "TPaletteAxis.h"
 
 #include "DUNEStyle.h"
+
+TF1 f("f", "[&](double *x, double *p){ return TMath::Exp(-0.5*(x[0]-p[0])*(x[0]-p[0])); }", -100, 100, 1);
+
+std::vector<TH1D> GaussHists(std::size_t nHists=dunestyle::colors::kColorCycles.at(dunestyle::colors::Cycle::OkabeIto).size())
+{
+  std::vector<TH1D> hists;
+  for (std::size_t histIdx = 0; histIdx < nHists; histIdx++)
+  {
+    f.SetParameter(0, 2*int(histIdx) - (int(nHists)-1));
+    hists.emplace_back(Form("hs%zu", histIdx+1), ";x label;y label", 100, -2*(nHists/2.+2), 2*nHists);
+    hists.back().FillRandom("f", 10000);
+  }
+  return hists;
+}
+
+void StackedExample(TCanvas * c)
+{
+  // stacked histogram
+  c->Clear();
+  c->cd();
+  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
+  leg->SetFillStyle(0);
+
+  auto hstack = new THStack("examplestack", ";x label; y label");
+  std::vector<TH1D> hists = GaussHists();
+  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
+  {
+    TH1D& h = hists[histIdx];
+    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
+    h.SetLineColor(color);
+    h.SetFillColor(color);
+    hstack->Add(dynamic_cast<TH1D*>(h.Clone(h.GetName())));
+    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(hstack->GetStack()->Last(), Form("Hist #%zu", histIdx+1), "f"));
+  }
+  hstack->Draw();
+  leg->Draw();
+  dunestyle::CenterTitles(hstack->GetHistogram());
+}
+
+void OverlayExample(TCanvas * c)
+{
+  // stacked histogram
+  c->Clear();
+  c->cd();
+  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
+  leg->SetFillStyle(0);
+
+  std::vector<TH1D> hists = GaussHists();
+  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
+  {
+    TH1D& h = hists[histIdx];
+    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
+    h.SetLineColor(color);
+    dunestyle::CenterTitles(&h);
+    auto newh = h.DrawCopy(histIdx == 0 ? "" : "same");  // need to leak it so it doesn't disappear
+    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(newh, Form("Hist #%zu", histIdx+1), "l"));
+  }
+  leg->Draw();
+}
 
 void example()
 {
@@ -102,26 +164,11 @@ void example()
 
   c.Print("example.root.pdf");
 
-  // stacked histogram
-  c.Clear();
-  leg->Clear();
-  THStack hstack("examplestack", ";x label; y label");
-  TH1D hs1("hs1", ";x label;y label", 100, -5, 5);
-  TH1D hs2("hs2", ";x label;y label", 100, -5, 5);
-  TH1D hs3("hs3", ";x label;y label", 100, -5, 5);
-  hs1.FillRandom("gaus",10000);
-  hs2.FillRandom("gaus",5000);
-  hs3.FillRandom("gaus",1000);
-  hstack.Add(&hs1);
-  hstack.Add(&hs2);
-  hstack.Add(&hs3);
-  hstack.Draw("pfc");
-  leg->SetHeader("Stacked Histograms");
-  leg->AddEntry("hs1","one hist","f");
-  leg->AddEntry("hs2","two hist","f");
-  leg->AddEntry("hs3","three hist","f");
-  leg->Draw();
-  dunestyle::CornerLabel("Stacked Histograms Example");
+  ROOT::Math::IntegratorOneDimOptions::SetDefaultIntegrator("Gauss");
+  StackedExample(&c);
+  c.Print("example.root.pdf");
+
+  OverlayExample(&c);
   c.Print("example.root.pdf)");
 
 }

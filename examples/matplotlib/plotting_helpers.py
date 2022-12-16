@@ -4,8 +4,8 @@ import numpy as np
 import scipy.stats 
 from matplotlib.patches import Ellipse
 
-def Gauss(x, H, A, x0, sigma):
-    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
+def Gauss(x, A, x0, sigma):
+    return A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
 
 def CovEllipse(xdata, ydata, cov, q=None, nsig=None, facecolor='none', **kwargs):
     """

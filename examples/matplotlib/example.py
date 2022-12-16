@@ -49,9 +49,7 @@ def Hist1D(pdf):
 
 
     plt.figure()
-    plt.style.use('tableau-colorblind10')
     ax = plt.axes()
-    ax.spines[:].set_color('black')
     plt.hist(x, histtype='step', label="Hist", linewidth=2)
     plt.xlabel('x label')
     plt.ylabel('y label')

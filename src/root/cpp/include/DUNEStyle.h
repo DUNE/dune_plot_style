@@ -36,13 +36,13 @@ namespace dunestyle
     // look in the `colors` namespace, further down
     // The RGB values are taken from here:
     // https://mikemol.github.io/technique/colorblind/2018/02/11/color-safe-palette.html
-    const TColor __kOIOrange(TColor::GetFreeColorIndex(), 90, 60, 0);
-    const TColor __kOISkyBlue(TColor::GetFreeColorIndex(), 35, 70, 90);
-    const TColor __kOIBlueGreen(TColor::GetFreeColorIndex(), 0, 60, 50);
-    const TColor __kOIYellow(TColor::GetFreeColorIndex(), 95, 90, 25);
-    const TColor __kOIBlue(TColor::GetFreeColorIndex(), 0, 45, 70);
-    const TColor __kOIVermilion(TColor::GetFreeColorIndex(), 80, 40, 0);
-    const TColor __kOIRedPurple(TColor::GetFreeColorIndex(), 80, 60, 70);
+    const TColor __kOIOrange(TColor::GetFreeColorIndex(), 0.90, 0.60, 0);
+    const TColor __kOISkyBlue(TColor::GetFreeColorIndex(), 0.35, 0.70, 0.90);
+    const TColor __kOIBlueGreen(TColor::GetFreeColorIndex(), 0, 0.60, 0.50);
+    const TColor __kOIYellow(TColor::GetFreeColorIndex(), 0.95, 0.90, 0.25);
+    const TColor __kOIBlue(TColor::GetFreeColorIndex(), 0, 0.45, 0.70);
+    const TColor __kOIVermilion(TColor::GetFreeColorIndex(), 0.80, 0.40, 0);
+    const TColor __kOIRedPurple(TColor::GetFreeColorIndex(), 0.80, 0.60, 0.70);
   }
 
   /// Colo(u)rs we encourage collaborators to use.

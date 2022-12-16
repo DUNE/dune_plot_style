@@ -16,7 +16,7 @@ axes.facecolor: white # eeeeee
 axes.edgecolor: bcbcbc
 axes.grid : False
 axes.titlesize: 36
-axes.labelsize: large
+axes.labelsize: x-large
 
 # Okabe-Ito color scheme.  Original ordering.
 # This ordering unfortunately puts yellow, which is hard to see on projectors,
@@ -51,5 +51,13 @@ grid.linewidth: 0.5
 legend.fontsize: 12
 legend.frameon: False
 
-xtick.direction: in
-ytick.direction: in
+xtick.direction:      in
+xtick.major.size:     10
+xtick.minor.size:     5
+xtick.minor.visible:  True
+xtick.top:            True
+ytick.direction:      in
+ytick.major.size:     10
+ytick.minor.size:     5
+ytick.minor.visible:  True
+ytick.right:          True

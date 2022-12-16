@@ -16,6 +16,7 @@
 #define DUNE_STYLE_H
 
 #include "TColor.h"
+#include "TGraph.h"
 #include "TH1.h"
 #include "TLatex.h"
 #include "TROOT.h"

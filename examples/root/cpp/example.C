@@ -18,6 +18,17 @@
 
 TF1 f("f", "[&](double *x, double *p){ return TMath::Exp(-0.5*(x[0]-p[0])*(x[0]-p[0])); }", -100, 100, 1);
 
+// save a lot of useless repetitive typing
+TLegend * MakeLegend()
+{
+  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
+  leg->SetFillStyle(0);  // unfortunately can't set this in TStyle :(
+
+  return leg;
+}
+
+//-------------------------------------------------------------------
+// enables us to reuse the histograms rather than regenerating every time
 std::vector<TH1D> GaussHists(std::size_t nHists=dunestyle::colors::kColorCycles.at(dunestyle::colors::Cycle::OkabeIto).size())
 {
   std::vector<TH1D> hists;
@@ -30,76 +41,36 @@ std::vector<TH1D> GaussHists(std::size_t nHists=dunestyle::colors::kColorCycles.
   return hists;
 }
 
-void StackedExample(TCanvas * c)
+//-------------------------------------------------------------------
+void OneDHistExample(TCanvas * c)
 {
-  // stacked histogram
-  c->Clear();
-  c->cd();
-  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
-  leg->SetFillStyle(0);
-
-  auto hstack = new THStack("examplestack", ";x label; y label");
-  std::vector<TH1D> hists = GaussHists();
-  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
-  {
-    TH1D& h = hists[histIdx];
-    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
-    h.SetLineColor(color);
-    h.SetFillColor(color);
-    hstack->Add(dynamic_cast<TH1D*>(h.Clone(h.GetName())));
-    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(hstack->GetStack()->Last(), Form("Hist #%zu", histIdx+1), "f"));
-  }
-  hstack->Draw();
-  leg->Draw();
-  dunestyle::CenterTitles(hstack->GetHistogram());
-}
-
-void OverlayExample(TCanvas * c)
-{
-  // stacked histogram
-  c->Clear();
-  c->cd();
-  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
-  leg->SetFillStyle(0);
-
-  std::vector<TH1D> hists = GaussHists();
-  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
-  {
-    TH1D& h = hists[histIdx];
-    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
-    h.SetLineColor(color);
-    dunestyle::CenterTitles(&h);
-    auto newh = h.DrawCopy(histIdx == 0 ? "" : "same");  // need to leak it so it doesn't disappear
-    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(newh, Form("Hist #%zu", histIdx+1), "l"));
-  }
-  leg->Draw();
-}
-
-void example()
-{
-
-  TCanvas c;
-
-  // 1D histogram example
   TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
-  h1D->FillRandom("gaus",1000);
-  TLegend *leg = new TLegend(0.6,0.65,0.8,0.8);
-  leg->AddEntry("example1d","1D histogram","l");
+  h1D->FillRandom("gaus", 1000);
+  TLegend * leg = MakeLegend();
+  leg->AddEntry("example1d", "1D histogram", "l");
   h1D->Draw();
   leg->Draw();
   dunestyle::CenterTitles(h1D);
   dunestyle::WIP();
   dunestyle::SimulationSide();
-  c.SaveAs("example.root.pdf(");
+}
 
+//-------------------------------------------------------------------
+void DataMCExample(TCanvas * c)
+{
   // 1D data/mc comparison type plot
-  c.Clear();
+  c->cd();
+  c->Clear();
+  TLegend * leg = MakeLegend();
+
+  TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
+  h1D->FillRandom("gaus", 1000);
   TH1D* h1D_ratio = (TH1D*)h1D->Clone("h1D_ratio");
   TPad * p1;
   TPad * p2;
   p1 = p2 = nullptr;
-  dunestyle::SplitCanvas(&c, 0.3, p1, p2);
-  c.cd(); p1->Draw(); p1->cd();
+  dunestyle::SplitCanvas(c, 0.3, p1, p2);
+  c->cd(); p1->Draw(); p1->cd();
   h1D->GetXaxis()->SetLabelSize(0.);
   h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
   h1D_ratio->GetYaxis()->SetTitle("(Data - Fit)/Fit");
@@ -115,15 +86,20 @@ void example()
   h1D_ratio->Divide(fit);
   TF1 zero("zero","0.",-5,5);
   dunestyle::CornerLabel("MC/Data Comparison Example");
-  c.cd(); p2->Draw(); p2->cd();
+  c->cd(); p2->Draw(); p2->cd();
   h1D_ratio->GetYaxis()->SetRangeUser(-1.,1.);
   h1D_ratio->Draw("E");
   zero.Draw("same");
-  c.Print("example.root.pdf");
+}
 
-  // 2D histogram example
-  c.Clear();
-  leg->Clear();
+//-------------------------------------------------------------------
+void TwoDExample(TCanvas * c)
+{
+
+  c->Clear();
+  c->cd();
+  TLegend * leg = MakeLegend();
+
   TH2D h2D("example2d", ";x label;y label", 100, -5, 5, 100, -5, 5);
   TF2 cust_guas_2d("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
   h2D.FillRandom("cust_gaus_2d",1e7);
@@ -147,6 +123,8 @@ void example()
     if (tmp.Integral(i, tmp.GetNcells()+1) < cutoffs[levels.size()]*h2D.Integral())
       levels.push_back(i);
   }
+
+  // now that we have them, draw them
   std::vector<int> linestyles = {kSolid, kDashed, kDotted};
   for (std::size_t sigma : {1, 2, 3})
   {
@@ -161,14 +139,78 @@ void example()
     leg->AddEntry(graphs.back(), Form("%zu#sigma", sigma), "l");
   }
   leg->Draw();
+}
 
-  c.Print("example.root.pdf");
+//-------------------------------------------------------------------
+void StackedExample(TCanvas * c, std::vector<TH1D>& hists)
+{
+  // stacked histogram
+  c->Clear();
+  c->cd();
+  TLegend * leg = MakeLegend();
 
+  auto hstack = new THStack("examplestack", ";x label; y label");
+  if (hists.empty())
+    std::vector<TH1D> hists = GaussHists();
+  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
+  {
+    TH1D& h = hists[histIdx];
+    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
+    h.SetLineColor(color);
+    h.SetFillColor(color);
+    hstack->Add(dynamic_cast<TH1D*>(h.Clone(h.GetName())));
+    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(hstack->GetStack()->Last(), Form("Hist #%zu", histIdx+1), "f"));
+  }
+  hstack->Draw();
+  leg->Draw();
+  dunestyle::CenterTitles(hstack->GetHistogram());
+}
+
+//-------------------------------------------------------------------
+void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
+{
+  // stacked histogram
+  c->Clear();
+  c->cd();
+  TLegend * leg = MakeLegend();
+
+  if (hists.empty())
+    std::vector<TH1D> hists = GaussHists();
+  for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
+  {
+    TH1D& h = hists[histIdx];
+    auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
+    h.SetLineColor(color);
+    dunestyle::CenterTitles(&h);
+    auto newh = h.DrawCopy(histIdx == 0 ? "" : "same");  // need to leak it so it doesn't disappear
+    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(newh, Form("Hist #%zu", histIdx+1), "l"));
+  }
+  leg->Draw();
+}
+
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
+void example()
+{
+
+  TCanvas c;
+
+  OneDHistExample(&c);
+  c.SaveAs("example.root.pdf(");
+
+  DataMCExample(&c);
+  c.SaveAs("example.root.pdf");
+
+  TwoDExample(&c);
+  c.SaveAs("example.root.pdf");
+
+  // otherwise ROOT tries to use GSL, which the user may or may not have built
   ROOT::Math::IntegratorOneDimOptions::SetDefaultIntegrator("Gauss");
-  StackedExample(&c);
+  std::vector<TH1D> hists = GaussHists();
+  StackedExample(&c, hists);
   c.Print("example.root.pdf");
 
-  OverlayExample(&c);
+  OverlayExample(&c, hists);
   c.Print("example.root.pdf)");
 
 }

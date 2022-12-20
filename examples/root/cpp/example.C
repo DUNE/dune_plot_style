@@ -1,6 +1,9 @@
 ///
-/// ROOT placeholder example.  Work in progress.
+/// Demonstration of DUNE plot style using C++ ROOT.
 ///
+/// Original authors:  Young DUNE plot style task force
+/// Comments to:  Authorship & publications board (dune-apb@fnal.gov)
+
 
 #include "TCanvas.h"
 #include "TFrame.h"
@@ -72,7 +75,6 @@ void DataMCExample(TCanvas * c)
   p1 = p2 = nullptr;
   dunestyle::SplitCanvas(c, 0.3, p1, p2);
   c->cd(); p1->Draw(); p1->cd();
-  h1D->GetXaxis()->SetLabelSize(0.);
   h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
   h1D_ratio->GetYaxis()->SetTitle("(Data - Fit)/Fit");
   leg->Clear();

@@ -3,6 +3,7 @@
 ///
 
 #include "TCanvas.h"
+#include "TFrame.h"
 #include "TF1.h"
 #include "TF2.h"
 #include "TH1D.h"
@@ -48,9 +49,9 @@ void OneDHistExample(TCanvas * c)
   TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
   h1D->FillRandom("gaus", 1000);
   h1D->Draw();
+  h1D->GetYaxis()->SetRangeUser(h1D->GetYaxis()->GetXmin(), h1D->GetMaximum()*1.25);  // make room for watermark
   dunestyle::CenterTitles(h1D);
-  dunestyle::WIP();
-  dunestyle::SimulationSide();
+  dunestyle::Simulation();
 }
 
 //-------------------------------------------------------------------
@@ -75,12 +76,15 @@ void DataMCExample(TCanvas * c)
   h1D_ratio->GetXaxis()->SetTitleOffset(1.25);
   h1D_ratio->GetYaxis()->SetTitle("(Data - Fit)/Fit");
   leg->Clear();
-  h1D->Fit("gaus");
+  h1D->Fit("gaus", "Q");
   h1D->Draw("E");
   TF1* fit = h1D->GetFunction("gaus");
   leg->AddEntry(h1D,"Data","lep");
   leg->AddEntry(fit,"Fit","l");
   leg->Draw();
+  h1D->GetYaxis()->SetRangeUser(h1D->GetMinimum(), h1D->GetMaximum()*1.35);  // make room for watermark
+  dunestyle::Preliminary();
+
   h1D_ratio->Sumw2();
   h1D_ratio->Add(fit, -1);
   h1D_ratio->Divide(fit);
@@ -114,13 +118,12 @@ void TwoDExample(TCanvas * c)
   c->cd();
   TLegend * leg = MakeLegend(0.7, 0.65, 0.9, 0.85);
 
-  auto h2d = new TH2D("example2d", ";x label;y label", 100, -5, 5, 100, -5, 5);
-  auto cust_guas_2d = new TF2("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
+  auto h2d = new TH2D("example2d", ";x label;y label", 100, -5, 5, 120, -5, 7);
+  auto cust_gaus_2d = new TF2("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
   h2d->FillRandom("cust_gaus_2d",1e7);
-  h2d->Draw("colz");
   dunestyle::CenterTitles(h2d);
+  h2d->Draw("colz");
   dunestyle::Simulation();
-  dunestyle::CornerLabel("2D Histogram Example");
 
   // compute the contour levels.
   // this is a clumsy way of getting the cumulative distribution function
@@ -161,7 +164,7 @@ void StackedExample(TCanvas * c, std::vector<TH1D>& hists)
   // stacked histogram
   c->Clear();
   c->cd();
-  TLegend * leg = MakeLegend(0.7, 0.5, 0.9, 0.85);
+  TLegend * leg = MakeLegend(0.68, 0.45, 0.9, 0.87);
 
   auto hstack = new THStack("examplestack", ";x label; y label");
   if (hists.empty())
@@ -173,11 +176,16 @@ void StackedExample(TCanvas * c, std::vector<TH1D>& hists)
     h.SetLineColor(color);
     h.SetFillColor(color);
     hstack->Add(dynamic_cast<TH1D*>(h.Clone(h.GetName())));
+
+    // we do this the hard way so the legend has the top-most histogram in the stack first
     leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(&h, Form("Hist #%zu", histIdx+1), "f"));
   }
   hstack->Draw();
   leg->Draw();
+
+  hstack->SetMaximum(hstack->GetMaximum()*1.25);   // make some room for the watermark
   dunestyle::CenterTitles(hstack->GetHistogram());
+  dunestyle::WIP();
 }
 
 //-------------------------------------------------------------------
@@ -186,10 +194,11 @@ void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
   // stacked histogram
   c->Clear();
   c->cd();
-  TLegend * leg = MakeLegend(0.7, 0.5, 0.9, 0.85);
+  TLegend * leg = MakeLegend(0.68, 0.45, 0.9, 0.87);
 
   if (hists.empty())
     std::vector<TH1D> hists = GaussHists();
+  TH1 * hFirst = nullptr;
   for (std::size_t histIdx = 0; histIdx < hists.size(); histIdx++)
   {
     TH1D& h = hists[histIdx];
@@ -198,9 +207,16 @@ void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
     h.SetFillStyle(0);
     dunestyle::CenterTitles(&h);
     auto newh = h.DrawCopy(histIdx == 0 ? "" : "same");  // need to leak it so it doesn't disappear
+    if (!hFirst)
+      hFirst = newh;
+
+    // we do this the hard way so the legend has the top-most histogram in the stack first
     leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(newh, Form("Hist #%zu", histIdx+1), "l"));
   }
+  c->RedrawAxis();  // otherwise the last histogram drawn overlaps with the frame
   leg->Draw();
+  hFirst->SetMaximum(hFirst->GetMaximum()*1.25); // make some space for the watermark
+  dunestyle::WIP();
 }
 
 //-------------------------------------------------------------------

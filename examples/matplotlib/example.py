@@ -23,17 +23,14 @@ N_HISTS = 8   # exhibits all the colors in the Okabe-Ito cycler
 def Hist1D(pdf):
     x = np.random.normal(0, 1, 1000)
 
-
     plt.figure()
     ax = plt.axes()
     plt.hist(x, histtype='step', label="Hist", range=(-5, 5), bins=50)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)
-    plt.legend()
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
-    dunestyle.WIP()
-    dunestyle.SimulationSide()
+    dunestyle.Simulation()
     plt.savefig("example.matplotlib.hist1D.png")
     pdf.savefig()
 
@@ -81,8 +78,8 @@ def DataMC(pdf):
     residuals = diff / fit_at_bin_ctrs
     chi2 = (diff**2/fit_at_bin_ctrs).sum()
 
-    # this is the way ROOT counts deg of freedom,
-    # so we mimic it for consistency
+    # this way (count only nonzero bins) is the way ROOT counts deg of freedom,
+    # so we mimic it for consistency (not nec. correctness)
     from inspect import signature
     ndf = np.count_nonzero(counts > 0) - len(signature(Gauss).parameters)
 
@@ -112,7 +109,8 @@ def DataMC(pdf):
     axs[0].legend(fontsize="x-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too
     axs[0].set_xlim(-5,5)
     axs[0].set_ylim(bottom=0)
-    dunestyle.CornerLabel("MC/Data Comparison Example", ax=axs[0])
+
+    dunestyle.Preliminary(x=0.02, ax=axs[0], fontsize="xx-large")
 
     # Bottom plot
     axs[1].errorbar(x=bin_centers[mask], y=residuals[mask], yerr=frac_errors[mask],
@@ -147,8 +145,11 @@ def Hist2DContour(pdf):
     # https://stackoverflow.com/questions/42387471/how-to-add-a-colorbar-for-a-hist2d-plot
     fig.colorbar(hist2d[3])
 
-    # If you need to calculate the covariance yourself, use numpy's method
-    #npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
+    # we want to cycle both the colors AND the line-styles,
+    # so we combine cyclers.
+    # unfortunately since they have different numbers of items,
+    # we need to force the line-style one to repeat a few times,
+    # then chop off the excess
     cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", "--", ":"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
     cyc = cyc()
     for nsig in range(1,4):
@@ -156,6 +157,7 @@ def Hist2DContour(pdf):
                              label=r"{0}$\sigma$".format(nsig), **next(cyc))
         ax.add_patch(ellipse)
 
+    ax.set_ylim(top=1.3*ax.get_ylim()[1])  # make a little space for the "DUNE simulation" label
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
     dunestyle.Simulation()
@@ -177,7 +179,6 @@ def HistStacked(pdf):
     ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
-    dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histstacked.png")
     pdf.savefig()
@@ -196,7 +197,6 @@ def HistOverlay(pdf):
     ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
-    dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histoverlay.png")
     pdf.savefig()

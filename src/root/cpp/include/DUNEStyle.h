@@ -116,30 +116,42 @@ namespace dunestyle
   namespace colours = dunestyle::colors;
 
   // Put a "DUNE Work In Progress" tag in the corner
-  TLatex* WIP(ETextAlign labelLoc=kHAlignRight)
+  // default
+  TLatex* WIP(ETextAlign labelLoc=kHAlignLeft, double yLoc=0.87)
   {
     short halign = labelLoc - (labelLoc % 10);
-    float loc = (halign == kHAlignRight) ? 0.85 : ((halign == kHAlignLeft) ? 0.15 : 0.525);
-    TLatex *prelim = new TLatex(loc, 0.92, "DUNE Work In Progress");
+    float loc = (halign == kHAlignRight) ? 0.85 : ((halign == kHAlignLeft) ? 0.17 : 0.525);
+    TLatex *prelim = new TLatex(loc, yLoc, "DUNE Work In Progress");
     prelim->SetTextColor(kBlue);
     prelim->SetNDC();
     prelim->SetTextSize(2 / 30.);
-    prelim->SetTextAlign(halign + kVAlignBottom);
+    prelim->SetTextAlign(halign + kVAlignTop);
     prelim->Draw();
 
     return prelim;
+  }
+
+  // Put a "DUNE Preliminary" tag in the corner
+  void Preliminary()
+  {
+    TLatex *prelim = new TLatex(.18, .86, "DUNE Preliminary");
+    prelim->SetTextColor(kBlue);
+    prelim->SetNDC();
+    prelim->SetTextSize(2 / 30.);
+    prelim->SetTextAlign(kHAlignLeft + kVAlignTop);
+    prelim->Draw();
   }
 
 
   // Put a "DUNE Simulation" tag in the corner
   void Simulation()
   {
-    TLatex *prelim = new TLatex(.9, .95, "DUNE Simulation");
-    prelim->SetTextColor(kGray + 1);
-    prelim->SetNDC();
-    prelim->SetTextSize(2 / 30.);
-    prelim->SetTextAlign(32);
-    prelim->Draw();
+    TLatex *simlabel = new TLatex(.18, .86, "DUNE Simulation");
+    simlabel->SetTextColor(kGray + 1);
+    simlabel->SetNDC();
+    simlabel->SetTextSize(2 / 30.);
+    simlabel->SetTextAlign(kHAlignLeft + kVAlignTop);
+    simlabel->Draw();
   }
 
   // Put a "DUNE Simulation" tag on the right
@@ -350,7 +362,7 @@ namespace dunestyle
     // Extend the left and bottom margins so axis titles don't run off the pad
     duneStyle->SetPadBottomMargin(0.15);
     duneStyle->SetPadLeftMargin(0.15);
-    duneStyle->SetPadRightMargin(0.15);
+    duneStyle->SetPadRightMargin(0.15);  // this is a bit wide in general but means most colorbars won't run off the edge
 
     // Fonts
     const int kDuneFont = 42;

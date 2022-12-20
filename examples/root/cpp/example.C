@@ -13,15 +13,16 @@
 #include "Math/IntegratorOptions.h"
 #include "TLegend.h"
 #include "TPaletteAxis.h"
+#include "TPaveText.h"
 
 #include "DUNEStyle.h"
 
 TF1 f("f", "[&](double *x, double *p){ return TMath::Exp(-0.5*(x[0]-p[0])*(x[0]-p[0])); }", -100, 100, 1);
 
 // save a lot of useless repetitive typing
-TLegend * MakeLegend()
+TLegend * MakeLegend(float left=0.7, float bottom=0.5, float right=0.9, float top=0.85)
 {
-  auto leg = new TLegend(0.7, 0.5, 0.9, 0.85);
+  auto leg = new TLegend(left, bottom, right, top);
   leg->SetFillStyle(0);  // unfortunately can't set this in TStyle :(
 
   return leg;
@@ -46,10 +47,7 @@ void OneDHistExample(TCanvas * c)
 {
   TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
   h1D->FillRandom("gaus", 1000);
-  TLegend * leg = MakeLegend();
-  leg->AddEntry("example1d", "1D histogram", "l");
   h1D->Draw();
-  leg->Draw();
   dunestyle::CenterTitles(h1D);
   dunestyle::WIP();
   dunestyle::SimulationSide();
@@ -61,10 +59,12 @@ void DataMCExample(TCanvas * c)
   // 1D data/mc comparison type plot
   c->cd();
   c->Clear();
-  TLegend * leg = MakeLegend();
+  TLegend * leg = MakeLegend(0.65, 0.7, 0.9, 0.85);
 
   TH1D *h1D = new TH1D("example1d", ";x label;y label", 50, -5, 5);
   h1D->FillRandom("gaus", 1000);
+  dunestyle::CenterTitles(h1D);
+
   TH1D* h1D_ratio = (TH1D*)h1D->Clone("h1D_ratio");
   TPad * p1;
   TPad * p2;
@@ -78,18 +78,32 @@ void DataMCExample(TCanvas * c)
   h1D->Fit("gaus");
   h1D->Draw("E");
   TF1* fit = h1D->GetFunction("gaus");
-  leg->AddEntry(h1D,"data","lep");
-  leg->AddEntry(fit,"fit","l");
+  leg->AddEntry(h1D,"Data","lep");
+  leg->AddEntry(fit,"Fit","l");
   leg->Draw();
   h1D_ratio->Sumw2();
   h1D_ratio->Add(fit, -1);
   h1D_ratio->Divide(fit);
-  TF1 zero("zero","0.",-5,5);
-  dunestyle::CornerLabel("MC/Data Comparison Example");
+  auto zero = new TF1("zero","0.",-5,5);
+  dunestyle::CenterTitles(h1D_ratio);
   c->cd(); p2->Draw(); p2->cd();
   h1D_ratio->GetYaxis()->SetRangeUser(-1.,1.);
   h1D_ratio->Draw("E");
-  zero.Draw("same");
+  zero->Draw("same");
+
+  p1->cd();
+  auto pave = new TPaveText(0.6, 0.45, 0.85, 0.65, "NDC NB");
+  pave->SetBorderSize(0);
+  pave->SetFillStyle(0);
+  TText* head = pave->AddText("Gauss Fit Parameters:");
+  head->SetTextFont(62);
+  pave->AddText(Form("A = %.2f #pm %.2f", fit->GetParameter(0), fit->GetParError(0)));
+  pave->AddText(Form("#mu = %.2f #pm %.2f", fit->GetParameter(1), fit->GetParError(1)));
+  pave->AddText(Form("#sigma = %.2f #pm %.2f", fit->GetParameter(2), fit->GetParError(2)));
+  pave->AddText("");
+  pave->AddText(Form("#chi^{2}/ndof = %.2f/%d", fit->GetChisquare(), fit->GetNDF()));
+  pave->Draw();
+
 }
 
 //-------------------------------------------------------------------
@@ -98,21 +112,21 @@ void TwoDExample(TCanvas * c)
 
   c->Clear();
   c->cd();
-  TLegend * leg = MakeLegend();
+  TLegend * leg = MakeLegend(0.7, 0.65, 0.9, 0.85);
 
-  TH2D h2D("example2d", ";x label;y label", 100, -5, 5, 100, -5, 5);
-  TF2 cust_guas_2d("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
-  h2D.FillRandom("cust_gaus_2d",1e7);
-  h2D.Draw("colz");
-  dunestyle::CenterTitles(&h2D);
+  auto h2d = new TH2D("example2d", ";x label;y label", 100, -5, 5, 100, -5, 5);
+  auto cust_guas_2d = new TF2("cust_gaus_2d","ROOT::Math::bigaussian_pdf(x,y,0.5,1.0,-0.5,0,0)");
+  h2d->FillRandom("cust_gaus_2d",1e7);
+  h2d->Draw("colz");
+  dunestyle::CenterTitles(h2d);
   dunestyle::Simulation();
   dunestyle::CornerLabel("2D Histogram Example");
 
   // compute the contour levels.
-  // this is a clumsy way of getting the cumuluative distribution function
-  TH1D tmp("tmp", "tmp", h2D.GetMaximum()+1, 0, h2D.GetMaximum()+1);
-  for (int i = 0; i < h2D.GetNcells()+1; i++)
-    tmp.Fill(h2D.GetBinContent(i), h2D.GetBinContent(i));
+  // this is a clumsy way of getting the cumulative distribution function
+  TH1D tmp("tmp", "tmp", h2d->GetMaximum()+1, 0, h2d->GetMaximum()+1);
+  for (int i = 0; i < h2d->GetNcells()+1; i++)
+    tmp.Fill(h2d->GetBinContent(i), h2d->GetBinContent(i));
   double cutoffs[3] = {0.997, 0.954, 0.682};
   std::vector<double> levels;
   int runSum = 0;
@@ -120,7 +134,7 @@ void TwoDExample(TCanvas * c)
   {
     if (levels.size() > 2)
       break;
-    if (tmp.Integral(i, tmp.GetNcells()+1) < cutoffs[levels.size()]*h2D.Integral())
+    if (tmp.Integral(i, tmp.GetNcells()+1) < cutoffs[levels.size()]*h2d->Integral())
       levels.push_back(i);
   }
 
@@ -128,7 +142,7 @@ void TwoDExample(TCanvas * c)
   std::vector<int> linestyles = {kSolid, kDashed, kDotted};
   for (std::size_t sigma : {1, 2, 3})
   {
-    std::vector<TGraph*> graphs = dunestyle::GetContourGraphs(&h2D, levels[3-sigma]);
+    std::vector<TGraph*> graphs = dunestyle::GetContourGraphs(h2d, levels[3-sigma]);
     auto color = dunestyle::colors::NextColor();
     for (TGraph * g : graphs)
     {
@@ -147,7 +161,7 @@ void StackedExample(TCanvas * c, std::vector<TH1D>& hists)
   // stacked histogram
   c->Clear();
   c->cd();
-  TLegend * leg = MakeLegend();
+  TLegend * leg = MakeLegend(0.7, 0.5, 0.9, 0.85);
 
   auto hstack = new THStack("examplestack", ";x label; y label");
   if (hists.empty())
@@ -159,7 +173,7 @@ void StackedExample(TCanvas * c, std::vector<TH1D>& hists)
     h.SetLineColor(color);
     h.SetFillColor(color);
     hstack->Add(dynamic_cast<TH1D*>(h.Clone(h.GetName())));
-    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(hstack->GetStack()->Last(), Form("Hist #%zu", histIdx+1), "f"));
+    leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(&h, Form("Hist #%zu", histIdx+1), "f"));
   }
   hstack->Draw();
   leg->Draw();
@@ -172,7 +186,7 @@ void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
   // stacked histogram
   c->Clear();
   c->cd();
-  TLegend * leg = MakeLegend();
+  TLegend * leg = MakeLegend(0.7, 0.5, 0.9, 0.85);
 
   if (hists.empty())
     std::vector<TH1D> hists = GaussHists();
@@ -181,6 +195,7 @@ void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
     TH1D& h = hists[histIdx];
     auto color = dunestyle::colors::NextColor(dunestyle::colors::Cycle::OkabeIto, histIdx==0 ? 0 : -1);
     h.SetLineColor(color);
+    h.SetFillStyle(0);
     dunestyle::CenterTitles(&h);
     auto newh = h.DrawCopy(histIdx == 0 ? "" : "same");  // need to leak it so it doesn't disappear
     leg->GetListOfPrimitives()->AddFirst(new TLegendEntry(newh, Form("Hist #%zu", histIdx+1), "l"));

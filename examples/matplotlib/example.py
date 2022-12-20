@@ -1,5 +1,8 @@
 """
-matplotlib placeholder example.  we can do way better than this.
+Demonstration of DUNE plot style using matplotlib.
+
+Original authors:  Young DUNE plot style task force
+     Comments to:  Authorship & publications board (dune-apb@fnal.gov)
 """
 
 import numpy as np

@@ -19,30 +19,6 @@ from plotting_helpers import Gauss, CovEllipse
 # how many histograms to draw in multi-hist plots
 N_HISTS = 8   # exhibits all the colors in the Okabe-Ito cycler
 
-### Simple 1D Gaussian example ###
-def Gauss1D(pdf):
-    x = np.linspace(-5, 5, 500)
-    y = scipy.stats.norm.pdf(x)
-
-    # Set axex color. For specific axes, you can use e.g.
-    # ax.spines['left'].set_color()
-    # Also, note this needs to come before plt.plot() or else
-    # matplotlib freaks out
-    ax = plt.axes()
-    ax.spines[:].set_color('black')
-
-    plt.plot(x, y, label="Gaussian")
-    plt.xlabel("x label")
-    plt.ylabel("y label")
-    plt.legend()
-
-    # Scale y-axis so "Work in Progress" watermark fits in frame
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
-    dunestyle.WIP()
-    dunestyle.SimulationSide()
-    plt.savefig("example.matplotlib.gaus.png")
-    pdf.savefig()
-
 ### 1D histogram example ###
 def Hist1D(pdf):
     x = np.random.normal(0, 1, 1000)
@@ -235,7 +211,6 @@ def HistOverlay(pdf):
 if __name__ == '__main__':
     pdf = PdfPages("example.matplotlib.pdf")
 
-    Gauss1D(pdf)
     Hist1D(pdf)
     DataMC(pdf)
     Hist2DContour(pdf)

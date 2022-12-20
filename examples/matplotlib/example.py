@@ -103,7 +103,12 @@ def DataMC(pdf):
     ratio = counts / fit_at_bin_ctrs
     diff =  counts - fit_at_bin_ctrs
     residuals = diff / fit_at_bin_ctrs
-    chi2 = (diff**2/fit_at_bin_ctrs).sum() / float(bin_centers.size-2)
+    chi2 = (diff**2/fit_at_bin_ctrs).sum()
+
+    # this is the way ROOT counts deg of freedom,
+    # so we mimic it for consistency
+    from inspect import signature
+    ndf = np.count_nonzero(counts > 0) - len(signature(Gauss).parameters)
 
     fig = plt.figure(figsize=(8,6))
     gs = fig.add_gridspec(nrows=2, ncols=1, height_ratios=[3, 1], hspace=0)
@@ -124,12 +129,12 @@ def DataMC(pdf):
              .format(A, dA), transform=axs[0].transAxes)
     axs[0].text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
              .format(x0, dx0), transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
+    axs[0].text(0.70, 0.50, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'
              .format(sig, dsig), transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
-             .format(chi2),transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}/{1:d}'
+             .format(chi2, ndf),transform=axs[0].transAxes)
     axs[0].spines[:].set_color('black')
-    axs[0].legend()
+    axs[0].legend(fontsize="x-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too
     axs[0].set_xlim(-5,5)
     axs[0].set_ylim(bottom=0)
     dunestyle.CornerLabel("MC/Data Comparison Example", ax=axs[0])

@@ -26,7 +26,7 @@ def Hist1D(pdf):
 
     plt.figure()
     ax = plt.axes()
-    plt.hist(x, histtype='step', label="Hist", linewidth=2)
+    plt.hist(x, histtype='step', label="Hist", range=(-5, 5), bins=50)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)
@@ -109,7 +109,6 @@ def DataMC(pdf):
              .format(sig, dsig), transform=axs[0].transAxes)
     axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}/{1:d}'
              .format(chi2, ndf),transform=axs[0].transAxes)
-    axs[0].spines[:].set_color('black')
     axs[0].legend(fontsize="x-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too
     axs[0].set_xlim(-5,5)
     axs[0].set_ylim(bottom=0)
@@ -122,7 +121,6 @@ def DataMC(pdf):
     axs[1].set_xlabel("x label")
     axs[1].set_ylabel("(Data - Fit)/Fit")
     axs[1].set_ylim(-0.99,0.99)
-    axs[1].spines[:].set_color('black')
 
     for ax in axs:
         ax.label_outer()
@@ -155,15 +153,12 @@ def Hist2DContour(pdf):
     cyc = cyc()
     for nsig in range(1,4):
         ellipse = CovEllipse(throws[:,0], throws[:,1], cov, nsig=nsig,
-                             label=r"{0}$\sigma$".format(nsig),
-                             linewidth=2, **next(cyc))
+                             label=r"{0}$\sigma$".format(nsig), **next(cyc))
         ax.add_patch(ellipse)
 
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
-    ax.spines[:].set_color('black')
-    dunestyle.CornerLabel("2D Histogram Example")
-    dunestyle.Simulation(x=1.15) # Shift slightly right 
+    dunestyle.Simulation()
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
     pdf.savefig()
@@ -175,9 +170,8 @@ def HistStacked(pdf):
     nbins = 100
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
     hist_labels = ["Hist #{0}".format(i+1) for i in range(len(x))]
-    plt.hist(x, nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
+    plt.hist(x, nbins, histtype='stepfilled', stacked=True, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
     ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
@@ -196,8 +190,7 @@ def HistOverlay(pdf):
     nbins = 100
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-    plt.hist(x, nbins, histtype='step', linewidth=2, label=hist_labels)
+    plt.hist(x, nbins, histtype='step', label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
     ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)

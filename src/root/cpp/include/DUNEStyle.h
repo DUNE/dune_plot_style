@@ -120,74 +120,64 @@ namespace dunestyle
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  // Put a "DUNE Work In Progress" tag in the corner
-  // default
-  TLatex* WIP(ETextAlign labelLoc=kHAlignLeft, double yLoc=0.87)
+  TLatex * TextLabel(const std::string & text, double xLoc, double yLoc, short color=kBlue,
+                     ETextAlign hAlign=kHAlignLeft, ETextAlign vAlign=kVAlignTop)
   {
-    short halign = labelLoc - (labelLoc % 10);
-    float loc = (halign == kHAlignRight) ? 0.85 : ((halign == kHAlignLeft) ? 0.17 : 0.525);
-    TLatex *prelim = new TLatex(loc, yLoc, "DUNE Work In Progress");
-    prelim->SetTextColor(kBlue);
-    prelim->SetNDC();
-    prelim->SetTextSize(2 / 30.);
-    prelim->SetTextAlign(halign + kVAlignTop);
-    prelim->Draw();
+    std::cout << "\ntext='" << text << "'\n";
+    std::cout << "drawing at x=" << xLoc << ", y=" << yLoc << "\n";
+    auto txtObj = new TLatex(xLoc, yLoc, text.c_str());
+    txtObj->SetTextColor(color);
+    txtObj->SetNDC();
+    txtObj->SetTextSize(2 / 30.);
+    std::cout << "halign=" << hAlign << ", valign=" << vAlign << "\n";
+    txtObj->SetTextAlign(hAlign + vAlign);
+    txtObj->Draw();
 
-    return prelim;
+    return txtObj;
+  }
+
+  TLatex * TextLabel(const std::string & text, ETextAlign align, short color=kBlue)
+  {
+    auto hAlign = static_cast<ETextAlign>(align - (align % 10));
+    auto vAlign = static_cast<ETextAlign>(align % 10);
+    float xloc = (hAlign == kHAlignRight) ? 0.85 : ((hAlign == kHAlignLeft) ? 0.18 : 0.525);
+    float yloc = (vAlign == kVAlignTop) ? 0.87 : ((vAlign == kVAlignBottom) ? 0.13 : 0.5);
+    std::cout << "    x=" << xloc << ", y=" << yloc << "\n";
+
+    return TextLabel(text, xloc, yloc, color, hAlign, vAlign);
+  }
+
+  // Put a "DUNE Work In Progress" tag in the upper left corner (by default)
+  TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  {
+    return TextLabel("DUNE Work In Progress", loc, kBlue);
   }
 
   // ----------------------------------------------------------------------------
 
-  // Put a "DUNE Preliminary" tag in the corner
-  void Preliminary()
+  // Put a "DUNE Preliminary" tag in the upper left corner (by default)
+  TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    TLatex *prelim = new TLatex(.18, .86, "DUNE Preliminary");
-    prelim->SetTextColor(kBlue);
-    prelim->SetNDC();
-    prelim->SetTextSize(2 / 30.);
-    prelim->SetTextAlign(kHAlignLeft + kVAlignTop);
-    prelim->Draw();
+    return TextLabel("DUNE Preliminary", loc, kBlue);
   }
 
   // ----------------------------------------------------------------------------
 
   // Put a "DUNE Simulation" tag in the corner
-  void Simulation()
+  TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    TLatex *simlabel = new TLatex(.18, .86, "DUNE Simulation");
-    simlabel->SetTextColor(kGray + 1);
-    simlabel->SetNDC();
-    simlabel->SetTextSize(2 / 30.);
-    simlabel->SetTextAlign(kHAlignLeft + kVAlignTop);
-    simlabel->Draw();
+    return TextLabel("DUNE Simulation", loc, kGray + 1);
   }
 
   // ----------------------------------------------------------------------------
 
   // Put a "DUNE Simulation" tag on the right
-  void SimulationSide()
+  TLatex* SimulationSide()
   {
-    TLatex *prelim = new TLatex(.93, .9, "DUNE Simulation");
-    prelim->SetTextColor(kGray + 1);
-    prelim->SetNDC();
-    prelim->SetTextSize(2 / 30.);
-    prelim->SetTextAngle(270);
-    prelim->SetTextAlign(12);
-    prelim->Draw();
-  }
-
-  // ----------------------------------------------------------------------------
-
-  // Add a label in top left corner
-  // Especially useful for "Neutrino Beam" and "Antineutrino Beam" labels
-  void CornerLabel(std::string Str)
-  {
-    TLatex *CornLab = new TLatex(.1, .93, Str.c_str());
-    CornLab->SetTextColor(kGray + 1);
-    CornLab->SetNDC();
-    CornLab->SetTextSize(2 / 30.);
-    CornLab->SetTextAlign(11);
-    CornLab->Draw();
+    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kGray+1);
+    label->SetTextAngle(270);
+    label->SetTextAlign(12);
+    return label;
   }
 
   // ----------------------------------------------------------------------------

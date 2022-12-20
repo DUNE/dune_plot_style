@@ -46,6 +46,8 @@ namespace dunestyle
     const TColor __kOIRedPurple(TColor::GetFreeColorIndex(), 0.80, 0.60, 0.70);
   }
 
+  // ----------------------------------------------------------------------------
+
   /// Colo(u)rs we encourage collaborators to use.
   /// N.b.: 'colors' namespace is aliased to 'colours' below in case you prefer BrEng spelling
   namespace colors
@@ -115,6 +117,9 @@ namespace dunestyle
   } // namespace color
   namespace colours = dunestyle::colors;
 
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
   // Put a "DUNE Work In Progress" tag in the corner
   // default
   TLatex* WIP(ETextAlign labelLoc=kHAlignLeft, double yLoc=0.87)
@@ -131,6 +136,8 @@ namespace dunestyle
     return prelim;
   }
 
+  // ----------------------------------------------------------------------------
+
   // Put a "DUNE Preliminary" tag in the corner
   void Preliminary()
   {
@@ -142,6 +149,7 @@ namespace dunestyle
     prelim->Draw();
   }
 
+  // ----------------------------------------------------------------------------
 
   // Put a "DUNE Simulation" tag in the corner
   void Simulation()
@@ -153,6 +161,8 @@ namespace dunestyle
     simlabel->SetTextAlign(kHAlignLeft + kVAlignTop);
     simlabel->Draw();
   }
+
+  // ----------------------------------------------------------------------------
 
   // Put a "DUNE Simulation" tag on the right
   void SimulationSide()
@@ -166,8 +176,10 @@ namespace dunestyle
     prelim->Draw();
   }
 
-// Add a label in top left corner
-// Especially useful for "Neutrino Beam" and "Antineutrino Beam" labels
+  // ----------------------------------------------------------------------------
+
+  // Add a label in top left corner
+  // Especially useful for "Neutrino Beam" and "Antineutrino Beam" labels
   void CornerLabel(std::string Str)
   {
     TLatex *CornLab = new TLatex(.1, .93, Str.c_str());
@@ -178,6 +190,8 @@ namespace dunestyle
     CornLab->Draw();
   }
 
+  // ----------------------------------------------------------------------------
+
   void CenterTitles(TH1 *histo)
   {
     histo->GetXaxis()->CenterTitle();
@@ -185,11 +199,15 @@ namespace dunestyle
     histo->GetZaxis()->CenterTitle();
   }
 
+  // ----------------------------------------------------------------------------
+
   /// Palette friendly to those with Colo(u)r Vision Deficiencies (CVD)
   void CVDPalette()
   {
     gStyle->SetPalette(kCividis);
   }
+
+  // ----------------------------------------------------------------------------
 
   /// A nice monochrome palette (white -> red)
   void CherryInvertedPalette()
@@ -197,6 +215,8 @@ namespace dunestyle
     gStyle->SetPalette(kCherry);
     TColor::InvertPalette();
   }
+
+  // ----------------------------------------------------------------------------
 
   /// A nice bichrome palette (blue -> white -> red):
   /// Recommended for use only when range is symmetric around zero or unity
@@ -222,6 +242,8 @@ namespace dunestyle
     gStyle->SetPalette(n_color_contours, colors);
   }
 
+  // ----------------------------------------------------------------------------
+
   void SplitCanvas(TCanvas * c, double ysplit, TPad*& p1, TPad*& p2)
   {
     c->cd();
@@ -240,6 +262,8 @@ namespace dunestyle
       p->Draw();
     }
   }
+
+  // ----------------------------------------------------------------------------
 
   std::vector<TGraph*> GetContourGraphs(TH2* h2, double level)
   {
@@ -294,6 +318,8 @@ namespace dunestyle
     return ret;
   }
 
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
 
   bool SetDuneStyle()
   {

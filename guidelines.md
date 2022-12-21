@@ -7,7 +7,9 @@ and give additional advice and points to consider.
 
 The approval process for plots is out of scope of this document and covered elsewhere.
 
-The `dune-plot-style` package offers sensible default for `ROOT` and `matplotlib`, to aid following these recommendations. Contributions to `dune-plot-style` for other plotting packages are welcome.
+The `dune-plot-style` package offers sensible defaults for `ROOT` and `matplotlib`, to aid following these recommendations.
+Please see its `README`, or its `examples/` directory, for more on how to use the technical tools.
+Contributions to `dune-plot-style` for other plotting packages are welcome.
 
 ## Requirements
 
@@ -48,17 +50,23 @@ For instance: use “simulation” or “sim.” instead of “MC”
 #### For papers:
 
 - Check journal style guidelines carefully.
+- Ensure plot text is at least as large as that in the body of the article. 
 
-### Colour palette:
+### Colo(u)r palette:
+Colo(u)r choices should look appealing and be accessible to those with colour-vision deficiency (CVD).
+- When discrete curves are shown, the Okabe-Ito color cycle is recommended.
+  (`dune-plot-style` sets the default matplotlib cycler to Okabe-Ito; 
+   the `dunestyle::colors::NextColor()` function can be used to obtain this cycle in ROOT.)
+- For continuous color ranges (e.g. z-axis of 2D histograms), the cividis color palette is recommended.
+  Cividis avoids common pitfalls,  is designed with CVD in mind,
+  and is available by default in `ROOT` and `matplotlib`.
+  `dune-plot-style` sets the default palette to cividis.
+- For special situations, monochrome (e.g.: white-to-red) or bichrome (e.g.: blue-to-white-to-red)
+  color scales may be appropriate.  (E.g.: bichrome is suitable for covariance or correlation matrices.)
+  `dune-plot-style` again has helper functions to facilitate this.
 
-- The Colour palette for plots should look appealing and be accessible to those with colour-vision deficiency (CVD)
-The viridis and cividis colour palettes are recommended,
-as they avoid common pitfalls,
-are designed with CVD in mind,
-and available by default in `ROOT` and `matplotlib`.
-- Monochrome (e.g.: white-to-red) or bichrome (e.g.: blue-to-white-to-red) colour scales are recommended for the z-axis of 2D histograms, as appropriate.
-`dune-plot-style` again has helper functions to facilitate this.
-
+Please see the `examples/` subdirectory of `dune-plot-style` for technical guidance
+on how to employ the helper functions.
 
 ### Axis labels & titles:
 

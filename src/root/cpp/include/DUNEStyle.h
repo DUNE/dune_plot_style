@@ -123,13 +123,10 @@ namespace dunestyle
   TLatex * TextLabel(const std::string & text, double xLoc, double yLoc, short color=kBlue,
                      ETextAlign hAlign=kHAlignLeft, ETextAlign vAlign=kVAlignTop)
   {
-    std::cout << "\ntext='" << text << "'\n";
-    std::cout << "drawing at x=" << xLoc << ", y=" << yLoc << "\n";
     auto txtObj = new TLatex(xLoc, yLoc, text.c_str());
     txtObj->SetTextColor(color);
     txtObj->SetNDC();
     txtObj->SetTextSize(2 / 30.);
-    std::cout << "halign=" << hAlign << ", valign=" << vAlign << "\n";
     txtObj->SetTextAlign(hAlign + vAlign);
     txtObj->Draw();
 
@@ -142,7 +139,6 @@ namespace dunestyle
     auto vAlign = static_cast<ETextAlign>(align % 10);
     float xloc = (hAlign == kHAlignRight) ? 0.85 : ((hAlign == kHAlignLeft) ? 0.18 : 0.525);
     float yloc = (vAlign == kVAlignTop) ? 0.87 : ((vAlign == kVAlignBottom) ? 0.13 : 0.5);
-    std::cout << "    x=" << xloc << ", y=" << yloc << "\n";
 
     return TextLabel(text, xloc, yloc, color, hAlign, vAlign);
   }

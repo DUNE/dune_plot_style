@@ -1,9 +1,10 @@
-## Placeholder matplotlib style file
-## until we have an official DUNE one
+##
+## Style sheet setting the majority of aspects of DUNE style.
+##
 
 lines.linewidth : 2.0
 
-patch.linewidth: 0.5
+patch.linewidth: 1.5    # histograms are "patches"...
 patch.facecolor: blue
 patch.edgecolor: eeeeee
 patch.antialiased: True
@@ -13,13 +14,39 @@ text.hinting_factor : 8
 #mathtext.fontset : cm
 
 axes.facecolor: white # eeeeee
-axes.edgecolor: bcbcbc
-axes.grid : False
+axes.edgecolor: black
+axes.grid :     False
+axes.linewidth: 1.0
+axes.labelsize: x-large
 axes.titlesize: 36
-axes.labelsize: large
-# Okabelto color scheme 
-axes.prop_cycle: cycler('color', ['000000', 'E69F00', '56B4E9', '009E73', 'F0E442', '0072B2', 'D55E00', 'CC79A7'])
 
+# Okabe-Ito color scheme.  Original ordering.
+# This ordering unfortunately puts yellow, which is hard to see on projectors,
+# fairly high in the list.
+#                                  Black     Orange    Sky blue  Greenish   Yellow   Blue      Vermilion Purplish
+#axes.prop_cycle: cycler('color', ['000000', 'E69F00', '56B4E9', '009E73', 'F0E442', '0072B2', 'D55E00', 'CC79A7', ])
+
+# Okabe-Ito variant #1
+# This version's first 3 non-black colors are basically the DUNE logo colors.
+# (Unfortunately, since the vermilion and sky blue are basically color-opposites,
+#  big swatches of them immediately adjacent may cause some discomfort for color-typical viewers.
+#  We'll see if we get complaints...)
+#                                  Black    Vermilion  Sky blue  Orange   Greenish  Purplish  Blue      Yellow
+axes.prop_cycle: cycler('color', ['000000', 'D55E00', '56B4E9', 'E69F00', '009E73', 'CC79A7', '0072B2', 'F0E442',])
+
+# Okabe-Ito variant #2
+# This one swaps the two blues so the darker one comes first.
+# It's a tad easier to look at than the previous one,
+# but loses the nice "DUNE" theme, and the last 3 colors all have basically the same hue
+# (which would make them indistinguishable for some CVD viewers).
+#                                  Black    Vermilion  Blue     Orange    Greenish  Purplish  Sky Blue  Yellow
+#axes.prop_cycle: cycler('color', ['000000', 'D55E00', '0072B2', 'E69F00', '009E73', 'CC79A7', '56B4E9', 'F0E442',])
+
+
+# Cividis is Colo(u)r Vision Deficiency friendly
+image.cmap: cividis
+
+# grid is off by default (see axes.grid above), but if someone *does* turn it on...
 grid.color: b2b2b2
 grid.linestyle: --
 grid.linewidth: 0.5
@@ -27,5 +54,15 @@ grid.linewidth: 0.5
 legend.fontsize: 12
 legend.frameon: False
 
-xtick.direction: in
-ytick.direction: in
+xtick.color:          black
+xtick.direction:      in
+xtick.major.size:     10
+xtick.minor.size:     5
+xtick.minor.visible:  True
+xtick.top:            True
+ytick.color:          black
+ytick.direction:      in
+ytick.major.size:     10
+ytick.minor.size:     5
+ytick.minor.visible:  True
+ytick.right:          True

@@ -35,23 +35,39 @@ if _IMPORT_FLAG_NAME not in builtins.__dict__ or builtins.__dict__[_IMPORT_FLAG_
 
 ##########   Utility functions below  ################
 
-def WIP(transform=None):
-    plt.text(0.05, 0.90, r"DUNE Work In Progress",
-	     fontdict={"fontsize": 12, "color": "blue"},
-	     transform=transform if transform is not None else plt.gca().transAxes)
+""" Used in the text functions below.  don't  """
+def _GetTransform(transform=None, ax=None):
+    if transform is not None:
+        return transform
+    if ax is not None and hasattr(ax, "transAxes"):
+        return ax.transAxes
+    return plt.gca().transAxes
 
-def Simulation(x=1.0, y=1.05, align='right', transform=None):
-    #plt.text(1.0, 1.05, r"DUNE Simulation", horizontalalignment='right',
-    plt.text(x, y, r"DUNE Simulation", horizontalalignment=align,
-	     fontdict={"fontsize": 18, "color": "gray"},
-	     transform=transform if transform is not None else plt.gca().transAxes)
+def TextLabel(text, x, y, transform=None, ax=None, **kwargs):
+    plotter = plt if ax is None else ax
+    kwargs.setdefault("fontdict", {})
+    kwargs["fontdict"]["fontsize"] = 18
+    if "color" in kwargs:
+        kwargs["fontdict"]["color"] = kwargs.pop("color")
+    if "fontsize" in kwargs:
+        kwargs["fontdict"]["fontsize"] = kwargs.pop("fontsize")
+    if "align" in kwargs:
+        kwargs["horizontalalignment"] = kwargs.pop("align")
+    plotter.text(x, y, text,
+                 transform=_GetTransform(transform, plotter),
+                 **kwargs)
 
-def SimulationSide(x=1.05, y=0.5, align='right', transform=None):
-    plt.text(1.05, 0.5, r"DUNE Simulation", rotation=270, verticalalignment='center',
-	     fontdict={"fontsize": 18, "color": "gray"},
-	     transform=transform if transform is not None else plt.gca().transAxes)
+def Preliminary(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
+    TextLabel("DUNE Preliminary", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
 
-def CornerLabel(label, transform=None):
-    plt.text(0, 1.05, "{:s}".format(label), horizontalalignment='left',
-	fontdict={"fontsize": 14, "color": "gray"},
-	transform=transform if transform is not None else plt.gca().transAxes)
+def WIP(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
+    TextLabel("DUNE Work In Progress", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+
+def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="gray", **kwargs)
+
+def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwargs):
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="gray", **kwargs)
+
+def CornerLabel(label, ax=None, transform=None, **kwargs):
+    TextLabel(label, 0, 1.05, ax=ax, transform=transform, color="gray", **kwargs)

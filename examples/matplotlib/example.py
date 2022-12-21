@@ -1,5 +1,8 @@
 """
-matplotlib placeholder example.  we can do way better than this.
+Demonstration of DUNE plot style using matplotlib.
+
+Original authors:  Young DUNE plot style task force
+     Comments to:  Authorship & publications board (dune-apb@fnal.gov)
 """
 
 import numpy as np
@@ -8,52 +11,31 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.gridspec as gridspec
+from matplotlib.backends.backend_pdf import PdfPages
+
+from cycler import cycler
 
 import dunestyle.matplotlib as dunestyle
 
 from plotting_helpers import Gauss, CovEllipse
 
-### Simple 1D Gaussian example ###
-def Gauss1D():
-    x = np.linspace(-5, 5, 500)
-    y = scipy.stats.norm.pdf(x)
-
-    # Set axex color. For specific axes, you can use e.g.
-    # ax.spines['left'].set_color()
-    # Also, note this needs to come before plt.plot() or else
-    # matplotlib freaks out
-    ax = plt.axes()
-    ax.spines[:].set_color('black')
-
-    plt.plot(x, y, label="Gaussian")
-    plt.xlabel("x label")
-    plt.ylabel("y label")
-    plt.legend()
-
-    # Scale y-axis so "Work in Progress" watermark fits in frame
-    ax.set_ylim(0, 1.2*ax.get_ylim()[1])
-    dunestyle.WIP()
-    dunestyle.SimulationSide()
-    plt.savefig("example.matplotlib.gaus.png")
+# how many histograms to draw in multi-hist plots
+N_HISTS = 8   # exhibits all the colors in the Okabe-Ito cycler
 
 ### 1D histogram example ###
-def Hist1D():
+def Hist1D(pdf):
     x = np.random.normal(0, 1, 1000)
 
-
     plt.figure()
-    plt.style.use('tableau-colorblind10')
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-    plt.hist(x, histtype='step', label="Hist", linewidth=2)
+    plt.hist(x, histtype='step', label="Hist", range=(-5, 5), bins=50)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.xlim(-5,5)
-    plt.legend()
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
-    dunestyle.WIP()
-    dunestyle.SimulationSide()
+    dunestyle.Simulation()
     plt.savefig("example.matplotlib.hist1D.png")
+    pdf.savefig()
 
 ### Data/MC example ###
 # Gaus fits are not as straightforward in matplotlib as they are
@@ -63,14 +45,16 @@ def Hist1D():
 # This example saves a Gaussian as a numpy histogram, but this isn't 
 # strictly necessary. It just makes data manipulation easier and 
 # allows us to manipulate the histogram data without drawing it
-def DataMC():
+def DataMC(pdf):
     mu, sigma = 0, 1
     np.random.seed(89)
-    x_gaus = np.random.normal(mu, sigma, 10000)
-    counts, bin_edges = np.histogram(x_gaus, bins=20)
+    x_gaus = np.random.normal(mu, sigma, 1000)
+    counts, bin_edges = np.histogram(x_gaus, bins=50, range=(-5, 5))
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-    std_dev = np.std(x_gaus)
-    y_errors = np.array([std_dev/np.sqrt(bin_count) if bin_count != 0 else 1e-3 for bin_count in counts])
+#    std_dev = np.std(x_gaus)
+    abs_errors = np.sqrt(counts)
+    frac_errors = 100*np.ones_like(counts, dtype=float)  # default errors will be 10000% so that we ignore empty bins
+    frac_errors[counts > 0] = 1./np.sqrt(counts[counts > 0])
 
     # Use SciPy's curve_fit function to return optimal fit
     # parameters (popt) and the covariance matrix (pconv)
@@ -79,61 +63,73 @@ def DataMC():
     mean = sum(bin_centers * counts) / sum(counts)
     sigma = np.sqrt(sum(counts * (bin_centers - mean) ** 2) / sum(counts))
     popt, pcov = curve_fit(Gauss, bin_centers, counts, 
-                           p0=[min(bin_centers), max(bin_centers), mean, sigma],
-                           sigma=y_errors)
+                           p0=[max(bin_centers), mean, sigma],
+                           sigma=frac_errors)
 
     # Unpack optimal fit parameters and uncertainties from 
     # diagonal of covariance matrix 
-    H, A, x0, sig = popt
-    dH, dA, dx0, dsig = [np.sqrt(pcov[j,j]) for j in range(popt.size)]
+    A, x0, sig = popt
+    dA, dx0, dsig = [np.sqrt(pcov[j,j]) for j in range(popt.size)]
 
     # Create fitting function
     x_fit = np.linspace(-4, 4, 100)
-    y_fit = Gauss(x_fit, H, A, x0, sig)
+    y_fit = Gauss(x_fit, A, x0, sig)
+    fit_at_bin_ctrs = Gauss(bin_centers, A, x0, sig)
 
-    ratio = counts/Gauss(bin_centers, H, A, x0, sigma)
-    residuals = (counts - Gauss(bin_centers, H, A, x0, sigma)) / Gauss(bin_centers, H, A, x0, sigma)
-    chi2 = ((residuals**2)).sum() / float(bin_centers.size-2)
+    ratio = counts / fit_at_bin_ctrs
+    diff =  counts - fit_at_bin_ctrs
+    residuals = diff / fit_at_bin_ctrs
+    chi2 = (diff**2/fit_at_bin_ctrs).sum()
+
+    # this way (count only nonzero bins) is the way ROOT counts deg of freedom,
+    # so we mimic it for consistency (not nec. correctness)
+    from inspect import signature
+    ndf = np.count_nonzero(counts > 0) - len(signature(Gauss).parameters)
 
     fig = plt.figure(figsize=(8,6))
-    gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[3, 1])
+    gs = fig.add_gridspec(nrows=2, ncols=1, height_ratios=[3, 1], hspace=0)
+    axs = gs.subplots(sharex=True)
+
+    # only show non-empty bins below
+    mask = np.nonzero(counts)
 
     # Top plot
-    ax0 = fig.add_subplot(gs[0, 0])
-    ax0.set_ylabel("y label")
-    ax0.plot(x_fit, y_fit, color='r', label="Fit")
-    ax0.errorbar(x=bin_centers, y=counts, yerr=y_errors, 
-                 color='black', fmt='o', capsize=1, label="Data")
-    ax0.text(0.70, 0.70, 'Gauss Fit Parameters:', 
+    axs[0].set_ylabel("y label")
+    axs[0].plot(x_fit, y_fit, color='r', label="Fit")
+    axs[0].errorbar(x=bin_centers[mask], y=counts[mask], yerr=abs_errors[mask],
+                 color='black', fmt='_', capsize=1, label="Data")
+    axs[0].text(0.70, 0.70, 'Gauss Fit Parameters:', 
              fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
-             transform=ax0.transAxes)
-    ax0.text(0.70, 0.65, 'H = {0:0.1f}$\pm${1:0.1f}'
-             .format(H, dH), transform=ax0.transAxes)
-    ax0.text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
-             .format(A, dA), transform=ax0.transAxes)
-    ax0.text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
-             .format(x0, dx0), transform=ax0.transAxes)
-    ax0.text(0.70, 0.50, r'$\sigma$ = {0:0.1f}$\pm${1:0.1f}'
-             .format(sig, dsig), transform=ax0.transAxes)
-    ax0.text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}'
-             .format(chi2),transform=ax0.transAxes)
-    ax0.spines[:].set_color('black')
-    ax0.legend()
-    ax0.set_xlim(-5,5)
-    dunestyle.CornerLabel("Data/MC")
+             transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
+             .format(A, dA), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
+             .format(x0, dx0), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.50, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'
+             .format(sig, dsig), transform=axs[0].transAxes)
+    axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}/{1:d}'
+             .format(chi2, ndf),transform=axs[0].transAxes)
+    axs[0].legend(fontsize="x-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too
+    axs[0].set_xlim(-5,5)
+    axs[0].set_ylim(bottom=0)
+
+    dunestyle.Preliminary(x=0.02, ax=axs[0], fontsize="xx-large")
 
     # Bottom plot
-    ax1 = fig.add_subplot(gs[1, 0], sharex=ax0)
-    ax1.errorbar(x=bin_centers, y=residuals, yerr=y_errors, 
-                 color='black', fmt='o', capsize=1, label="Ratio")
-    ax1.axhline(y=0, color="r", zorder=-1)
-    ax1.set_xlabel("x label")
-    ax1.set_ylabel("(Data - Fit)/Fit")
-    ax1.set_ylim(-1,1)
-    ax1.spines[:].set_color('black')
-    plt.savefig("example.matplotlib.datamc.png")
+    axs[1].errorbar(x=bin_centers[mask], y=residuals[mask], yerr=frac_errors[mask],
+                    color='black', fmt='_', capsize=1, label="Ratio")
+    axs[1].axhline(y=0, color="r", zorder=-1)
+    axs[1].set_xlabel("x label")
+    axs[1].set_ylabel("(Data - Fit)/Fit")
+    axs[1].set_ylim(-0.99,0.99)
 
-def Hist2DContour():
+    for ax in axs:
+        ax.label_outer()
+
+    plt.savefig("example.matplotlib.datamc.png")
+    pdf.savefig()
+
+def Hist2DContour(pdf):
     mean = (0, 0)
     cov = [[0.5,-0.5],[-0.5,1]]
     throws = np.random.multivariate_normal(mean, cov, 10000000)
@@ -152,76 +148,69 @@ def Hist2DContour():
     # https://stackoverflow.com/questions/42387471/how-to-add-a-colorbar-for-a-hist2d-plot
     fig.colorbar(hist2d[3])
 
-    # If you need to calculate the covariance yourself, use numpy's method
-    #npcov = np.cov([throws[:,0],throws[:,1]], rowvar=True)
+    # we want to cycle both the colors AND the line-styles,
+    # so we combine cyclers.
+    # unfortunately since they have different numbers of items,
+    # we need to force the line-style one to repeat a few times,
+    # then chop off the excess
+    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", "--", ":"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
+    cyc = cyc()
+    for nsig in range(1,4):
+        ellipse = CovEllipse(throws[:,0], throws[:,1], cov, nsig=nsig,
+                             label=r"{0}$\sigma$".format(nsig), **next(cyc))
+        ax.add_patch(ellipse)
 
-    ellip_1sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=1, 
-                             edgecolor='firebrick', label=r"1$\sigma$",
-                             linewidth=2)
-    ellip_2sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=2, 
-                             edgecolor='fuchsia', label=r"2$\sigma$", 
-                             linewidth=2, linestyle='--')
-    ellip_3sig = CovEllipse(throws[:,0], throws[:,1], cov, nsig=3, 
-                             edgecolor='cyan', label=r"3$\sigma$", 
-                             linewidth=2, linestyle=':')
-    ax.add_patch(ellip_1sig)
-    ax.add_patch(ellip_2sig)
-    ax.add_patch(ellip_3sig)
-
+    ax.set_ylim(top=1.3*ax.get_ylim()[1])  # make a little space for the "DUNE simulation" label
     ax.set_xlabel("x label")
     ax.set_ylabel("y label")
-    ax.spines[:].set_color('black')
-    dunestyle.CornerLabel("2D Histogram Example")
-    dunestyle.Simulation(x=1.15) # Shift slightly right 
+    dunestyle.Simulation()
     plt.legend()
     plt.savefig("example.matplotlib.hist2D.png")
+    pdf.savefig()
 
 ### Stacked histogram example ###
-def HistStacked():
-    x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 1, 1, 1000)
-    x3 = np.random.normal(-1, 1, 1000)
-    nbins = 50
+def HistStacked(pdf):
+    hist_extent = (N_HISTS-1)
+    x = [np.random.normal(i, 1, 10000) for i in range(-hist_extent, hist_extent+2, 2)]
+    nbins = 100
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-    # Can choose one of matplotlib's built-in color patlettes if you prefer
-    plt.style.use('tableau-colorblind10')
-    hist_labels = ['One Hist', 'Two Hist', 'Three Hist']
-    plt.hist([x1,x2,x3], nbins, histtype='stepfilled', stacked=True, linewidth=2, label=hist_labels)
+    hist_labels = ["Hist #{0}".format(i+1) for i in range(len(x))]
+    plt.hist(x, nbins, histtype='stepfilled', stacked=True, label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
-    dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histstacked.png")
+    pdf.savefig()
 
 ### Overlayed histogram example ###
-def HistOverlay():
-    x1 = np.random.normal( 0, 1, 1000)
-    x2 = np.random.normal( 2, 1, 1000)
-    x3 = np.random.normal(-2, 1, 1000)
-    nbins = 25
+def HistOverlay(pdf):
+    hist_extent = (N_HISTS-1)
+    x = [np.random.normal(i, 1, 10000) for i in range(-hist_extent, hist_extent+2, 2)]
+    hist_labels = ["Hist #{0}".format(i+1) for i in range(len(x))]
+    nbins = 100
     plt.figure()
     ax = plt.axes()
-    ax.spines[:].set_color('black')
-    plt.style.use('tableau-colorblind10')
-    plt.hist(x1, nbins, histtype='step', linewidth=2, label="One Hist")
-    plt.hist(x2, nbins, histtype='step', linewidth=2, label="Two Hist")
-    plt.hist(x3, nbins, histtype='step', linewidth=2, label="Three Hist")
+    plt.hist(x, nbins, histtype='step', label=hist_labels)
     plt.xlabel('x label')
     plt.ylabel('y label')
+    ax.set_xlim(-2*(N_HISTS/2+2), 2*N_HISTS)
     ax.set_ylim(0, 1.2*ax.get_ylim()[1])
     dunestyle.WIP()
-    dunestyle.SimulationSide()
     plt.legend()
     plt.savefig("example.matplotlib.histoverlay.png")
+    pdf.savefig()
 
 if __name__ == '__main__':
-    Gauss1D()
-    Hist1D()
-    DataMC()
-    Hist2DContour()
-    HistStacked()
-    HistOverlay()
+    pdf = PdfPages("example.matplotlib.pdf")
+
+    Hist1D(pdf)
+    DataMC(pdf)
+    Hist2DContour(pdf)
+    HistStacked(pdf)
+    HistOverlay(pdf)
+
+    pdf.close()

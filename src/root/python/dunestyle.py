@@ -20,6 +20,11 @@ import builtins
 CPP_HEADER = "DUNEStyle.h"
 UPS_VAR = "DUNE_PLOT_STYLE_INC"
 
+# unfortunately child namespaces seem not to be loaded by default
+CHILD_NAMESPACES = [
+	"colors",
+]
+
 
 def enable():
 	import os.path
@@ -54,6 +59,12 @@ def enable():
 		if obj.startswith("_"):
 			continue
 		setattr(sys.modules[__name__], obj, getattr(ROOT.dunestyle, obj))
+
+	for ns in CHILD_NAMESPACES:
+		try:
+			setattr(sys.modules[__name__], ns, getattr(ROOT.dunestyle, ns))
+		except NameError:
+			pass
 
 	print("DUNE plot style enabled")
 

@@ -13,6 +13,8 @@ text.hinting_factor : 8
 
 #mathtext.fontset : cm
 
+figure.facecolor: white
+
 axes.facecolor: white # eeeeee
 axes.edgecolor: black
 axes.grid :     False

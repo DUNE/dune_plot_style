@@ -120,6 +120,17 @@ namespace dunestyle
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /// Apply a text label at arbitrary location, color, alignment.
+  /// Mostly used as an internal utility for the more specific label functions,
+  /// but end-users can feel free to use as well.
+  ///
+  /// \param text    The string to write
+  /// \param xLoc    Where to write, along x (in NDC, i.e., fraction-of-pad, coordinates)
+  /// \param yLoc    Where to write, along y (in NDC)
+  /// \param color   ROOT color to use
+  /// \param hAlign  Horizontal text alignment relative to (xLoc, yLoc).  See ETextAlign in ROOT's TAttText
+  /// \param vAlign  Vertical text alignment relative to (xLoc, yLoc).  See ETextAlign in ROOT's TAttText
+  /// \return        The TLatex instance for the text
   TLatex * TextLabel(const std::string & text, double xLoc, double yLoc, short color=kBlue,
                      ETextAlign hAlign=kHAlignLeft, ETextAlign vAlign=kVAlignTop)
   {
@@ -133,6 +144,12 @@ namespace dunestyle
     return txtObj;
   }
 
+  /// Apply a text label in one of 6 prespecified locations: top left, top right, ... bottom center, bottom right
+  ///
+  /// \param text    The string to write
+  /// \param align   Alignment position.  Specify using ETextAlign values from ROOT's TAttText
+  /// \param color   ROOT color to use
+  /// \return        The TLatex instance for the text
   TLatex * TextLabel(const std::string & text, ETextAlign align, short color=kBlue)
   {
     auto hAlign = static_cast<ETextAlign>(align - (align % 10));
@@ -143,7 +160,10 @@ namespace dunestyle
     return TextLabel(text, xloc, yloc, color, hAlign, vAlign);
   }
 
-  // Put a "DUNE Work In Progress" tag in the upper left corner (by default)
+  /// Write a "DUNE Work In Progress" tag
+  ///
+  /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \return      The TLatex instance for the text
   TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
     return TextLabel("DUNE Work In Progress", loc, kBlue);
@@ -151,7 +171,10 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  // Put a "DUNE Preliminary" tag in the upper left corner (by default)
+  /// Write a "DUNE Preliminary" tag
+  ///
+  /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \return      The TLatex instance for the text
   TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
     return TextLabel("DUNE Preliminary", loc, kBlue);
@@ -159,7 +182,10 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  // Put a "DUNE Simulation" tag in the corner
+  /// Write a "DUNE Simulation" tag
+  ///
+  /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \return      The TLatex instance for the text
   TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
     return TextLabel("DUNE Simulation", loc, kGray + 1);
@@ -167,7 +193,9 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  // Put a "DUNE Simulation" tag on the right
+  /// Write a "DUNE Simulation" tag on the right side, outside the canvas (fixed location)
+  ///
+  /// \return      The TLatex instance for the text
   TLatex* SimulationSide()
   {
     TLatex * label = TextLabel("DUNE Simulation", .93, .9, kGray+1);
@@ -178,6 +206,9 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
+  /// Center the axis titles for a histogram
+  ///
+  /// \param histo  Histogram in question
   void CenterTitles(TH1 *histo)
   {
     histo->GetXaxis()->CenterTitle();
@@ -187,7 +218,7 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  /// Palette friendly to those with Colo(u)r Vision Deficiencies (CVD)
+  /// Switch to a palette friendly to those with Colo(u)r Vision Deficiencies (CVD)
   void CVDPalette()
   {
     gStyle->SetPalette(kCividis);
@@ -195,7 +226,7 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  /// A nice monochrome palette (white -> red)
+  /// Switch to a nice monochrome palette (white -> red)
   void CherryInvertedPalette()
   {
     gStyle->SetPalette(kCherry);
@@ -204,7 +235,7 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
-  /// A nice bichrome palette (blue -> white -> red):
+  /// Switch to a nice bichrome palette (blue -> white -> red):
   /// Recommended for use only when range is symmetric around zero or unity
   void BlueWhiteRedPalette()
   {
@@ -230,6 +261,12 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
+  /// Divide a TCanvas into two pads.
+  ///
+  /// \param c       The canvas to divide
+  /// \param ysplit  Fraction (from the bottom of the canvas) to split at
+  /// \param p1      Upper pad.  This pointer is filled with the pad created.
+  /// \param p2      Lower pad.  This pointer is filled with the pad created.
   void SplitCanvas(TCanvas * c, double ysplit, TPad*& p1, TPad*& p2)
   {
     c->cd();
@@ -251,6 +288,11 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
+  /// Obtain the TGraph(s) corresponding to a particular contour level for a TH2
+  ///
+  /// \param h2     The TH2 to examine
+  /// \param level  Fractional level in [0, 1]
+  /// \return       Vector of TGraphs that represent the whole contour (multiple if contour has disjoint pieces)
   std::vector<TGraph*> GetContourGraphs(TH2* h2, double level)
   {
     std::vector<TGraph*> ret;
@@ -307,6 +349,7 @@ namespace dunestyle
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+  /// Enable the DUNE style.
   bool SetDuneStyle()
   {
 

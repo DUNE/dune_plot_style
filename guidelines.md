@@ -1,7 +1,7 @@
 # DUNE plotting guidelines and recommendations
 
 We split these guidelines into two parts, [requirements](#requirements) and [recommendations](#recommendations).
-Requirements should be followed unless there is a good reason not to,
+Requirements must be followed unless there is a good reason not to,
 while recommendations help you prepare publication-quality plots conforming to the guidelines,
 and give additional advice and points to consider.
 
@@ -12,29 +12,25 @@ Please see its `README`, or its `examples/` directory, for more on how to use th
 Contributions to `dune-plot-style` for other plotting packages are welcome.
 
 ## Requirements
+All plots **must**:
 
-- Plots should be easily readable to their intended audience.
-All text, including axis labels and titles, should be large enough to be read.
-Note, that the size and other properties of the plot might need to be adapted for presentations or papers,
-as ideal text sizes etc. depend on the use.
-- All plots should be labelled with the appropriate water mark (typically one of the following:
-DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
-- For reusability,
-please save plots at least in one lossless format,
-ideally vector-based (e.g. pdf, eps),
-in addition to high-quality raster-based versions (.png).
-It is recommended to avoid lossy compression such as .jpg.
-For reproducibility and adaptability,
-it is also recommended to keep the code generating the plot in version control,
-and/or distributing the .C macro version of the plot alongside it.
+- **Be easily readable to their intended audience**.  This affects: text size, font choice, colors, line styles, etc. 
+  See [recommendations](#recommendations) below for further advice on what this might mean in practice.
+- **Be labelled with the appropriate watermark** (typically one of the following:
+  DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
+- **Be saved in at least in one lossless format** (ideally vector-based---e.g., pdf or eps),  
+  and **at least one high-quality raster-based format** (e.g., .png).
 
 ## Recommendations
 
-- Using plot titles (above the top of the figure) is discouraged as they are often overlooked.
-Prefer embedding relevant information in plot axes or annotations inside the figure itself.
-- If any numbers are displayed on a plot,
-ensure they have only a reasonable number of significant figures. 
-Prefer readability over extra information.
+### General advice
+
+- For reproducibility and adaptability, keep the code generating the plot in version control.
+  (If this is not possible, distributing the .C macro version of the plot alongside it can suffice in a pinch.)
+- Prefer embedding relevant information in plot axes or annotations inside the figure itself,
+  rather than using plot titles (above the top of the figure).   The latter are often overlooked.
+- Ensure all numbers shown have only a reasonable number of significant figures.   
+  Prefer readability over extra information.
 - Avoid large empty regions in plots.
 (Rescale axes as necessary.)
 - Strive to avoid jargon as much as possible.
@@ -44,21 +40,22 @@ For instance: use “simulation” or “sim.” instead of “MC”
 
 #### For presentations & posters:
 
-- Use a sans serif font (e.g.: Arial)
+- Use a sans serif font (e.g.: Arial).
 - Use large fonts for axis labels, legend entries, etc.  (The `dune-plot-style` package’s tools do this by default.)
 
 #### For papers:
 
 - Check journal style guidelines carefully.
-- Ensure plot text is at least as large as that in the body of the article. 
+- Ensure plot text size is similar to that in the body of the article as possible. 
 
 ### Colo(u)r palette:
-Colo(u)r choices should look appealing and be accessible to those with colour-vision deficiency (CVD).
-- When discrete curves are shown, the Okabe-Ito color cycle is recommended.
+Color choices should look appealing and be accessible to those with color-vision deficiency (CVD).
+
+- When discrete curves are shown, the [Okabe-Ito color cycle](https://jfly.uni-koeln.de/color/) is recommended.
   (`dune-plot-style` sets the default matplotlib cycler to Okabe-Ito; 
    the `dunestyle::colors::NextColor()` function can be used to obtain this cycle in ROOT.)
-- For continuous color ranges (e.g. z-axis of 2D histograms), the cividis color palette is recommended.
-  Cividis avoids common pitfalls,  is designed with CVD in mind,
+- For continuous color ranges (e.g. z-axis of 2D histograms), the ['cividis' color palette](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199239)
+  is recommended.  Cividis avoids common pitfalls,  is designed with CVD in mind,
   and is available by default in `ROOT` and `matplotlib`.
   `dune-plot-style` sets the default palette to cividis.
 - For special situations, monochrome (e.g.: white-to-red) or bichrome (e.g.: blue-to-white-to-red)

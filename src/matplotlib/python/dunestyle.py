@@ -110,6 +110,14 @@ def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwar
     """
     TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="gray", **kwargs)
 
+def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
+    """
+    Apply a "DUNE" label (for officially approved results only).
+
+    See help on TextLable() for the optional parameters.
+    """
+    TextLabel("DUNE", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+
 def CornerLabel(label, ax=None, transform=None, **kwargs):
     """
     Apply a gray label with user-specified text on the upper-left corner (outside the plot frame).

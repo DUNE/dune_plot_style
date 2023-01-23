@@ -206,6 +206,17 @@ namespace dunestyle
 
   // ----------------------------------------------------------------------------
 
+  /// Write a "DUNE" tag (use for officially approved results only)
+  ///
+  /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \return      The TLatex instance for the text
+  TLatex* Official(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  {
+    return TextLabel("DUNE", loc, kBlue);
+  }
+
+  // ----------------------------------------------------------------------------
+
   /// Center the axis titles for a histogram
   ///
   /// \param histo  Histogram in question

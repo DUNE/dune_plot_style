@@ -1,3 +1,9 @@
+"""
+DUNE plot style - matplotlib interface
+
+Provides matplotlib style file and utility functions for use with matplotlib.
+"""
+
 try:
     # this handles the arrangement that comes out
     #  when dune-plot-style is set up standalone by using `pip install`.

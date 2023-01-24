@@ -1,4 +1,4 @@
-""" dunestyle.py (PyROOT edition): DUNE plot style tools for use with (Py)ROOT.
+""" DUNE plot style tools for use with (Py)ROOT.
 
 This module simply imports the style defined in the C++ header version of the style.
 By default it will be enabled immediately on import.
@@ -17,11 +17,11 @@ Then you can call dunestyle.enable() to turn it on.
 
 import builtins
 
-CPP_HEADER = "DUNEStyle.h"
-UPS_VAR = "DUNE_PLOT_STYLE_INC"
+_CPP_HEADER = "DUNEStyle.h"
+_UPS_VAR = "DUNE_PLOT_STYLE_INC"
 
 # unfortunately child namespaces seem not to be loaded by default
-CHILD_NAMESPACES = [
+_CHILD_NAMESPACES = [
 	"colors",
 ]
 
@@ -39,12 +39,12 @@ def enable():
 	except:
 		pass
 
-	if UPS_VAR in os.environ:
-		search_paths.insert(0, os.environ[UPS_VAR])
+	if _UPS_VAR in os.environ:
+		search_paths.insert(0, os.environ[_UPS_VAR])
 
 	found_path = None
 	for search_paths in search_paths:
-		fullpath = os.path.join(search_paths, CPP_HEADER)
+		fullpath = os.path.join(search_paths, _CPP_HEADER)
 		if os.path.isfile(fullpath):
 			found_path =  fullpath
 			break
@@ -52,7 +52,7 @@ def enable():
 	if found_path:
 		ROOT.gInterpreter.LoadFile(found_path)
 	else:
-		raise FileNotFoundError("Cannot find DUNE style header '%s'" % CPP_HEADER)
+		raise FileNotFoundError("Cannot find DUNE style header '%s'" % _CPP_HEADER)
 
 	# grab all the functions out of the cpp file from ROOT's namespace
 	for obj in dir(ROOT.dunestyle):
@@ -60,7 +60,7 @@ def enable():
 			continue
 		setattr(sys.modules[__name__], obj, getattr(ROOT.dunestyle, obj))
 
-	for ns in CHILD_NAMESPACES:
+	for ns in _CHILD_NAMESPACES:
 		try:
 			setattr(sys.modules[__name__], ns, getattr(ROOT.dunestyle, ns))
 		except NameError:

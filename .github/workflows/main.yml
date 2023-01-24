@@ -35,7 +35,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: matplotlib-example
-          path: $GITHUB_WORKSPACE/examples/matplotlib/example.matplotlib.pdf
+          path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.*
+          if-no-files-found: error
 
   # root-python-example:
   #   runs-on: ubuntu-latest

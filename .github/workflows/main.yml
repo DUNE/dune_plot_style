@@ -19,23 +19,25 @@ jobs:
       - uses: actions/checkout@v3
       
       # TODO improve dependency management (cache!)
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
       - name: set up dependencies
         run: |
-          pip3 install numpy scipy matplotlib
-          pip3 install $GITHUB_WORKSPACE
+          pip install numpy scipy matplotlib
+          pip install $GITHUB_WORKSPACE
 
       - name: Create matplotlib example plots
         run: |
           cd $GITHUB_WORKSPACE/examples/matplotlib
           python3 example.py
-          pwd
-          ls .
-      
+
       - name: upload plot
         uses: actions/upload-artifact@v3
         with:
           name: matplotlib-example
-          path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.*
+          path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.pdf
           if-no-files-found: error
 
   # root-python-example:

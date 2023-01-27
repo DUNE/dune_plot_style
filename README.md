@@ -1,6 +1,7 @@
 # `dune-plot-style` - DUNE official plot styling tools
 
 This repository contains coding tools to help analyzers easily make plots adhering to the DUNE Plot Style documented at https://wiki.dunescience.org/wiki/DUNE_Plot_Styles.
+(Those guidelines are also duplicated in this repository as [`guidelines.md`](https://github.com/DUNE/dune-plot-style/blob/main/guidelines.md).)
 
 It also contains tools to help embed metadata in plot images that contain "provenance" info so they can be back-traced if necessary.
 
@@ -12,7 +13,8 @@ There are tools designed for use with the most common plotting technologies curr
 * PyROOT
 * matplotlib
 
-We welcome contributions for other favored plotting frameworks!  Please [open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) with any proposed changes.
+We welcome bug reports, suggestions, and (especially) code contributions!
+Please see [Contributing](#4-Contributing) below.
 
 
 
@@ -198,3 +200,13 @@ from the `examples/matplotlib` subdirectory. Note that you'll need to have `matp
 
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+
+## 4. Contributing
+
+If you encounter problems, have a suggestion, or (especially) want to contribute an enhancement or bug-fix,
+please use the GitHub tools.
+
+* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune-plot-style/issues).
+* To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+
+

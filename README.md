@@ -38,7 +38,7 @@ $ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 $ ups list -aK+ dune-plot-style
 
 # set up a specific version
-setup dune-plot-style v00.02
+setup dune-plot-style v00_02
 ```
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.

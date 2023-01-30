@@ -1,7 +1,6 @@
 # `dune-plot-style` - DUNE official plot styling tools
 
 This repository contains coding tools to help analyzers easily make plots adhering to the DUNE Plot Style documented at https://wiki.dunescience.org/wiki/DUNE_Plot_Styles.
-(Those guidelines are also duplicated in this repository as [`guidelines.md`](https://github.com/DUNE/dune-plot-style/blob/main/guidelines.md).)
 
 It also contains tools to help embed metadata in plot images that contain "provenance" info so they can be back-traced if necessary.
 

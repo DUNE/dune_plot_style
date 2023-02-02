@@ -1,11 +1,13 @@
-name: CI
+name: Matplotlib CI
 
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
    branches: [ "main" ]
+   paths: ['src/matplotlib/**', 'examples/matplotlib/**']
   pull_request:
    branches: [ "main" ]
+   paths: ['src/matplotlib/**', 'examples/matplotlib/**']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,102 +39,4 @@ jobs:
         with:
           name: matplotlib-example
           path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.pdf
-          if-no-files-found: error
-
-  root-python-example:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          miniforge-variant: Mambaforge
-          miniforge-version: latest
-          activate-environment: CI
-          use-mamba: true
-
-      - name: Cache Conda env
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.CONDA }}/envs
-          key:
-            conda-${{
-            hashFiles('conda.yml') }}-${{ env.CACHE_NUMBER
-            }}
-        env:
-          # Increase this value to reset cache if conda.yml has not changed
-          CACHE_NUMBER: 0
-        id: cache
-
-      - name: Update environment
-        run: mamba env update -n CI -f conda.yml
-        if: steps.cache.outputs.cache-hit != 'true'
-
-      - name: set up dependencies
-        run: |
-          pip install $GITHUB_WORKSPACE
-
-      - name: Create ROOT example plot using python
-        run: |
-          cd $GITHUB_WORKSPACE/examples/root/python
-          python3 example.py
-
-      - name: upload plot
-        uses: actions/upload-artifact@v3
-        with:
-          name: root-python-example
-          path: ${{ github.workspace }}/examples/root/python/example.pyroot.pdf
-          if-no-files-found: error
-
-  root-cpp-example:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          miniforge-variant: Mambaforge
-          miniforge-version: latest
-          activate-environment: CI
-          use-mamba: true
-
-      - name: Cache Conda env
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.CONDA }}/envs
-          key:
-            conda-${{
-            hashFiles('conda.yml') }}-${{ env.CACHE_NUMBER
-            }}
-        env:
-          # Increase this value to reset cache if conda.yml has not changed
-          CACHE_NUMBER: 0
-        id: cache
-
-      - name: Update environment
-        run: mamba env update -n CI -f conda.yml
-        if: steps.cache.outputs.cache-hit != 'true'
-
-      - name: Create ROOT example plot using C++
-        run: |
-          export ROOT_INCLUDE_PATH=$GITHUB_WORKSPACE/src/root/cpp/include:${ROOT_INCLUDE_PATH}
-          env
-          cd $GITHUB_WORKSPACE/examples/root/cpp
-          root -b -q example.C
-
-      - name: upload plot
-        uses: actions/upload-artifact@v3
-        with:
-          name: root-cpp-example
-          path: ${{ github.workspace }}/examples/root/cpp/example.root.pdf
           if-no-files-found: error

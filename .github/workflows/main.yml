@@ -74,6 +74,10 @@ jobs:
         run: mamba env update -n CI -f conda.yml
         if: steps.cache.outputs.cache-hit != 'true'
 
+      - name: set up dependencies
+        run: |
+          pip install $GITHUB_WORKSPACE
+
       - name: Create ROOT example plot using python
         run: |
           cd $GITHUB_WORKSPACE/examples/root/python

@@ -18,7 +18,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
-      # TODO improve dependency management (cache!)
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
@@ -87,7 +86,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: root-python-example
-          path: $GITHUB_WORKSPACE/examples/root/python/example.root.png
+          path: ${{ github.workspace }}/examples/root/python/example.pyroot.pdf
+          if-no-files-found: error
 
   # root-cpp-example:
   #   runs-on: ubuntu-latest

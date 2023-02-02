@@ -40,32 +40,50 @@ jobs:
           path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.pdf
           if-no-files-found: error
 
-  # root-python-example:
-  #   runs-on: ubuntu-latest
+  root-python-example:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
 
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: conda-incubator/setup-miniconda@v2
-  #       with:
-  #         auto-update-conda: true
-  #         channels: conda-forge, defaults
-  #         activate-environment: CI
+    steps:
+      - uses: actions/checkout@v3
 
-  #     # TODO improve dependency management (cache!)
-  #     - name: set up dependencies
-  #       run: |
-  #         conda install root
+      - name: Setup Mambaforge
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          activate-environment: CI
+          use-mamba: true
 
-  #     - name: Create ROOT example plot using python
-  #       run: |
-  #         cd $GITHUB_WORKSPACE/examples/root/python
-  #         python3 example.py
+      - name: Cache Conda env
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CONDA }}/envs
+          key:
+            conda-${{
+            hashFiles('conda.yml') }}-${{ env.CACHE_NUMBER
+            }}
+        env:
+          # Increase this value to reset cache if conda.yml has not changed
+          CACHE_NUMBER: 0
+        id: cache
 
-  #     - name: upload plot
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: root-python-example
-  #         path: $GITHUB_WORKSPACE/examples/root/python/example.root.png
+      - name: Update environment
+        run: mamba env update -n CI -f conda.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Create ROOT example plot using python
+        run: |
+          cd $GITHUB_WORKSPACE/examples/root/python
+          python3 example.py
+
+      - name: upload plot
+        uses: actions/upload-artifact@v3
+        with:
+          name: root-python-example
+          path: $GITHUB_WORKSPACE/examples/root/python/example.root.png
 
   # root-cpp-example:
   #   runs-on: ubuntu-latest

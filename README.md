@@ -12,7 +12,8 @@ There are tools designed for use with the most common plotting technologies curr
 * PyROOT
 * matplotlib
 
-We welcome contributions for other favored plotting frameworks!  Please [open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) with any proposed changes.
+We welcome bug reports, suggestions, and (especially) code contributions!
+Please see [Contributing](#4-Contributing) below.
 
 
 
@@ -36,7 +37,7 @@ $ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 $ ups list -aK+ dune-plot-style
 
 # set up a specific version
-setup dune-plot-style v00.02
+setup dune-plot-style v00_02
 ```
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
@@ -194,9 +195,17 @@ python3 example.py
 from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above).  The `matplotlib` versions of the example plots are shown below.
 
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
-
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
 
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
 <a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+
+## 4. Contributing
+
+If you encounter problems, have a suggestion, or (especially) want to contribute an enhancement or bug-fix,
+please use the GitHub tools.
+
+* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune-plot-style/issues).
+* To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+

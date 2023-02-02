@@ -230,20 +230,25 @@ void example()
 
   OneDHistExample(&c);
   c.SaveAs("example.root.pdf(");
+  c.SaveAs("example.root.hist1D.png");
 
   DataMCExample(&c);
   c.SaveAs("example.root.pdf");
+  c.SaveAs("example.root.datamc.png");
 
   TwoDExample(&c);
   c.SaveAs("example.root.pdf");
+  c.SaveAs("example.root.hist2D.png");
 
   // otherwise ROOT tries to use GSL, which the user may or may not have built
   ROOT::Math::IntegratorOneDimOptions::SetDefaultIntegrator("Gauss");
   std::vector<TH1D> hists = GaussHists();
   StackedExample(&c, hists);
   c.Print("example.root.pdf");
+  c.SaveAs("example.root.histstacked.png");
 
   OverlayExample(&c, hists);
   c.Print("example.root.pdf)");
+  c.SaveAs("example.root.histoverlay.png");
 
 }

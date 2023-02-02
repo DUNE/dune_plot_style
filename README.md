@@ -192,13 +192,14 @@ The matplotlib example script can be found in `dune-plot-style/examples/matplotl
 python3 example.py
 ```
 
-from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above). Some of the example plots are shown below.
+from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above).  The `matplotlib` versions of the example plots are shown below.
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.gaus.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/feature/amogan_mplstyle/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
 
 ## 4. Contributing
 
@@ -207,5 +208,4 @@ please use the GitHub tools.
 
 * For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune-plot-style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
-
 

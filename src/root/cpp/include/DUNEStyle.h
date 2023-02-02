@@ -21,6 +21,9 @@
 #include "TLatex.h"
 #include "TROOT.h"
 #include "TStyle.h"
+#include "TPad.h"
+#include "TCanvas.h"
+#include "TH2.h"
 
 namespace dunestyle
 {

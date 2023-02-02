@@ -89,23 +89,48 @@ jobs:
           path: ${{ github.workspace }}/examples/root/python/example.pyroot.pdf
           if-no-files-found: error
 
-  # root-cpp-example:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
+  root-cpp-example:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
 
-  #     # TODO improve dependency management (cache!)
-  #     - name: set up dependencies
-  #       run: |
-  #         conda install -c conda-forge root
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Create ROOT example plot using python
-  #       run: |
-  #         cd $GITHUB_WORKSPACE/examples/root/cpp
-  #         root -b -q example.C
+      - name: Setup Mambaforge
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          activate-environment: CI
+          use-mamba: true
 
-  #     - name: upload plot
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: root-cpp-example
-  #         path: $GITHUB_WORKSPACE/examples/root/cpp/example.root.png
+      - name: Cache Conda env
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CONDA }}/envs
+          key:
+            conda-${{
+            hashFiles('conda.yml') }}-${{ env.CACHE_NUMBER
+            }}
+        env:
+          # Increase this value to reset cache if conda.yml has not changed
+          CACHE_NUMBER: 0
+        id: cache
+
+      - name: Update environment
+        run: mamba env update -n CI -f conda.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Create ROOT example plot using C++
+        run: |
+          cd $GITHUB_WORKSPACE/examples/root/cpp
+          root -b -q example.C
+
+      - name: upload plot
+        uses: actions/upload-artifact@v3
+        with:
+          name: root-cpp-example
+          path: ${{ github.workspace }}/examples/root/cpp/example.root.pdf
+          if-no-files-found: error

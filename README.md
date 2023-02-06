@@ -239,9 +239,12 @@ See the [examples](#3-examples) for more ideas of what you can do.
 
 ## 3. Examples
 
+<<<<<<< HEAD
 
 [![Example status](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
 
+=======
+>>>>>>> 1b5d1f5 (Start documenting CI)
 _[**todo**: include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
 
 _[**todo**: add ROOT and PyROOT examples]_
@@ -270,6 +273,23 @@ please use the GitHub tools.
 
 * For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+
+# 5. Continuous integration
+
+[![matplotlib example status](https://github.com/DUNE/dune-plot-style/actions/workflows/matplotlib.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
+[![ROOT example status](https://github.com/DUNE/dune-plot-style/actions/workflows/root.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
+
+To ensure that the examples are up to date with respect to the style,
+they are automatically rerun using Github Actions,
+in the `ROOT CI` and `Matplotlib CI` workflows,
+which are defined in `.github/workflows/*.yml`.
+Both workflows cache the dependencies and run automatically for every update to main and for all pull requests,
+if files that might affect them were modified.
+A whitelist of paths to watch is defined in each workflow.
+
+For ROOT, the dependencies are defined in `conda.yml` while the matplotlib dependencies are defined directly in the workflow.
+
+As the repository is public, the CI does not count against the DUNE quota, and both workflows run on Github's public Ubuntu runners.
 
 ---
 

@@ -21,7 +21,7 @@ Please see [Contributing](#4-Contributing) below.
 
 There are a few ways you can use `dune-plot-style`.
 
-#### Fermilab UPS package
+### Fermilab UPS package
 
 If you're working on a DUNE GPVM on Fermilab computing resources (`dunegpvmXX.fnal.gov`),
 `dune-plot-style` is available as a UPS package
@@ -42,17 +42,57 @@ setup dune-plot-style v00_02
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
 
-#### Standalone Python setup
+### Standalone Python setup
+
+
 
 `dune-plot-style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
 The recommended way to install these packages is to set up a virtual environment.
 This avoids potential package version conflicts and allows you to download the necessary packages on a remote server where you don't have root privileges, such as the GPVMs.
 
+##### Check Python version prerequisites
+
+**`dune-plot-style` requires Python >= 3.9.**
+(If you attempt to use an older version, you may encounter issues setting up the dependency chain below.)
+You can check what version is currently set up using
+```bash
+python --version
 ```
-cd path/to/dune-plot-style/ # Or wherever you like to store virtual environments
+
+If you'll be using `dune-plot-style` on a machine you control, use your operating system package manager or other suitable means to obtain an appropriate version of Python.
+
+<details><summary>If you are installing on a DUNE GPVM, follow these steps instead</summary>
+You will need to set up a more recent version of Python than the base system version.
+The easiest way to do this is to use the UPS system.  First, set that up:
+
+```bash
+# sets up the UPS system
+$ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
+```
+
+* If you intend to use `dune-plot-style` in conjunction with ROOT, simply set up ROOT, as that comes bundled with a Python version dependency.
+```bash
+# this is the most recent as of the writing of these instructions.
+# list all possibilities using `ups list -aK+ root`
+$ setup root v6_22_08d -q e20:p392:prof 
+```
+* If instead you have no interest in setting up ROOT, you can simply set up the Python version you want directly:
+```bash
+# again, list all possibilities with `ups list -aK+ python`.
+# note that a minimum of 3.9 is required
+$ setup python v3_9_2
+```
+
+**note that these steps will need to be executed for every use**, prior to entering any virtual environments created in the following steps. 
+</details>
+
+##### Set up virtual environment and install
+
+```
+cd /path/to/venvs # wherever you like to store virtual environments
 python3 -m venv my_env
-source /my_env/bin/activate
+source my_env/bin/activate
 ```
 
 Next, download the desired version of `dune-plot-style` from [the GitHub releases page](https://github.com/DUNE/dune-plot-style/releases).
@@ -62,15 +102,24 @@ You can then install `dune-plot-style` and whatever other packages you need:
 # dependencies first
 python3 -m pip install matplotlib numpy scipy
 
-# now dune-plot-style
-cd /path/to/unpacked/tarball
+# this is one way to obtain the tarball, but use any way you like
+cd /path/to/install/area
+wget --no-check-certificate https://github.com/DUNE/dune-plot-style/archive/refs/tags/v00_02.tar.gz -O dune-plot-style.v00_02.tar.gz
+tar -xvzf dune-plot-style.v00_02.tar.gz
+
+# obviously adjust the directory name for whatever came out of the tarball
+cd /path/to/install/area/dune-plot-style-00_02
 python3 -m pip install .
 ```
 
-
 At this point you should be able to `from dunestyle import ...` as described below.
 
-#### Standalone C++ ROOT setup
+##### Subsequent use
+
+You'll need to set up your virtual environment (and, if on a GPVM, you'll need the UPS setup for Python or Root before that) as noted in the previous steps.
+You won't need to run the installation instructions more than once, however.
+
+### Standalone C++ ROOT setup
 
 A single header file provides the entire C++ ROOT interface: `src/root/cpp/include/DUNEStyle.h`.
 You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune-plot-style/releases).
@@ -78,9 +127,18 @@ Then, simply copy it to wherever you would like it to live.
 
 If you are using it exclusively with ROOT macros, you'll need to ensure that the directory where `DUNEStyle.h` is located
 is included in the environment variable `$ROOT_INCLUDE_PATH`.
+(If you're using the UPS package as described in the previous section, this is done for you automatically.)
 
 If you prefer to build a standalone C++ application/executable, you'll need to ensure the directory where `DUNEStyle.h` is located
 is visible to your build system.  For example, with `gcc` or `g++` you'll want to include that directory with `-I`.
+This might look like:
+```bash
+# if you're using the UPS package
+g++ -o mytest -I $DUNE_PLOT_STYLE_INC mytest.C
+
+# if you installed by hand
+g++ -o mytest -I /path/to/dune-plot-style/src/root/cpp/include mytest.C
+```
 
 
 ## 2. How to use the stylistic coding tools

@@ -53,8 +53,8 @@ This avoids potential package version conflicts and allows you to download the n
 
 ##### Check Python version prerequisites
 
-**`dune-plot-style` requires a relatively recent version of Python3 (>= 3.9) to work.**
-(If you attempt to use an older version, you may encounter issues setting up its dependencies.)
+**`dune-plot-style` requires Python >= 3.9.**
+(If you attempt to use an older version, you may encounter issues setting up the dependency chain below.)
 You can check what version is currently set up using
 ```bash
 python --version

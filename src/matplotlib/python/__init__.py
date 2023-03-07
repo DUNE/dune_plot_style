@@ -6,7 +6,7 @@ Provides matplotlib style file and utility functions for use with matplotlib.
 
 try:
     # this handles the arrangement that comes out
-    #  when dune-plot-style is set up standalone by using `pip install`.
+    #  when dune_plot_style is set up standalone by using `pip install`.
     # (the UPS product sets $MPLCONFIGDIR directly in its setup process.)
     import os, os.path, pathlib
     import dunestyle.stylelib as module

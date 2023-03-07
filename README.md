@@ -104,11 +104,12 @@ python3 -m pip install matplotlib numpy scipy
 
 # this is one way to obtain the tarball, but use any way you like
 cd /path/to/install/area
-wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/v00_02.tar.gz -O dune_plot_style.v00_02.tar.gz
-tar -xvzf dune_plot_style.v00_02.tar.gz
+export DUNE_PLOT_STYLE_LATEST_TAG=`curl --silent "https://api.github.com/repos/DUNE/dune_plot_style/releases" | jq -r 'map(select(.prerelease == false)) | first | .tag_name'`
+wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/${DUNE_PLOT_STYLE_LATEST_TAG}.tar.gz -O dune_plot_style.tar.gz
+tar -xvzf dune_plot_style.tar.gz
 
 # obviously adjust the directory name for whatever came out of the tarball
-cd /path/to/install/area/dune_plot_style-00_02
+cd /path/to/install/area/dune_plot_style
 python3 -m pip install .
 ```
 

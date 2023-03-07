@@ -38,7 +38,6 @@ fi
 echo "Tagging ${reponame} ${version}"
 
 source ${path}/setup_dune.sh
-setup upd
 
 echo "Printing active products"
 echo "-------------------------------------------"
@@ -123,13 +122,6 @@ ups declare -f NULL -z ${path} \
 
 retval=$?
 test $retval -ne 0 && echo "Error! 'ups declare' returned non-zero - BAILING" && exit 1
-
-# add to upd
-cd ${proddir}/${version}/NULL/
-
-upd addproduct ${reponame} ${version} 
-retval=$?
-test $retval -ne 0 && echo "Error! 'upd addproduct' returned non-zero - BAILING" && exit 1
 
 rm -rf ${tmpdir}
 

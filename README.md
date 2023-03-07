@@ -270,8 +270,7 @@ please use the GitHub tools.
 
 ---
 
-Copyright © 2023 FERMI NATIONAL ACCELERATOR LABORATORY
-
+Copyright © 2023 FERMI NATIONAL ACCELERATOR LABORATORY for the benefit of the DUNE Collaboration.
 
 This repository, and all software contained within, is licensed under the Apache
 License, Version 2.0 (the "License"); you may not use this file except in compliance

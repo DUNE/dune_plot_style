@@ -109,7 +109,7 @@ wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs
 tar -xvzf dune_plot_style.tar.gz
 
 # obviously adjust the directory name for whatever came out of the tarball
-cd /path/to/install/area/dune_plot_style-00_02
+cd /path/to/install/area/dune_plot_style
 python3 -m pip install .
 ```
 

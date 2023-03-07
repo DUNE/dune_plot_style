@@ -8,7 +8,7 @@ usage() {
 
   echo ""
   echo "Usage is:" 
-  echo "   sh make_dune-plot-style_ups_product.sh <version_number>"
+  echo "   sh make_dune_plot_style_ups_product.sh <version_number>"
   echo ""
   echo "The version number should be of the form vXX_XX."
   echo ""
@@ -25,7 +25,7 @@ fi
 
 # useful vars
 path=/grid/fermiapp/products/dune/
-reponame="dune-plot-style" 
+reponame="dune_plot_style" 
 version=$1
 tmpdir=/tmp/${reponame}_${version}
 

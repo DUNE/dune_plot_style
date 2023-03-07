@@ -7,9 +7,9 @@ and give additional advice and points to consider.
 
 The approval process for plots is out of scope of this document and covered elsewhere.
 
-The `dune-plot-style` package offers sensible defaults for `ROOT` and `matplotlib`, to aid following these recommendations.
+The `dune_plot_style` package offers sensible defaults for `ROOT` and `matplotlib`, to aid following these recommendations.
 Please see its `README`, or its `examples/` directory, for more on how to use the technical tools.
-Contributions to `dune-plot-style` for other plotting packages are welcome.
+Contributions to `dune_plot_style` for other plotting packages are welcome.
 
 ## Requirements
 All plots **must**:
@@ -41,7 +41,7 @@ For instance: use “simulation” or “sim.” instead of “MC”
 #### For presentations & posters:
 
 - Use a sans serif font (e.g.: Arial).
-- Use large fonts for axis labels, legend entries, etc.  (The `dune-plot-style` package’s tools do this by default.)
+- Use large fonts for axis labels, legend entries, etc.  (The `dune_plot_style` package’s tools do this by default.)
 
 #### For papers:
 
@@ -52,17 +52,17 @@ For instance: use “simulation” or “sim.” instead of “MC”
 Color choices should look appealing and be accessible to those with color-vision deficiency (CVD).
 
 - When discrete curves are shown, the [Okabe-Ito color cycle](https://jfly.uni-koeln.de/color/) is recommended.
-  (`dune-plot-style` sets the default matplotlib cycler to Okabe-Ito; 
+  (`dune_plot_style` sets the default matplotlib cycler to Okabe-Ito; 
    the `dunestyle::colors::NextColor()` function can be used to obtain this cycle in ROOT.)
 - For continuous color ranges (e.g. z-axis of 2D histograms), the ['cividis' color palette](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199239)
   is recommended.  Cividis avoids common pitfalls,  is designed with CVD in mind,
   and is available by default in `ROOT` and `matplotlib`.
-  `dune-plot-style` sets the default palette to cividis.
+  `dune_plot_style` sets the default palette to cividis.
 - For special situations, monochrome (e.g.: white-to-red) or bichrome (e.g.: blue-to-white-to-red)
   color scales may be appropriate.  (E.g.: bichrome is suitable for covariance or correlation matrices.)
-  `dune-plot-style` again has helper functions to facilitate this.
+  `dune_plot_style` again has helper functions to facilitate this.
 
-Please see the `examples/` subdirectory of `dune-plot-style` for technical guidance
+Please see the `examples/` subdirectory of `dune_plot_style` for technical guidance
 on how to employ the helper functions.
 
 ### Axis labels & titles:

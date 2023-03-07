@@ -1,5 +1,5 @@
 FILE=TABLE 
-PRODUCT=dune-plot-style
+PRODUCT=dune_plot_style
 VERSION=XXVERSIONXX
 
 #--------------------- 

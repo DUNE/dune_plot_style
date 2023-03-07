@@ -1,4 +1,4 @@
-# `dune-plot-style` - DUNE official plot styling tools
+# `dune_plot_style` - DUNE official plot styling tools
 
 This repository contains coding tools to help analyzers easily make plots adhering to the DUNE Plot Style documented at https://wiki.dunescience.org/wiki/DUNE_Plot_Styles.
 
@@ -19,12 +19,12 @@ Please see [Contributing](#4-Contributing) below.
 
 ## 1. Installation
 
-There are a few ways you can use `dune-plot-style`.
+There are a few ways you can use `dune_plot_style`.
 
 ### Fermilab UPS package
 
 If you're working on a DUNE GPVM on Fermilab computing resources (`dunegpvmXX.fnal.gov`),
-`dune-plot-style` is available as a UPS package
+`dune_plot_style` is available as a UPS package
 which automatically sets the relevant environment variables for you.
 
 If you're not otherwise familiar with UPS, the relevant procedure goes something like:
@@ -34,10 +34,10 @@ If you're not otherwise familiar with UPS, the relevant procedure goes something
 $ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 
 # list available versions
-$ ups list -aK+ dune-plot-style
+$ ups list -aK+ dune_plot_style
 
 # set up a specific version
-setup dune-plot-style v00_02
+setup dune_plot_style v00_02
 ```
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
@@ -46,21 +46,21 @@ At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle 
 
 
 
-`dune-plot-style` supports being set up as a standalone Python package.
+`dune_plot_style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
 The recommended way to install these packages is to set up a virtual environment.
 This avoids potential package version conflicts and allows you to download the necessary packages on a remote server where you don't have root privileges, such as the GPVMs.
 
 ##### Check Python version prerequisites
 
-**`dune-plot-style` requires Python >= 3.9.**
+**`dune_plot_style` requires Python >= 3.9.**
 (If you attempt to use an older version, you may encounter issues setting up the dependency chain below.)
 You can check what version is currently set up using
 ```bash
 python --version
 ```
 
-If you'll be using `dune-plot-style` on a machine you control, use your operating system package manager or other suitable means to obtain an appropriate version of Python.
+If you'll be using `dune_plot_style` on a machine you control, use your operating system package manager or other suitable means to obtain an appropriate version of Python.
 
 <details><summary>If you are installing on a DUNE GPVM, follow these steps instead</summary>
 You will need to set up a more recent version of Python than the base system version.
@@ -71,7 +71,7 @@ The easiest way to do this is to use the UPS system.  First, set that up:
 $ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 ```
 
-* If you intend to use `dune-plot-style` in conjunction with ROOT, simply set up ROOT, as that comes bundled with a Python version dependency.
+* If you intend to use `dune_plot_style` in conjunction with ROOT, simply set up ROOT, as that comes bundled with a Python version dependency.
 ```bash
 # this is the most recent as of the writing of these instructions.
 # list all possibilities using `ups list -aK+ root`
@@ -95,8 +95,8 @@ python3 -m venv my_env
 source my_env/bin/activate
 ```
 
-Next, download the desired version of `dune-plot-style` from [the GitHub releases page](https://github.com/DUNE/dune-plot-style/releases).
-You can then install `dune-plot-style` and whatever other packages you need:
+Next, download the desired version of `dune_plot_style` from [the GitHub releases page](https://github.com/DUNE/dune_plot_style/releases).
+You can then install `dune_plot_style` and whatever other packages you need:
 
 ```bash
 # dependencies first
@@ -104,11 +104,11 @@ python3 -m pip install matplotlib numpy scipy
 
 # this is one way to obtain the tarball, but use any way you like
 cd /path/to/install/area
-wget --no-check-certificate https://github.com/DUNE/dune-plot-style/archive/refs/tags/v00_02.tar.gz -O dune-plot-style.v00_02.tar.gz
-tar -xvzf dune-plot-style.v00_02.tar.gz
+wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/v00_02.tar.gz -O dune_plot_style.v00_02.tar.gz
+tar -xvzf dune_plot_style.v00_02.tar.gz
 
 # obviously adjust the directory name for whatever came out of the tarball
-cd /path/to/install/area/dune-plot-style-00_02
+cd /path/to/install/area/dune_plot_style-00_02
 python3 -m pip install .
 ```
 
@@ -122,7 +122,7 @@ You won't need to run the installation instructions more than once, however.
 ### Standalone C++ ROOT setup
 
 A single header file provides the entire C++ ROOT interface: `src/root/cpp/include/DUNEStyle.h`.
-You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune-plot-style/releases).
+You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune_plot_style/releases).
 Then, simply copy it to wherever you would like it to live.
 
 If you are using it exclusively with ROOT macros, you'll need to ensure that the directory where `DUNEStyle.h` is located
@@ -137,7 +137,7 @@ This might look like:
 g++ -o mytest -I $DUNE_PLOT_STYLE_INC mytest.C
 
 # if you installed by hand
-g++ -o mytest -I /path/to/dune-plot-style/src/root/cpp/include mytest.C
+g++ -o mytest -I /path/to/dune_plot_style/src/root/cpp/include mytest.C
 ```
 
 
@@ -157,7 +157,7 @@ These have dedicated functions you can invoke:
 * Centering axis titles
 * Choosing appropriate palettes for "colz" plots
 
-Check out the source of [`DUNEStyle.h`](https://github.com/DUNE/dune-plot-style/blob/main/src/root/cpp/include/DUNEStyle.h)
+Check out the source of [`DUNEStyle.h`](https://github.com/DUNE/dune_plot_style/blob/main/src/root/cpp/include/DUNEStyle.h)
   for one-stop functions you can call to get this behavior.  They have in-line Doxygen style comments explaining how to use them.
 The [examples](#3-examples) noted below also show how to use them.
 
@@ -220,7 +220,7 @@ The matplotlib style tools consist of two parts:
 * a ["style sheet"](https://matplotlib.org/stable/tutorials/introductory/customizing.html#using-style-sheets) file which sets most of the default stylings
 * an importable module which contains functions to apply watermarks, etc.  This module also applies the style sheet by default (this behavior can be disabled using the same mechanism as described in the [PyROOT section](#pyroot), above).
 
-To enable these, you'll need to install `dune-plot-style` as a Python module.
+To enable these, you'll need to install `dune_plot_style` as a Python module.
 This will setup the `$MPLCONFIGDIR` environment variable to pick up the style sheet. 
 
 To enable `dunestyle` in your scripts, simply
@@ -236,7 +236,7 @@ See the [examples](#3-examples) for more ideas of what you can do.
 ## 3. Examples
 
 
-[![Example status](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
+[![Example status](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
 
 _[**todo**: include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
 
@@ -244,7 +244,7 @@ _[**todo**: add ROOT and PyROOT examples]_
 
 ### matplotlib
 
-The matplotlib example script can be found in `dune-plot-style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
+The matplotlib example script can be found in `dune_plot_style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
 
 ```
 python3 example.py
@@ -252,18 +252,18 @@ python3 example.py
 
 from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above).  The `matplotlib` versions of the example plots are shown below.
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
+<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
 
 ## 4. Contributing
 
 If you encounter problems, have a suggestion, or (especially) want to contribute an enhancement or bug-fix,
 please use the GitHub tools.
 
-* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune-plot-style/issues).
+* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 

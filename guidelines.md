@@ -42,19 +42,21 @@ All plots **must**:
   and **at least one high-quality raster-based format** (e.g., png).
 
 ## Recommendations
+These items listed here are recommendations, but not strictly enforced. Plots should be internally consistent within documents, and other considerations or strong personal preferences can supersede the recommendations.
 
 ### General advice
 
+- Use both color and style to differentiate parts of plots.
 - For reproducibility and adaptability, keep the code generating the plot in version control.
   (If this is not possible, distributing the .C macro version of the plot alongside it can suffice in a pinch.)
 - Prefer embedding relevant information in plot axes or annotations inside the figure itself,
-  rather than using plot titles (above the top of the figure).   The latter are often overlooked.
-- Ensure all numbers shown have only a reasonable number of significant figures given the statistical precision.   
+  rather than using plot titles (above the top of the figure). The latter are often overlooked.
+- Ensure all numbers shown have only a reasonable number of significant figures.   
   Prefer readability over extra information.
-- Avoid large empty regions in plots.
-(Rescale axes as necessary.)
-- Strive to avoid jargon as much as possible.
-For instance: use “simulation” or “sim.” instead of “MC”
+- Avoid large empty regions in plots. (Rescale axes as necessary.)
+- Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
+- Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
+- Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 
 ### Font and font size
 
@@ -125,3 +127,6 @@ avoid fills or use transparency.
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
 - Items should appear in the same order as they are drawn in a histogram stack, if applicable.
+
+## Useful Links
+- [Colorcet](https://colorcet.holoviz.org) python package. Has a number of color maps to use, though care should be taken to make sure these maps fit with the spirit of the rest of these guidelines.

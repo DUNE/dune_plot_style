@@ -127,7 +127,10 @@ You may download this file independently from the repository, or (recommended), 
 Then, simply copy it to wherever you would like it to live.
 
 If you are using it exclusively with ROOT macros, you'll need to ensure that the directory where `DUNEStyle.h` is located
-is included in the environment variable `$ROOT_INCLUDE_PATH`.
+is included in the environment variable `$ROOT_INCLUDE_PATH`. This can be done as follows
+```
+export ROOT_INCLUDE_PATH=/path/to/dir/with/DUNEStyle.h:${ROOT_INCLUDE_PATH}
+```
 (If you're using the UPS package as described in the previous section, this is done for you automatically.)
 
 If you prefer to build a standalone C++ application/executable, you'll need to ensure the directory where `DUNEStyle.h` is located

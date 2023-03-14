@@ -59,6 +59,7 @@ namespace dunestyle
     enum class Cycle
     {
       OkabeIto,
+      DUNELogo,
       NumCycles  // size counter
     };
 
@@ -92,6 +93,10 @@ namespace dunestyle
                              kOkabeItoRedPurple,
                              kOkabeItoBlue,
                              kOkabeItoYellow }},
+
+        { Cycle::DUNELogo, { kOkabeItoVermilion,
+                             kOkabeItoSkyBlue,
+                             kOkabeItoOrange }},
     };
     const auto kColourCycles = kColorCycles;   ///< Alias for \ref kColorCycles with BrEng spelling
 

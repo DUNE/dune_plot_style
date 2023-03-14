@@ -28,7 +28,7 @@ Please see its [`README`](https://github.com/DUNE/dune_plot_style/blob/main/READ
 or its [`examples/`](https://github.com/DUNE/dune_plot_style/tree/main/examples) directory, 
 for more on how to use the technical tools.
 Contributions to `dune_plot_style` for other plotting packages are welcome---please
-[create a branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)  
+[create a branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) 
 with your proposed changes and [open a pull request](https://github.com/DUNE/dune_plot_style/compare)!
 
 ## Requirements
@@ -82,7 +82,7 @@ Color choices should look appealing and be accessible to those with color-vision
   color scales may be appropriate.  (E.g.: bichrome is suitable for covariance or correlation matrices.)
   `dune_plot_style` again has helper functions to facilitate this.
 
-Please see the `examples/` subdirectory of `dune_plot_style` for technical guidance
+Please see the `README.md` and the `examples/` subdirectory of `dune_plot_style` for technical guidance
 on how to employ the helper functions.
 
 ### Axis labels & titles:

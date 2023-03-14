@@ -84,6 +84,8 @@ Color choices should look appealing and be accessible to those with color-vision
 - For special situations, monochrome (e.g.: white-to-red) or bichrome (e.g.: blue-to-white-to-red)
   color scales may be appropriate.  (E.g.: bichrome is suitable for covariance or correlation matrices.)
   `dune_plot_style` again has helper functions to facilitate this.
+- If you choose other colors than those recommended above, be sure to check their reproduction in a number of situations
+  (screen, projector, print) as they may not appear the same way everywhere.
 
 Please see the `README.md` and the `examples/` subdirectory of `dune_plot_style` for technical guidance
 on how to employ the helper functions.
@@ -99,11 +101,10 @@ it should be the same on all axes of a plot.
 ### Lines and markers:
 
 - Data should generally be indicated by black solid points with error bars unless there is a reason to do otherwise.
-- Models/simulation should be lines or step-histograms to differentiate from data (unless statistical uncertainty of MC sample is significant).
 - Refrain from connecting points/markers unless there’s a good reason to do so.
+- Models/simulation should be lines or step-histograms to differentiate from data (unless statistical uncertainty of MC sample is significant).
+- When multiple lines or markers are shown, use distinct line or marker styles to distinguish them in addition to color choices. This aids in accessibility. 
 - Lines should be thick enough (2pt or thicker) to be easily read from a distance.
-- When markers are used instead of lines,
-markers for different distributions or curves should be distinct shapes (do not rely on colour alone to separate them).
 - Markers with different shapes should be similar sizes unless some other consideration prevails.
 - When error bars are not used,
 solid histograms or lines are recommended to improve readability.

@@ -40,6 +40,7 @@ All plots **must**:
   and **at least one high-quality raster-based format** (e.g., .png).
 
 ## Recommendations
+These items listed here are recommendations, but not strictly enforced. Plots should be internally consistent within documents, and other considerations or strong personal preferences can supersede the recommendations.
 
 ### General advice
 

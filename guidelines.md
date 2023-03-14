@@ -53,7 +53,7 @@ All plots **must**:
 - Avoid large empty regions in plots. (Rescale axes as necessary.)
 - Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
 - Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
-- Where appropriate, add information on the vintage of the plot (eg Year, POT).
+- Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 
 ### Font and font size
 

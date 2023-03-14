@@ -5,7 +5,9 @@ _Last revision_: March 2023  by Plot Style Guidelines Task Force
 ## Introduction
 The following set of guidelines have been devised by a Plot Style Guidelines Task Force, 
 in conjunction with the Authorship and Publications Board (APB), and revised with feedback from the collaboration.
-Goals of the guidelines:
+The main goals of the guidelines are to encourage:
+* DUNE plots being accessible to the widest possible audience
+* DUNE plots having a common visual theme and being quickly recognizable as DUNE plots 
 
 These guidelines apply specifically to plots used in a public-facing context (presentations or papers shared outside the collaboration).
 While we encourage the use of the tools described below by collaborators

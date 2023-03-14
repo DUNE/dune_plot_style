@@ -43,6 +43,7 @@ All plots **must**:
 
 ### General advice
 
+- Use both color and style to differentiate parts of plots.
 - For reproducibility and adaptability, keep the code generating the plot in version control.
   (If this is not possible, distributing the .C macro version of the plot alongside it can suffice in a pinch.)
 - Prefer embedding relevant information in plot axes or annotations inside the figure itself,

@@ -73,6 +73,7 @@ Color choices should look appealing and be accessible to those with color-vision
 - When discrete curves are shown, the [Okabe-Ito color cycle](https://jfly.uni-koeln.de/color/) is recommended.
   (`dune_plot_style` sets the default matplotlib cycler to Okabe-Ito; 
    the `dunestyle::colors::NextColor()` function can be used to obtain this cycle in ROOT.)
+  - these colors do not need be used in sequence, and we'd suggest preferentially using the colours from the DUNE logo (`kOkabeItoOrange`, `kOkabeItoVermilion`, `kOkabeItoSkyBlue`).
 - For continuous color ranges (e.g. z-axis of 2D histograms), the [cividis color palette](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199239)
   is recommended.  Cividis avoids common pitfalls,  is designed with CVD in mind,
   and is available by default in `ROOT` and `matplotlib`.

@@ -21,7 +21,7 @@ The approval process for plots is out of scope of this document and covered else
 
 Included with the guidelines is a collection of software tools, gathered together as the 
 [`dune_plot_style`](https://github.com/DUNE/dune_plot_style) package, 
-offers sensible defaults and helper functions for `ROOT` and `matplotlib`, to aid following these recommendations.
+which offers sensible defaults and helper functions for `ROOT` and `matplotlib`, to aid in following these recommendations.
 Please see its [`README`](https://github.com/DUNE/dune_plot_style/blob/main/README.md), 
 or its [`examples/`](https://github.com/DUNE/dune_plot_style/tree/main/examples) directory, 
 for more on how to use the technical tools.
@@ -36,8 +36,8 @@ All plots **must**:
   See [recommendations](#recommendations) below for further advice on what this might mean in practice.
 - **Be labelled with the appropriate watermark** (typically one of the following:
   DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
-- **Be saved in at least in one lossless format** (ideally vector-based---e.g., pdf or eps),  
-  and **at least one high-quality raster-based format** (e.g., .png).
+- **Be saved in at least in one vector-based format** (e.g., pdf or eps),  
+  and **at least one high-quality raster-based format** (e.g., png).
 
 ## Recommendations
 

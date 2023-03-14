@@ -97,6 +97,8 @@ Whether “Title Case” or “Sentence case” are used,
 it should be the same on all axes of a plot.
 - Always include units in labels unless a quantity is unitless.
 - Titles should be centered along the axes.
+- When histograms have variable binning or a bin width not divisible by the axis tick divisions, the "counts" axis
+  (y (z)-axis for a 1 (2)-D histogram) should include the bin width: e.g., "Events / 10 MeV". 
 
 ### Lines and markers:
 

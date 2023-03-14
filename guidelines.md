@@ -47,12 +47,13 @@ All plots **must**:
 - For reproducibility and adaptability, keep the code generating the plot in version control.
   (If this is not possible, distributing the .C macro version of the plot alongside it can suffice in a pinch.)
 - Prefer embedding relevant information in plot axes or annotations inside the figure itself,
-  rather than using plot titles (above the top of the figure).   The latter are often overlooked.
+  rather than using plot titles (above the top of the figure). The latter are often overlooked.
 - Ensure all numbers shown have only a reasonable number of significant figures.   
   Prefer readability over extra information.
 - Avoid large empty regions in plots. (Rescale axes as necessary.)
-- Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”
+- Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
 - Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
+- Where appropriate, add information on the vintage of the plot (eg Year, POT).
 
 ### Font and font size
 

@@ -118,3 +118,6 @@ avoid fills or use transparency.
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
 - Items should appear in the same order as they are drawn in a histogram stack, if applicable.
+
+## Useful Links
+- [Colorcet](https://colorcet.holoviz.org) python package. Has a number of color maps to use, though care should be taken to make sure these maps fit with the spirit of the rest of these guidelines.

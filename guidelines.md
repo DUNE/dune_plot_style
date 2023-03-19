@@ -58,6 +58,7 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 - Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
 - Prefer using error bands for simulation and error bars for data. 
 - Where appropriate, add explicit identifying information of the plot (eg Year, POT).
+- When comparing to external datasets, ensure that DUNE is highlighted.
 
 ### Font and font size
 

@@ -56,6 +56,7 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 - Avoid large empty regions in plots. (Rescale axes as necessary.)
 - Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
 - Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
+- Prefer using error bands for simulation and error bars for data. 
 - Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 
 ### Font and font size

@@ -69,6 +69,7 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 ### Font and font size
 
 - Use a sans serif font (e.g. Helvetica is setup with this package).
+- Use consistent fonts across a single plot.
 - Limit the number of fonts and text styles (bold, italic, underlined, etc.)
 
 #### For presentations & posters:

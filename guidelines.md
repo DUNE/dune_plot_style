@@ -60,6 +60,11 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 - Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 - When comparing to external datasets, ensure that DUNE is highlighted.
 
+### Event Displays
+- Add Run/Subrun/Event and date text overlaying event display.
+- Overlay DUNE logo.
+- Use standardized rainbow colour scheme (blue-green-yellow-red).
+
 ### Font and font size
 
 #### For presentations & posters:

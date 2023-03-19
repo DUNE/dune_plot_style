@@ -110,7 +110,7 @@ it should be the same on all axes of a plot.
 - Models/simulation should be lines or step-histograms to differentiate from data (unless statistical uncertainty of MC sample is significant).
 - When multiple lines or markers are shown, use distinct line or marker styles to distinguish them in addition to color choices. This aids in accessibility. 
 - Lines should be thick enough (2pt or thicker) to be easily read from a distance.
-- Markers with different shapes should be similar sizes unless some other consideration prevails.
+- Markers with different styles should be similar sizes unless some other consideration prevails.
 - When error bars are not used,
 solid histograms or lines are recommended to improve readability.
 

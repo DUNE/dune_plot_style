@@ -59,7 +59,7 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 - Prefer using error bands for simulation and error bars for data. 
 - Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 - When comparing to external datasets, ensure that DUNE is highlighted.
-- Avoid ROOT's default statistics box. Instead, pull out any pertinent information and manually add it to the plot.
+- Avoid ROOT's default statistics box. Instead, pull out any pertinent information and add it, properly formatted, to the plot.
 
 ### Event Displays
 - Add Run/Subrun/Event and date text overlaying event display.

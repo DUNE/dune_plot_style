@@ -134,7 +134,7 @@ avoid fills or use transparency.
 - Font size should generally be at least as large as axis labels. (Ensure readability)
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
-- Items should appear in the same order as they are drawn in a histogram stack, if applicable.
+- Items should appear in the same top-to-bottom order as they are drawn in a histogram stack, if applicable.
 
 ## Useful Links
 - [Colorcet](https://colorcet.holoviz.org) python package. Has a number of color maps to use, though care should be taken to make sure these maps fit with the spirit of the rest of these guidelines.

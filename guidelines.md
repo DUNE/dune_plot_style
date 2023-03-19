@@ -70,8 +70,9 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 
 #### For presentations & posters:
 
-- Use a sans serif font (e.g.: Arial).
+- Use a sans serif font (e.g. Helvetica is setup with this package).
 - Use large fonts for axis labels, legend entries, etc.  (The `dune_plot_style` package’s tools do this by default.)
+- Limit the number of font styles (bold, italic, underlined, etc.)
 
 #### For papers:
 

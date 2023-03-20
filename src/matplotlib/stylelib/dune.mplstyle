@@ -44,6 +44,8 @@ axes.prop_cycle: cycler('color', ['000000', 'D55E00', '56B4E9', 'E69F00', '009E7
 #                                  Black    Vermilion  Blue     Orange    Greenish  Purplish  Sky Blue  Yellow
 #axes.prop_cycle: cycler('color', ['000000', 'D55E00', '0072B2', 'E69F00', '009E73', 'CC79A7', '56B4E9', 'F0E442',])
 
+# We recommend Helvectica (consistent with ROOT).  The others are Helvetica "clones" in case Helvetica isn't directly available
+font.sans-serif:  Helvetica, Helvetica Neue, Nimbus Sans, Open Sans
 
 # Cividis is Colo(u)r Vision Deficiency friendly
 image.cmap: cividis

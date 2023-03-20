@@ -40,9 +40,9 @@ All plots **must**:
   DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
 - **Be saved in at least in one vector-based format** (e.g., pdf or eps),  
   and **at least one high-quality raster-based format** (e.g., png).
+- **Be internally consistent within documents**
 
 ## Recommendations
-These items listed here are recommendations, but not strictly enforced. Plots should be internally consistent within documents, and other considerations or strong personal preferences can supersede the recommendations.
 
 ### General advice
 
@@ -56,15 +56,24 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 - Avoid large empty regions in plots. (Rescale axes as necessary.)
 - Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
 - Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
+- Prefer using error bands for simulation and error bars for data. 
 - Where appropriate, add explicit identifying information of the plot (eg Year, POT).
+- When comparing to external datasets, ensure that DUNE is highlighted.
+- Avoid ROOT's default statistics box. Instead, pull out any pertinent information and add it, properly formatted, to the plot.
+
+### Event Displays
+- Add Run/Subrun/Event and date text overlaying event display.
+- Overlay DUNE logo.
+- Use standardized rainbow colour scheme (blue-green-yellow-red).
 
 ### Font and font size
 
-In general, use the same typeface, and minimize the number of font sizes and styles (bold/italics/etc.) used in a plot. 
+- Use a sans serif font (e.g. Helvetica is set up with this package).
+- Use consistent fonts across a single plot.
+- Limit the number of fonts and text styles (bold, italic, underlined, etc.)
 
 #### For presentations & posters:
 
-- Use a sans serif font (e.g.: Arial).
 - Use large fonts for axis labels, legend entries, etc.  (The `dune_plot_style` package’s tools do this by default.)
 
 #### For papers:
@@ -114,7 +123,7 @@ it should be the same on all axes of a plot.
 - Models/simulation should be lines or step-histograms to differentiate from data (unless statistical uncertainty of MC sample is significant).
 - When multiple lines or markers are shown, use distinct line or marker styles to distinguish them in addition to color choices. This aids in accessibility. 
 - Lines should be thick enough (2pt or thicker) to be easily read from a distance.
-- Markers with different shapes should be similar sizes unless some other consideration prevails.
+- Markers with different styles should be similar sizes unless some other consideration prevails.
 - When error bars are not used, solid histograms or lines are recommended to improve readability.
 
 ### Fills:
@@ -130,7 +139,7 @@ avoid fills or use transparency.
 - Font size should generally be at least as large as axis labels. (Ensure readability)
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
-- Items should appear in the same order as they are drawn in a histogram stack, if applicable.
+- Items should appear in the same top-to-bottom order as they are drawn in a histogram stack, if applicable.
 
 ## Useful Links
 - [Colorcet](https://colorcet.holoviz.org) python package. Has a number of color maps to use, though care should be taken to make sure these maps fit with the spirit of the rest of these guidelines.

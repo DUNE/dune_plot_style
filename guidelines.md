@@ -91,7 +91,8 @@ Color choices should look appealing and be accessible to those with color-vision
   color scales may be appropriate.  (E.g.: bichrome is suitable for covariance or correlation matrices.)
   `dune_plot_style` again has helper functions to facilitate this.
 - If you choose other colors than those recommended above, be sure to check their reproduction in a number of situations
-  (screen, projector, print) as they may not appear the same way everywhere.
+  (screen, projector, monochrome print) as they may not appear the same way everywhere.  We also recommend passing them through
+  a CVD simulator or two on the web to get a feel for how your color choices may appear to individuals with various CVDs.
 
 Please see the `README.md` and the `examples/` subdirectory of `dune_plot_style` for technical guidance
 on how to employ the helper functions.
@@ -114,8 +115,7 @@ it should be the same on all axes of a plot.
 - When multiple lines or markers are shown, use distinct line or marker styles to distinguish them in addition to color choices. This aids in accessibility. 
 - Lines should be thick enough (2pt or thicker) to be easily read from a distance.
 - Markers with different shapes should be similar sizes unless some other consideration prevails.
-- When error bars are not used,
-solid histograms or lines are recommended to improve readability.
+- When error bars are not used, solid histograms or lines are recommended to improve readability.
 
 ### Fills:
 

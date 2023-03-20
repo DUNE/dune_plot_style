@@ -40,9 +40,9 @@ All plots **must**:
   DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
 - **Be saved in at least in one vector-based format** (e.g., pdf or eps),  
   and **at least one high-quality raster-based format** (e.g., png).
+- **Be internally consistent within documents**
 
 ## Recommendations
-These items listed here are recommendations, but not strictly enforced. Plots should be internally consistent within documents, and other considerations or strong personal preferences can supersede the recommendations.
 
 ### General advice
 

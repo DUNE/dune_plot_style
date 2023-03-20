@@ -60,6 +60,8 @@ These items listed here are recommendations, but not strictly enforced. Plots sh
 
 ### Font and font size
 
+In general, use the same typeface, and minimize the number of font sizes and styles (bold/italics/etc.) used in a plot. 
+
 #### For presentations & posters:
 
 - Use a sans serif font (e.g.: Arial).

@@ -68,7 +68,7 @@ All plots **must**:
 
 ### Font and font size
 
-- Use a sans serif font (e.g. Helvetica is setup with this package).
+- Use a sans serif font (e.g. Helvetica is set up with this package).
 - Use consistent fonts across a single plot.
 - Limit the number of fonts and text styles (bold, italic, underlined, etc.)
 

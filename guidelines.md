@@ -78,7 +78,9 @@ Color choices should look appealing and be accessible to those with color-vision
    the `dunestyle::colors::NextColor()` function can be used to obtain this cycle in ROOT.)
   The chosen ordering for Okabe-Ito is intended to separate colors that appear visually similar to individuals
   with various types of CVD, but if other considerations prevail, the order may be rearranged. 
-  If only a subset of colors is needed, we encourage using the second, third, and fourth members of the cycle, which correspond to the DUNE logo colors.
+  If only a subset of colors is needed, we encourage using the second, third, and fourth members of the cycle, 
+  which correspond to the DUNE logo colors.  (Use `NextColor(Cycle::DUNELogo)` in the ROOT version  
+  or `SetDUNELogoColors()` in the matplotlib version of `dune_plot_style` to make this happen.)
 - For continuous color ranges (e.g. z-axis of 2D histograms), the [cividis color palette](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199239)
   is recommended.  Cividis avoids common pitfalls,  is designed with CVD in mind,
   and is available by default in `ROOT` and `matplotlib`.

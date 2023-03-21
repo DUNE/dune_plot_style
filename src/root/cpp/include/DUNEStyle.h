@@ -426,6 +426,10 @@ namespace dunestyle
     duneStyle->SetFrameLineWidth(2);
     duneStyle->SetFuncWidth(2);
 
+    // Markers
+    duneStyle->SetMarkerStyle(kFullDotLarge);
+    duneStyle->SetErrorX(0);
+
     // Set the number of tick marks to show
     duneStyle->SetNdivisions(506, "xyz");
 

@@ -19,7 +19,7 @@ axes.facecolor: white # eeeeee
 axes.edgecolor: black
 axes.grid :     False
 axes.linewidth: 1.0
-axes.labelsize: x-large
+axes.labelsize: xx-large
 axes.titlesize: 36
 
 # Okabe-Ito color scheme.  Original ordering.
@@ -60,12 +60,14 @@ legend.frameon: False
 
 xtick.color:          black
 xtick.direction:      in
+xtick.labelsize:      x-large
 xtick.major.size:     10
 xtick.minor.size:     5
 xtick.minor.visible:  True
 xtick.top:            True
 ytick.color:          black
 ytick.direction:      in
+ytick.labelsize:      x-large
 ytick.major.size:     10
 ytick.minor.size:     5
 ytick.minor.visible:  True

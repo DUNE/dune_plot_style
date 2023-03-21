@@ -134,7 +134,7 @@ def TwoDExample(c):
 			levels.append(i)
 
 	# now that we have them, draw them
-	linestyles = [ROOT.kSolid, ROOT.kDashed, ROOT.kDotted]
+	linestyles = [ROOT.kSolid, ROOT.kDotted, ROOT.kDashed]
 	for sigma in (1, 2, 3):
 		graphs = dunestyle.GetContourGraphs(h2d, levels[3-sigma])
 		color = dunestyle.colors.NextColor()

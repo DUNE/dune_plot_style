@@ -144,7 +144,7 @@ void TwoDExample(TCanvas * c)
   }
 
   // now that we have them, draw them
-  std::vector<int> linestyles = {kSolid, kDashed, kDotted};
+  std::vector<int> linestyles = {kSolid, kDotted, kDashed};
   for (std::size_t sigma : {1, 2, 3})
   {
     std::vector<TGraph*> graphs = dunestyle::GetContourGraphs(h2d, levels[3-sigma]);

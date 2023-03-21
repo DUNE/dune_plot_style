@@ -163,7 +163,7 @@ def Hist2DContour(pdf):
     # unfortunately since they have different numbers of items,
     # we need to force the line-style one to repeat a few times,
     # then chop off the excess
-    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", "--", ":"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
+    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", ":", "--"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
     cyc = cyc()
     for nsig in range(1,4):
         ellipse = CovEllipse(throws[:,0], throws[:,1], cov, nsig=nsig,

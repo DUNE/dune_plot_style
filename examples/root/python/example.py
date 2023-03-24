@@ -85,7 +85,7 @@ def DataMCExample(c):
 	ROOT.SetOwnership(zero, False)
 	dunestyle.CenterTitles(h1D_ratio)
 	c.cd(); p2.Draw(); p2.cd()
-	h1D_ratio.GetYaxis().SetRangeUser(-1.,1.)
+	h1D_ratio.GetYaxis().SetRangeUser(-0.99,0.99)
 	h1D_ratio.Draw("E")
 	zero.Draw("same")
 	
@@ -94,12 +94,12 @@ def DataMCExample(c):
 	ROOT.SetOwnership(pave, False)
 	pave.SetBorderSize(0)
 	pave.SetFillStyle(0)
-	head = pave.AddText("Gauss Fit Parameters:")
+	pave.SetTextSizePixels(35)
+	head = pave.AddText("Fit Parameters:")
 	head.SetTextFont(62)
 	pave.AddText("A = %.2f #pm %.2f" % (fit.GetParameter(0), fit.GetParError(0)))
 	pave.AddText("#mu = %.2f #pm %.2f" % (fit.GetParameter(1), fit.GetParError(1)))
 	pave.AddText("#sigma = %.2f #pm %.2f" % (fit.GetParameter(2), fit.GetParError(2)))
-	pave.AddText("")
 	pave.AddText("#chi^{2}/ndof = %.2f/%d" % (fit.GetChisquare(), fit.GetNDF()))
 	pave.Draw()
 	
@@ -134,7 +134,7 @@ def TwoDExample(c):
 			levels.append(i)
 
 	# now that we have them, draw them
-	linestyles = [ROOT.kSolid, ROOT.kDashed, ROOT.kDotted]
+	linestyles = [ROOT.kSolid, ROOT.kDotted, ROOT.kDashed]
 	for sigma in (1, 2, 3):
 		graphs = dunestyle.GetContourGraphs(h2d, levels[3-sigma])
 		color = dunestyle.colors.NextColor()

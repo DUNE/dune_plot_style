@@ -37,8 +37,7 @@ fi
 
 echo "Tagging ${reponame} ${version}"
 
-source ${path}/setup_dune.sh
-setup upd
+source /grid/fermiapp/products/dune/setup_dune.sh
 
 echo "Printing active products"
 echo "-------------------------------------------"
@@ -66,6 +65,8 @@ mv ${tmpdir}/${reponame}-preorg/src/root/cpp/include     ${tmpdir}/${reponame}/
 mv ${tmpdir}/${reponame}-preorg/src/__init__.py          ${tmpdir}/${reponame}/python/dunestyle/
 mv ${tmpdir}/${reponame}-preorg/src/matplotlib/python/*  ${tmpdir}/${reponame}/python/dunestyle/matplotlib
 mv ${tmpdir}/${reponame}-preorg/src/root/python/*        ${tmpdir}/${reponame}/python/dunestyle/root
+mv ${tmpdir}/${reponame}-preorg/examples                 ${tmpdir}/${reponame}/
+mv ${tmpdir}/${reponame}-preorg/ups/                     ${tmpdir}/${reponame}/
 rm -rf ${tmpdir}/${reponame}-preorg
 
 proddir=${path}/${reponame}
@@ -99,6 +100,8 @@ fi
 mkdir -p ${dest}
 rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/* ${dest}
 
+chmod o+rx ${dest}
+
 # update the ups table to give the correct version number
 ups_table=${dest}/ups/${reponame}.table
 if [ ! -f "${ups_table}" ] ; then
@@ -113,23 +116,21 @@ echo "Updating table file"
 sed -i -e "s:XXVERSIONXX:${version}:" \
   ${ups_table}
 
-echo"Declaring product ${reponame} with version ${version} to UPS."
+echo "Declaring product ${reponame} with version ${version} to UPS."
 
 # declare to ups
-ups declare -f NULL -z ${path} \
-  -r ${path}/${reponame}/${version}/NULL \
+ups declare  -f NULL -z ${path} -c \
+  -r ${path}/${reponame}/${version}/ \
   -m ${reponame}.table \
   ${reponame} ${version}
 
+# I am sure there's a nicer way to do this but for now...
+mv ${path}/${reponame}/${version}.version ${path}/${reponame}/NULL
+mkdir ${path}/${reponame}/${version}.version/
+mv ${path}/${reponame}/NULL ${path}/${reponame}/${version}.version/
+
 retval=$?
 test $retval -ne 0 && echo "Error! 'ups declare' returned non-zero - BAILING" && exit 1
-
-# add to upd
-cd ${proddir}/${version}/NULL/
-
-upd addproduct ${reponame} ${version} 
-retval=$?
-test $retval -ne 0 && echo "Error! 'upd addproduct' returned non-zero - BAILING" && exit 1
 
 rm -rf ${tmpdir}
 

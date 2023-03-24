@@ -115,7 +115,7 @@ sed -i -e "s:XXVERSIONXX:${version}:" \
 echo"Declaring product ${reponame} with version ${version} to UPS."
 
 # declare to ups
-ups declare -f NULL -z ${path} \
+ups declare -f NULL -z ${path} -c \
   -r ${path}/${reponame}/${version}/NULL \
   -m ${reponame}.table \
   ${reponame} ${version}

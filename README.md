@@ -104,11 +104,12 @@ python3 -m pip install matplotlib numpy scipy
 
 # this is one way to obtain the tarball, but use any way you like
 cd /path/to/install/area
-wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/v00_02.tar.gz -O dune_plot_style.v00_02.tar.gz
-tar -xvzf dune_plot_style.v00_02.tar.gz
+export DUNE_PLOT_STYLE_LATEST_TAG=`curl --silent "https://api.github.com/repos/DUNE/dune_plot_style/releases" | jq -r 'map(select(.prerelease == false)) | first | .tag_name'`
+wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/${DUNE_PLOT_STYLE_LATEST_TAG}.tar.gz -O dune_plot_style.tar.gz
+tar -xvzf dune_plot_style.tar.gz
 
 # obviously adjust the directory name for whatever came out of the tarball
-cd /path/to/install/area/dune_plot_style-00_02
+cd /path/to/install/area/dune_plot_style
 python3 -m pip install .
 ```
 
@@ -267,3 +268,23 @@ please use the GitHub tools.
 * For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
+---
+
+Copyright © 2023 FERMI NATIONAL ACCELERATOR LABORATORY for the benefit of the DUNE Collaboration.
+
+This repository, and all software contained within, is licensed under the Apache
+License, Version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at
+
+
+
+`http://www.apache.org/licenses/LICENSE-2.0`
+
+
+
+Copyright is granted to FERMI NATIONAL ACCELERATOR LABORATORY on behalf of the Deep
+Underground Neutrino Experiment (DUNE). Unless required by applicable law or agreed to
+in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under the
+License.

@@ -98,6 +98,8 @@ fi
 mkdir -p ${dest}
 rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/* ${dest}
 
+chmod o+rx ${dest}
+
 # update the ups table to give the correct version number
 ups_table=${dest}/ups/${reponame}.table
 if [ ! -f "${ups_table}" ] ; then

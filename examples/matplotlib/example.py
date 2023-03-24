@@ -98,21 +98,21 @@ def DataMC(pdf):
     axs[0].plot(x_fit, y_fit, color='r', label="Fit")
     axs[0].errorbar(x=bin_centers[mask], y=counts[mask], xerr=0, yerr=abs_errors[mask],
                  color='black', fmt='o', capsize=1, label="Data")
-    axs[0].text(0.70, 0.60, 'Fit Parameters:',
+    axs[0].text(0.68, 0.60, 'Fit Parameters:',
              fontdict={'size': 14, 'weight': 'bold'},
              transform=axs[0].transAxes)
 
     fontdict = {"size": 14}
-    axs[0].text(0.70, 0.52, 'A = {0:0.2f}$\pm${1:0.2f}'.format(A, dA),
+    axs[0].text(0.68, 0.52, 'A = {0:0.2f}$\pm${1:0.2f}'.format(A, dA),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.46, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'.format(x0, dx0),
+    axs[0].text(0.68, 0.46, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'.format(x0, dx0),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.40, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'.format(sig, dsig),
+    axs[0].text(0.68, 0.40, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'.format(sig, dsig),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.34, '$\chi^2$/ndof = {0:0.2f}/{1:d}'.format(chi2, ndf),
+    axs[0].text(0.68, 0.34, '$\chi^2$/ndof = {0:0.2f}/{1:d}'.format(chi2, ndf),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
     axs[0].legend(fontsize="xx-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too small

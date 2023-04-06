@@ -196,7 +196,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    return TextLabel("DUNE Simulation", loc, kGray + 1);
+    return TextLabel("DUNE Simulation", loc, kBlue);
   }
 
   // ----------------------------------------------------------------------------
@@ -206,7 +206,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* SimulationSide()
   {
-    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kGray+1);
+    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kBlue);
     label->SetTextAngle(270);
     label->SetTextAlign(12);
     return label;

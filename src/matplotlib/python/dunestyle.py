@@ -96,7 +96,7 @@ def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
 
     See help on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="gray", **kwargs)
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
 
 def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwargs):
     """
@@ -107,7 +107,7 @@ def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwar
 
     See on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="gray", **kwargs)
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="blue", **kwargs)
 
 def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
     """

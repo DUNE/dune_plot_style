@@ -50,22 +50,18 @@ All plots **must**:
 - Use both color and style to differentiate parts of plots.
 - For reproducibility and adaptability, keep the code generating the plot in version control.
   (If this is not possible, distributing the .C macro version of the plot alongside it can suffice in a pinch.)
-- Prefer embedding relevant information in plot axes or annotations inside the figure itself,
-  rather than using plot titles (above the top of the figure). The latter are often overlooked.
 - Ensure all numbers shown have only a reasonable number of significant figures.   
   Prefer readability over extra information.
 - Avoid large empty regions in plots. (Rescale axes as necessary.)
 - Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
-- Consider whether using seperate statistical and systematic error bars make sense in the context of your plot.
-- Prefer using error bands for simulation and error bars for data. 
-- Where appropriate, add explicit identifying information of the plot (eg Year, POT).
 - When comparing to external datasets, ensure that DUNE is highlighted.
 - Avoid ROOT's default statistics box. Instead, pull out any pertinent information and add it, properly formatted, to the plot.
 
-### Event Displays
-- Add Run/Subrun/Event and date text overlaying event display.
-- Overlay DUNE logo.
-- Use standardized rainbow colour scheme (blue-green-yellow-red).
+### Annotations
+- Prefer embedding relevant information in plot axes or annotations inside the figure itself,
+  rather than using plot titles (above the top of the figure). The latter can be accidentally cropped out of a figure and are often overlooked.  (However, in sufficiently complex figures this guidance may be relaxed.)
+- Where appropriate, add explicit identifying information of the plot (eg Year, POT).
+- Font sizes should be comparable to that of the axis labels to ensure readability.
 
 ### Font and font size
 
@@ -126,6 +122,9 @@ it should be the same on all axes of a plot.
 - Lines should be thick enough (2pt or thicker) to be easily read from a distance.
 - Markers with different styles should be similar sizes unless some other consideration prevails.
 - When error bars are not used, solid histograms or lines are recommended to improve readability.
+- Consider whether using separate statistical and systematic error bars make sense in the context of your plot.
+- Prefer using error bands for simulation and error bars for data.
+
 
 ### Fills:
 
@@ -141,6 +140,12 @@ avoid fills or use transparency.
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
 - Items should appear in the same top-to-bottom order as they are drawn in a histogram stack, if applicable.
+
+### Special guidance for Event Displays
+- Add Run/Subrun/Event and date text overlaying event display.
+- Overlay DUNE logo.
+- Use standardized rainbow colour scheme (blue-green-yellow-red).
+
 
 ## Useful Links
 - [Colorcet](https://colorcet.holoviz.org) python package. Has a number of color maps to use, though care should be taken to make sure these maps fit with the spirit of the rest of these guidelines.

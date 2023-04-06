@@ -40,7 +40,7 @@ All plots **must**:
   DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
 - **Be saved in at least in one vector-based format** (e.g., pdf or eps),  
   and **at least one high-quality raster-based format** (e.g., png).
-- **Be internally consistent within documents**
+- For publications, **be stylistically internally consistent within documents**
 
 ## Recommendations
 
@@ -90,7 +90,7 @@ Color choices should look appealing and be accessible to those with color-vision
   The chosen ordering for Okabe-Ito is intended to separate colors that appear visually similar to individuals
   with various types of CVD, but if other considerations prevail, the order may be rearranged. 
   If only a subset of colors is needed, we encourage using the second, third, and fourth members of the cycle, 
-  which correspond to the DUNE logo colors.  (Use `NextColor(Cycle::DUNELogo)` in the ROOT version  
+  which correspond to the DUNE logo colors.  (Use `NextColor(Cycle::DUNELogo)` in the ROOT version 
   or `SetDUNELogoColors()` in the matplotlib version of `dune_plot_style` to make this happen.)
 - For continuous color ranges (e.g. z-axis of 2D histograms), the [cividis color palette](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0199239)
   is recommended.  Cividis avoids common pitfalls,  is designed with CVD in mind,

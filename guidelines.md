@@ -56,6 +56,7 @@ All plots **must**:
 - Strive to avoid jargon as much as possible. For instance: use “simulation” or “sim.” instead of “MC”.
 - When comparing to external datasets, ensure that DUNE is highlighted.
 - Avoid ROOT's default statistics box. Instead, pull out any pertinent information and add it, properly formatted, to the plot.
+- Use an axis length ratio of y/x between 0.7 and 0.75 unless other considerations prevail.  (This is default behavior in both ROOT and matplotlib.)
 
 ### Annotations
 - Prefer embedding relevant information in plot axes or annotations inside the figure itself,

@@ -1,6 +1,6 @@
 # DUNE plotting guidelines and recommendations
 
-_Last revision_: March 2023  by Plot Style Guidelines Task Force
+_Last revision_: April 2023  by Plot Style Guidelines Task Force
 
 ## Introduction
 The following set of guidelines have been devised by a Plot Style Guidelines Task Force, 

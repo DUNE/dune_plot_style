@@ -136,7 +136,7 @@ avoid fills or use transparency.
 ### Legends:
 
 - Use capitalization consistent with axis labels (see above).
-- Font size should generally be at least as large as axis labels. (Ensure readability)
+- Font size should be comparable to that of the axis labels to ensure readability.
 - When error bars are used,
 the type of errors (statistical vs. systematic) should be indicated in the legend entry.
 - Items should appear in the same top-to-bottom order as they are drawn in a histogram stack, if applicable.

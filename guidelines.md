@@ -36,8 +36,9 @@ All plots **must**:
 
 - **Be easily readable to their intended audience**.  This affects: text size, font choice, colors, line styles, etc. 
   See [recommendations](#recommendations) below for further advice on what this might mean in practice.
-- **Be labelled with the appropriate watermark** (typically one of the following:
-  DUNE, DUNE Preliminary, DUNE Work In Progress, DUNE Simulation).
+- **Be labelled with the appropriate watermark**:     
+  _DUNE_, _DUNE Preliminary_, _DUNE Work In Progress_, or _DUNE Simulation_.  (See the [official APB policy](https://docs.dunescience.org/cgi-bin/private/ShowDocument?docid=1115) for when each is appropriate.)  
+  Use the `Official()`, `Preliminary()`, `WIP()`, or `Simulation()` functions from `dune_plot_style` to obtain them.
 - **Be saved in at least in one vector-based format** (e.g., pdf or eps),  
   and **at least one high-quality raster-based format** (e.g., png).
 - For publications, **be stylistically internally consistent within documents**

@@ -80,7 +80,7 @@ def Preliminary(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs)
     :param kwargs:     Any other arguments will be passed to pyplot.text()
     :return:           None
     """
-    TextLabel("DUNE Preliminary", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+    TextLabel("DUNE Preliminary", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def WIP(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
     """
@@ -88,7 +88,7 @@ def WIP(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
 
     See help on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Work In Progress", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+    TextLabel("DUNE Work In Progress", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
     """
@@ -96,7 +96,7 @@ def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
 
     See help on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwargs):
     """
@@ -107,7 +107,7 @@ def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwar
 
     See on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="blue", **kwargs)
+    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="black", **kwargs)
 
 def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
     """
@@ -115,7 +115,7 @@ def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
 
     See help on TextLable() for the optional parameters.
     """
-    TextLabel("DUNE", x, y, ax=ax, transform=transform, align=align, color="blue", **kwargs)
+    TextLabel("DUNE", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def CornerLabel(label, ax=None, transform=None, **kwargs):
     """

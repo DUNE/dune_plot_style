@@ -174,7 +174,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    return TextLabel("DUNE Work In Progress", loc, kBlue);
+    return TextLabel("DUNE Work In Progress", loc, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -185,7 +185,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    return TextLabel("DUNE Preliminary", loc, kBlue);
+    return TextLabel("DUNE Preliminary", loc, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    return TextLabel("DUNE Simulation", loc, kBlue);
+    return TextLabel("DUNE Simulation", loc, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -206,7 +206,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* SimulationSide()
   {
-    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kBlue);
+    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kBlack);
     label->SetTextAngle(270);
     label->SetTextAlign(12);
     return label;
@@ -220,7 +220,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Official(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
   {
-    return TextLabel("DUNE", loc, kBlue);
+    return TextLabel("DUNE", loc, kBlack);
   }
 
   // ----------------------------------------------------------------------------

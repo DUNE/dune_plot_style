@@ -154,27 +154,28 @@ namespace dunestyle
 
   /// Apply a text label in one of 6 prespecified locations: top left, top right, ... bottom center, bottom right
   ///
-  /// \param text    The string to write
-  /// \param align   Alignment position.  Specify using ETextAlign values from ROOT's TAttText
-  /// \param color   ROOT color to use
-  /// \return        The TLatex instance for the text
-  TLatex * TextLabel(const std::string & text, ETextAlign align, short color=kBlue)
+  /// \param text     The string to write
+  /// \param align    Alignment position.  Specify using ETextAlign values from ROOT's TAttText
+  /// \param inFrame  When using "top" vertical alignment, specifies whether the label is inside the plot frame or outside it
+  /// \param color    ROOT color to use
+  /// \return         The TLatex instance for the text
+  TLatex * TextLabel(const std::string & text, ETextAlign align, bool inFrame=true, short color=kBlue)
   {
     auto hAlign = static_cast<ETextAlign>(align - (align % 10));
     auto vAlign = static_cast<ETextAlign>(align % 10);
     float xloc = (hAlign == kHAlignRight) ? 0.85 : ((hAlign == kHAlignLeft) ? 0.18 : 0.525);
-    float yloc = (vAlign == kVAlignTop) ? 0.87 : ((vAlign == kVAlignBottom) ? 0.13 : 0.5);
-
+    float yloc = (vAlign == kVAlignTop) ? (inFrame ? 0.87 : 0.96) : ((vAlign == kVAlignBottom) ? 0.13 : 0.5);
     return TextLabel(text, xloc, yloc, color, hAlign, vAlign);
   }
 
   /// Write a "DUNE Work In Progress" tag
   ///
   /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \param inFrame  When using "top" vertical alignment, specifies whether the label is inside the plot frame or outside it
   /// \return      The TLatex instance for the text
-  TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Work In Progress", loc, kBlack);
+    return TextLabel("DUNE Work In Progress", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -182,10 +183,11 @@ namespace dunestyle
   /// Write a "DUNE Preliminary" tag
   ///
   /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \param inFrame  When using "top" vertical alignment, specifies whether the label is inside the plot frame or outside it
   /// \return      The TLatex instance for the text
-  TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Preliminary", loc, kBlack);
+    return TextLabel("DUNE Preliminary", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -193,10 +195,11 @@ namespace dunestyle
   /// Write a "DUNE Simulation" tag
   ///
   /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \param inFrame  When using "top" vertical alignment, specifies whether the label is inside the plot frame or outside it
   /// \return      The TLatex instance for the text
-  TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Simulation", loc, kBlack);
+    return TextLabel("DUNE Simulation", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -217,10 +220,11 @@ namespace dunestyle
   /// Write a "DUNE" tag (use for officially approved results only)
   ///
   /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
+  /// \param inFrame  When using "top" vertical alignment, specifies whether the label is inside the plot frame or outside it
   /// \return      The TLatex instance for the text
-  TLatex* Official(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop))
+  TLatex* Official(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE", loc, kBlack);
+    return TextLabel("DUNE", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------

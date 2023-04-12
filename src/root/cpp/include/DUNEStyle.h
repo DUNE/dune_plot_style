@@ -168,6 +168,13 @@ namespace dunestyle
     return TextLabel(text, xloc, yloc, color, hAlign, vAlign);
   }
 
+  /// Return the "DUNE" part of the watermark string, which may have its own styling
+  std::string DUNEWatermarkString()
+  {
+      return "#font[62]{DUNE}";
+  }
+
+
   /// Write a "DUNE Work In Progress" tag
   ///
   /// \param loc   Location to write (upper left is default).   Specify using ETextAlign values from ROOT's TAttText
@@ -175,7 +182,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* WIP(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Work In Progress", loc, inFrame, kBlack);
+    return TextLabel(DUNEWatermarkString() + " Work In Progress", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -187,7 +194,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Preliminary(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Preliminary", loc, inFrame, kBlack);
+    return TextLabel(DUNEWatermarkString() + " Preliminary", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -199,7 +206,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Simulation(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE Simulation", loc, inFrame, kBlack);
+    return TextLabel(DUNEWatermarkString() + " Simulation", loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------
@@ -209,7 +216,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* SimulationSide()
   {
-    TLatex * label = TextLabel("DUNE Simulation", .93, .9, kBlack);
+    TLatex * label = TextLabel(DUNEWatermarkString() + " Simulation", .93, .9, kBlack);
     label->SetTextAngle(270);
     label->SetTextAlign(12);
     return label;
@@ -224,7 +231,7 @@ namespace dunestyle
   /// \return      The TLatex instance for the text
   TLatex* Official(ETextAlign loc=static_cast<ETextAlign>(kHAlignLeft + kVAlignTop), bool inFrame=true)
   {
-    return TextLabel("DUNE", loc, inFrame, kBlack);
+    return TextLabel(DUNEWatermarkString(), loc, inFrame, kBlack);
   }
 
   // ----------------------------------------------------------------------------

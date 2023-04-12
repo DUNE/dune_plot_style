@@ -69,6 +69,14 @@ def TextLabel(text, x, y, transform=None, ax=None, **kwargs):
                  transform=_GetTransform(transform, plotter),
                  **kwargs)
 
+def DUNEWatermarkString():
+    """
+    Produces the "DUNE" part of the string used in watermarks so it can be styled independently if necessary
+    :return: The appropriately styled "DUNE" string
+    """
+
+    return r"$\mathdefault{\bf{DUNE}}$"
+
 def Preliminary(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
     """
     Apply a "DUNE Preliminary" label.
@@ -80,7 +88,7 @@ def Preliminary(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs)
     :param kwargs:     Any other arguments will be passed to pyplot.text()
     :return:           None
     """
-    TextLabel("DUNE Preliminary", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
+    TextLabel(DUNEWatermarkString() + " Preliminary", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def WIP(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
     """
@@ -88,7 +96,7 @@ def WIP(x=0.05, y=0.90, align='left', transform=None, ax=None, **kwargs):
 
     See help on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Work In Progress", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
+    TextLabel(DUNEWatermarkString() + " Work In Progress", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
     """
@@ -96,7 +104,7 @@ def Simulation(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
 
     See help on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
+    TextLabel(DUNEWatermarkString() + " Simulation", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwargs):
     """
@@ -107,7 +115,7 @@ def SimulationSide(x=1.05, y=0.5, align='right', ax=None, transform=None, **kwar
 
     See on TextLabel() for the optional parameters.
     """
-    TextLabel("DUNE Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="black", **kwargs)
+    TextLabel(DUNEWatermarkString() + " Simulation", x, y, ax=ax, transform=transform, align=align, rotation=270, color="black", **kwargs)
 
 def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
     """
@@ -115,7 +123,7 @@ def Official(x=0.05, y=0.90, align='left', ax=None, transform=None, **kwargs):
 
     See help on TextLable() for the optional parameters.
     """
-    TextLabel("DUNE", x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
+    TextLabel(DUNEWatermarkString(), x, y, ax=ax, transform=transform, align=align, color="black", **kwargs)
 
 def CornerLabel(label, ax=None, transform=None, **kwargs):
     """

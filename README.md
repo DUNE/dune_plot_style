@@ -45,7 +45,6 @@ At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle 
 ### Standalone Python setup
 
 
-
 `dune_plot_style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
 The recommended way to install these packages is to set up a virtual environment.
@@ -239,12 +238,35 @@ See the [examples](#3-examples) for more ideas of what you can do.
 
 ## 3. Examples
 
+There are example scripts for ROOT C++, PyROOT, and Matplotlib in the `examples/` directory.
+They are built automatically using GitHub's Continuous Integration suite (see [Continuous integration](#5-continuous-integration), below).
+You can also generate them yourself to see how they work.
+Similary
 
-[![Example status](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
+### ROOT
 
-_[**todo**: include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
+There are C++ and PyROOT examples in `dune_plot_style/examples/root/cpp/example.C` and `dune_plot_style/examples/root/cpp/example.py`, respectively. To run the C++ version, ensure your `$ROOT_INCLUDE_PATH` is set to include the appropriate directory (see [Installation](#1-installation) above).
+Then, you can simply
+```c++
+root -l -b -q example.C
+```
 
-_[**todo**: add ROOT and PyROOT examples]_
+Running the PyROOT version is similar.  First ensure your `$PYTHONPATH` is set correctly (again see [Installation](#1-installation) above), then:
+```python
+python3 example.py
+```
+
+The output (which is identical between them) is illustrated below.
+
+<div style="text-align: center">
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.datamc.png" width="30%" ></a>
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.hist1D.png" width="30%" ></a>
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.hist2D.png" width="30%" ></a>
+
+<a href="examples/images/example.root.histoverlay.png"><img src="examples/images/example.root.histoverlay.png" width="30%" ></a>
+<a href="examples/images/example.root.histstacked.png"><img src="examples/images/example.root.histstacked.png" width="30%" ></a>
+</div>
+
 
 ### matplotlib
 
@@ -256,12 +278,14 @@ python3 example.py
 
 from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above).  The `matplotlib` versions of the example plots are shown below.
 
-<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
+<div style="text-align: center">
+<a href="examples/images/example.matplotlib.datamc.png"><img src="examples/images/example.matplotlib.datamc.png" width="30%" ></a>
+_<a href="examples/images/example.matplotlib.hist1D.png"><img src="examples/images/example.matplotlib.hist1D.png" width="30%"></a>_
+<a href="examples/images/example.matplotlib.hist2D.png"><img src="examples/images/example.matplotlib.hist2D.png" width="30%"></a>
 
-<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune_plot_style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+<a href="examples/images/example.matplotlib.histoverlay.png"><img src="examples/images/example.matplotlib.histoverlay.png" width="30%"></a>
+<a href="examples/images/example.matplotlib.histstacked.png"><img src="examples/images/example.matplotlib.histstacked.png" width="30%"></a>
+</div>
 
 ## 4. Contributing
 
@@ -270,6 +294,24 @@ please use the GitHub tools.
 
 * For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+
+# 5. Continuous integration
+
+[![matplotlib example status](https://github.com/DUNE/dune_plot_style/actions/workflows/matplotlib.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
+[![ROOT example status](https://github.com/DUNE/dune_plot_style/actions/workflows/root.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
+
+To ensure that the examples can be run with the current style,
+they are automatically rerun using Github Actions,
+in the `ROOT CI` and `Matplotlib CI` workflows,
+which are defined in `.github/workflows/*.yml`.
+Both workflows cache the dependencies and run automatically for every update to main and for all pull requests,
+if files that might affect them were modified.
+A whitelist of paths to watch is defined in each workflow.
+(The output are stored in the Workflow output directory---see the links above---but the branch is not automatically updated.  Contributions that would automate the branch update are welcome!)
+
+For ROOT, the dependencies are defined in `conda.yml` while the matplotlib dependencies are defined directly in the workflow.
+
+As the repository is public, the CI does not count against the DUNE quota, and both workflows run on Github's public Ubuntu runners.
 
 ---
 

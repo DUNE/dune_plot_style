@@ -1,7 +1,9 @@
+# CI handling ROOT (C++) and pyROOT
 name: ROOT CI
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Trigger the workflow on push or pull request events but only for the "main" branch,
+  # for given paths
   push:
    branches: [ "main" ]
    paths: ['src/root/**', 'conda.yml', 'examples/root/**']
@@ -9,17 +11,19 @@ on:
    branches: [ "main" ]
    paths: ['src/root/**', 'conda.yml', 'examples/root/**']
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allow manual dispatch
   workflow_dispatch:
 
 jobs:
   root-python-example:
+    # PyROOT example
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash -el {0}
+        shell: bash -el {0}  # needed for conda
 
     steps:
+      # Check-out repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
 
       - name: Setup Mambaforge
@@ -47,7 +51,7 @@ jobs:
         run: mamba env update -n CI -f conda.yml
         if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: set up dependencies
+      - name: Install package
         run: |
           pip install $GITHUB_WORKSPACE
 
@@ -56,7 +60,7 @@ jobs:
           cd $GITHUB_WORKSPACE/examples/root/python
           python3 example.py
 
-      - name: upload plot
+      - name: Upload plot
         uses: actions/upload-artifact@v3
         with:
           name: root-python-example
@@ -64,12 +68,14 @@ jobs:
           if-no-files-found: error
 
   root-cpp-example:
+    # ROOT C++ example
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash -el {0}
+        shell: bash -el {0}  # needed for conda
 
     steps:
+      # Check-out repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
 
       - name: Setup Mambaforge
@@ -100,11 +106,10 @@ jobs:
       - name: Create ROOT example plot using C++
         run: |
           export ROOT_INCLUDE_PATH=$GITHUB_WORKSPACE/src/root/cpp/include:${ROOT_INCLUDE_PATH}
-          env
           cd $GITHUB_WORKSPACE/examples/root/cpp
           root -b -q example.C
 
-      - name: upload plot
+      - name: Upload plot
         uses: actions/upload-artifact@v3
         with:
           name: root-cpp-example

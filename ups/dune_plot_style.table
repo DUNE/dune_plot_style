@@ -1,0 +1,20 @@
+FILE=TABLE 
+PRODUCT=dune_plot_style
+VERSION=XXVERSIONXX
+
+#--------------------- 
+FLAVOR=NULL 
+QUALIFIERS = "" 
+
+ACTION=SETUP 
+
+  setupEnv()
+  prodDir()
+
+  EnvSet(DUNE_PLOT_STYLE_VERSION, ${UPS_PROD_VERSION} )
+  EnvSet(DUNE_PLOT_STYLE_DIR, ${UPS_PROD_DIR} )
+  EnvSet(DUNE_PLOT_STYLE_INC, ${UPS_PROD_DIR}/include)
+
+  PathPrepend(PYTHONPATH, ${UPS_PROD_DIR}/python)
+  PathPrepend(MPLCONFIGDIR, ${UPS_PROD_DIR}/stylelib/)
+  PathPrepend(ROOT_INCLUDE_PATH, ${UPS_PROD_DIR}/include)

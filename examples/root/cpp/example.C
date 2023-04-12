@@ -93,7 +93,7 @@ void DataMCExample(TCanvas * c)
   auto zero = new TF1("zero","0.",-5,5);
   dunestyle::CenterTitles(h1D_ratio);
   c->cd(); p2->Draw(); p2->cd();
-  h1D_ratio->GetYaxis()->SetRangeUser(-1.,1.);
+  h1D_ratio->GetYaxis()->SetRangeUser(-0.99,0.99);
   h1D_ratio->Draw("E");
   zero->Draw("same");
 
@@ -101,12 +101,12 @@ void DataMCExample(TCanvas * c)
   auto pave = new TPaveText(0.6, 0.45, 0.85, 0.65, "NDC NB");
   pave->SetBorderSize(0);
   pave->SetFillStyle(0);
-  TText* head = pave->AddText("Gauss Fit Parameters:");
+  pave->SetTextSizePixels(35);
+  TText* head = pave->AddText("Fit Parameters:");
   head->SetTextFont(62);
   pave->AddText(Form("A = %.2f #pm %.2f", fit->GetParameter(0), fit->GetParError(0)));
   pave->AddText(Form("#mu = %.2f #pm %.2f", fit->GetParameter(1), fit->GetParError(1)));
   pave->AddText(Form("#sigma = %.2f #pm %.2f", fit->GetParameter(2), fit->GetParError(2)));
-  pave->AddText("");
   pave->AddText(Form("#chi^{2}/ndof = %.2f/%d", fit->GetChisquare(), fit->GetNDF()));
   pave->Draw();
 
@@ -144,7 +144,7 @@ void TwoDExample(TCanvas * c)
   }
 
   // now that we have them, draw them
-  std::vector<int> linestyles = {kSolid, kDashed, kDotted};
+  std::vector<int> linestyles = {kSolid, kDotted, kDashed};
   for (std::size_t sigma : {1, 2, 3})
   {
     std::vector<TGraph*> graphs = dunestyle::GetContourGraphs(h2d, levels[3-sigma]);

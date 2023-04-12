@@ -59,6 +59,7 @@ namespace dunestyle
     enum class Cycle
     {
       OkabeIto,
+      DUNELogo,
       NumCycles  // size counter
     };
 
@@ -92,6 +93,10 @@ namespace dunestyle
                              kOkabeItoRedPurple,
                              kOkabeItoBlue,
                              kOkabeItoYellow }},
+
+        { Cycle::DUNELogo, { kOkabeItoVermilion,
+                             kOkabeItoSkyBlue,
+                             kOkabeItoOrange }},
     };
     const auto kColourCycles = kColorCycles;   ///< Alias for \ref kColorCycles with BrEng spelling
 
@@ -420,6 +425,10 @@ namespace dunestyle
     duneStyle->SetHistLineWidth(2);
     duneStyle->SetFrameLineWidth(2);
     duneStyle->SetFuncWidth(2);
+
+    // Markers
+    duneStyle->SetMarkerStyle(kFullDotLarge);
+    duneStyle->SetErrorX(0);
 
     // Set the number of tick marks to show
     duneStyle->SetNdivisions(506, "xyz");

@@ -21,7 +21,7 @@ Please see [Contributing](#4-Contributing) below.
 
 There are a few ways you can use `dune_plot_style`.
 
-#### Fermilab UPS package
+### Fermilab UPS package
 
 If you're working on a DUNE GPVM on Fermilab computing resources (`dunegpvmXX.fnal.gov`),
 `dune_plot_style` is available as a UPS package
@@ -42,17 +42,56 @@ setup dune_plot_style v00_02
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
 
-#### Standalone Python setup
+### Standalone Python setup
+
 
 `dune_plot_style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
 The recommended way to install these packages is to set up a virtual environment.
 This avoids potential package version conflicts and allows you to download the necessary packages on a remote server where you don't have root privileges, such as the GPVMs.
 
+##### Check Python version prerequisites
+
+**`dune_plot_style` requires Python >= 3.9.**
+(If you attempt to use an older version, you may encounter issues setting up the dependency chain below.)
+You can check what version is currently set up using
+```bash
+python --version
 ```
-cd path/to/dune_plot_style/ # Or wherever you like to store virtual environments
+
+If you'll be using `dune_plot_style` on a machine you control, use your operating system package manager or other suitable means to obtain an appropriate version of Python.
+
+<details><summary>If you are installing on a DUNE GPVM, follow these steps instead</summary>
+You will need to set up a more recent version of Python than the base system version.
+The easiest way to do this is to use the UPS system.  First, set that up:
+
+```bash
+# sets up the UPS system
+$ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
+```
+
+* If you intend to use `dune_plot_style` in conjunction with ROOT, simply set up ROOT, as that comes bundled with a Python version dependency.
+```bash
+# this is the most recent as of the writing of these instructions.
+# list all possibilities using `ups list -aK+ root`
+$ setup root v6_22_08d -q e20:p392:prof 
+```
+* If instead you have no interest in setting up ROOT, you can simply set up the Python version you want directly:
+```bash
+# again, list all possibilities with `ups list -aK+ python`.
+# note that a minimum of 3.9 is required
+$ setup python v3_9_2
+```
+
+**note that these steps will need to be executed for every use**, prior to entering any virtual environments created in the following steps. 
+</details>
+
+##### Set up virtual environment and install
+
+```
+cd /path/to/venvs # wherever you like to store virtual environments
 python3 -m venv my_env
-source /my_env/bin/activate
+source my_env/bin/activate
 ```
 
 Next, download the desired version of `dune_plot_style` from [the GitHub releases page](https://github.com/DUNE/dune_plot_style/releases).
@@ -62,25 +101,47 @@ You can then install `dune_plot_style` and whatever other packages you need:
 # dependencies first
 python3 -m pip install matplotlib numpy scipy
 
-# now dune_plot_style
-cd /path/to/unpacked/tarball
+# this is one way to obtain the tarball, but use any way you like
+cd /path/to/install/area
+export DUNE_PLOT_STYLE_LATEST_TAG=`curl --silent "https://api.github.com/repos/DUNE/dune_plot_style/releases" | jq -r 'map(select(.prerelease == false)) | first | .tag_name'`
+wget --no-check-certificate https://github.com/DUNE/dune_plot_style/archive/refs/tags/${DUNE_PLOT_STYLE_LATEST_TAG}.tar.gz -O dune_plot_style.tar.gz
+tar -xvzf dune_plot_style.tar.gz
+
+# obviously adjust the directory name for whatever came out of the tarball
+cd /path/to/install/area/dune_plot_style
 python3 -m pip install .
 ```
 
-
 At this point you should be able to `from dunestyle import ...` as described below.
 
-#### Standalone C++ ROOT setup
+##### Subsequent use
+
+You'll need to set up your virtual environment (and, if on a GPVM, you'll need the UPS setup for Python or Root before that) as noted in the previous steps.
+You won't need to run the installation instructions more than once, however.
+
+### Standalone C++ ROOT setup
 
 A single header file provides the entire C++ ROOT interface: `src/root/cpp/include/DUNEStyle.h`.
 You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune_plot_style/releases).
 Then, simply copy it to wherever you would like it to live.
 
 If you are using it exclusively with ROOT macros, you'll need to ensure that the directory where `DUNEStyle.h` is located
-is included in the environment variable `$ROOT_INCLUDE_PATH`.
+is included in the environment variable `$ROOT_INCLUDE_PATH`. This can be done as follows
+```
+export ROOT_INCLUDE_PATH=/path/to/dir/with/DUNEStyle.h:${ROOT_INCLUDE_PATH}
+```
+(If you're using the UPS package as described in the previous section, this is done for you automatically.)
 
 If you prefer to build a standalone C++ application/executable, you'll need to ensure the directory where `DUNEStyle.h` is located
 is visible to your build system.  For example, with `gcc` or `g++` you'll want to include that directory with `-I`.
+This might look like:
+```bash
+# if you're using the UPS package
+g++ -o mytest -I $DUNE_PLOT_STYLE_INC mytest.C
+
+# if you installed by hand
+g++ -o mytest -I /path/to/dune_plot_style/src/root/cpp/include mytest.C
+```
 
 
 ## 2. How to use the stylistic coding tools
@@ -251,3 +312,24 @@ A whitelist of paths to watch is defined in each workflow.
 For ROOT, the dependencies are defined in `conda.yml` while the matplotlib dependencies are defined directly in the workflow.
 
 As the repository is public, the CI does not count against the DUNE quota, and both workflows run on Github's public Ubuntu runners.
+
+---
+
+Copyright © 2023 FERMI NATIONAL ACCELERATOR LABORATORY for the benefit of the DUNE Collaboration.
+
+This repository, and all software contained within, is licensed under the Apache
+License, Version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at
+
+
+
+`http://www.apache.org/licenses/LICENSE-2.0`
+
+
+
+Copyright is granted to FERMI NATIONAL ACCELERATOR LABORATORY on behalf of the Deep
+Underground Neutrino Experiment (DUNE). Unless required by applicable law or agreed to
+in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under the
+License.

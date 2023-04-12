@@ -94,34 +94,44 @@ def DataMC(pdf):
     mask = np.nonzero(counts)
 
     # Top plot
-    axs[0].set_ylabel("y label")
+    axs[0].set_ylabel("y label", fontsize="xx-large")
     axs[0].plot(x_fit, y_fit, color='r', label="Fit")
-    axs[0].errorbar(x=bin_centers[mask], y=counts[mask], yerr=abs_errors[mask],
-                 color='black', fmt='_', capsize=1, label="Data")
-    axs[0].text(0.70, 0.70, 'Gauss Fit Parameters:', 
-             fontdict={'color': 'darkred', 'size': 10, 'weight': 'bold'},
+    axs[0].errorbar(x=bin_centers[mask], y=counts[mask], xerr=0, yerr=abs_errors[mask],
+                 color='black', fmt='o', capsize=1, label="Data")
+    axs[0].text(0.68, 0.60, 'Fit Parameters:',
+             fontdict={'size': 14, 'weight': 'bold'},
              transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.60, 'A = {0:0.2f}$\pm${1:0.2f}'
-             .format(A, dA), transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.55, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'
-             .format(x0, dx0), transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.50, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'
-             .format(sig, dsig), transform=axs[0].transAxes)
-    axs[0].text(0.70, 0.40, '$\chi^2/ndof$ = {0:0.2f}/{1:d}'
-             .format(chi2, ndf),transform=axs[0].transAxes)
-    axs[0].legend(fontsize="x-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too
+
+    fontdict = {"size": 14}
+    axs[0].text(0.68, 0.52, 'A = {0:0.2f}$\pm${1:0.2f}'.format(A, dA),
+                fontdict=fontdict,
+                transform=axs[0].transAxes)
+    axs[0].text(0.68, 0.46, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'.format(x0, dx0),
+                fontdict=fontdict,
+                transform=axs[0].transAxes)
+    axs[0].text(0.68, 0.40, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'.format(sig, dsig),
+                fontdict=fontdict,
+                transform=axs[0].transAxes)
+    axs[0].text(0.68, 0.34, '$\chi^2$/ndof = {0:0.2f}/{1:d}'.format(chi2, ndf),
+                fontdict=fontdict,
+                transform=axs[0].transAxes)
+    axs[0].legend(fontsize="xx-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too small
     axs[0].set_xlim(-5,5)
     axs[0].set_ylim(bottom=0)
+
+    axs[0].tick_params(labelsize="x-large")
 
     dunestyle.Preliminary(x=0.02, ax=axs[0], fontsize="xx-large")
 
     # Bottom plot
     axs[1].errorbar(x=bin_centers[mask], y=residuals[mask], yerr=frac_errors[mask],
-                    color='black', fmt='_', capsize=1, label="Ratio")
+                    color='black', fmt='o', capsize=1, label="Ratio")
     axs[1].axhline(y=0, color="r", zorder=-1)
-    axs[1].set_xlabel("x label")
-    axs[1].set_ylabel("(Data - Fit)/Fit")
+    axs[1].set_xlabel("x label", fontsize="xx-large")
+    axs[1].set_ylabel("(Data - Fit)/Fit", fontsize="xx-large")
     axs[1].set_ylim(-0.99,0.99)
+
+    axs[1].tick_params(labelsize="x-large")
 
     for ax in axs:
         ax.label_outer()
@@ -153,7 +163,7 @@ def Hist2DContour(pdf):
     # unfortunately since they have different numbers of items,
     # we need to force the line-style one to repeat a few times,
     # then chop off the excess
-    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", "--", ":"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
+    cyc = cycler(edgecolor=plt.rcParams["axes.prop_cycle"].by_key()["color"]) + cycler(linestyle=["-", ":", "--"]*10)[:len(plt.rcParams["axes.prop_cycle"])]
     cyc = cyc()
     for nsig in range(1,4):
         ellipse = CovEllipse(throws[:,0], throws[:,1], cov, nsig=nsig,

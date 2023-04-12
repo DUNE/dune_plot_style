@@ -1,7 +1,9 @@
+# CI handling matplotlib
 name: Matplotlib CI
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Trigger the workflow on push or pull request events but only for the "main" branch,
+  # for given paths
   push:
    branches: [ "main" ]
    paths: ['src/matplotlib/**', 'examples/matplotlib/**']
@@ -9,7 +11,7 @@ on:
    branches: [ "main" ]
    paths: ['src/matplotlib/**', 'examples/matplotlib/**']
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allow manual dispatch
   workflow_dispatch:
 
 jobs:
@@ -17,14 +19,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Check-out repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
-      
+
+      # Set up python version and caching using pip
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          cache: 'pip' # caching pip dependencies
-      - name: set up dependencies
+          cache: 'pip'
+
+      - name: Set up pip dependencies
         run: |
           pip install numpy scipy matplotlib
           pip install $GITHUB_WORKSPACE
@@ -34,7 +38,7 @@ jobs:
           cd $GITHUB_WORKSPACE/examples/matplotlib
           python3 example.py
 
-      - name: upload plot
+      - name: Upload plots
         uses: actions/upload-artifact@v3
         with:
           name: matplotlib-example

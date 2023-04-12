@@ -280,7 +280,7 @@ from the `examples/matplotlib` subdirectory. Note that you'll need to have `matp
 
 <div style="text-align: center">
 <a href="examples/images/example.matplotlib.datamc.png"><img src="examples/images/example.matplotlib.datamc.png" width="30%" ></a>
-_<a href="examples/images/example.matplotlib.hist1D.png"><img src="examples/images/example.matplotlib.hist1D.png" width="30%"></a>_
+<a href="examples/images/example.matplotlib.hist1D.png"><img src="examples/images/example.matplotlib.hist1D.png" width="30%"></a>
 <a href="examples/images/example.matplotlib.hist2D.png"><img src="examples/images/example.matplotlib.hist2D.png" width="30%"></a>
 
 <a href="examples/images/example.matplotlib.histoverlay.png"><img src="examples/images/example.matplotlib.histoverlay.png" width="30%"></a>

@@ -1,4 +1,4 @@
-# `dune-plot-style` - DUNE official plot styling tools
+# `dune_plot_style` - DUNE official plot styling tools
 
 This repository contains coding tools to help analyzers easily make plots adhering to the DUNE Plot Style documented at https://wiki.dunescience.org/wiki/DUNE_Plot_Styles.
 
@@ -19,12 +19,12 @@ Please see [Contributing](#4-Contributing) below.
 
 ## 1. Installation
 
-There are a few ways you can use `dune-plot-style`.
+There are a few ways you can use `dune_plot_style`.
 
 #### Fermilab UPS package
 
 If you're working on a DUNE GPVM on Fermilab computing resources (`dunegpvmXX.fnal.gov`),
-`dune-plot-style` is available as a UPS package
+`dune_plot_style` is available as a UPS package
 which automatically sets the relevant environment variables for you.
 
 If you're not otherwise familiar with UPS, the relevant procedure goes something like:
@@ -34,35 +34,35 @@ If you're not otherwise familiar with UPS, the relevant procedure goes something
 $ source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 
 # list available versions
-$ ups list -aK+ dune-plot-style
+$ ups list -aK+ dune_plot_style
 
 # set up a specific version
-setup dune-plot-style v00_02
+setup dune_plot_style v00_02
 ```
 
 At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
 
 #### Standalone Python setup
 
-`dune-plot-style` supports being set up as a standalone Python package.
+`dune_plot_style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
 The recommended way to install these packages is to set up a virtual environment.
 This avoids potential package version conflicts and allows you to download the necessary packages on a remote server where you don't have root privileges, such as the GPVMs.
 
 ```
-cd path/to/dune-plot-style/ # Or wherever you like to store virtual environments
+cd path/to/dune_plot_style/ # Or wherever you like to store virtual environments
 python3 -m venv my_env
 source /my_env/bin/activate
 ```
 
-Next, download the desired version of `dune-plot-style` from [the GitHub releases page](https://github.com/DUNE/dune-plot-style/releases).
-You can then install `dune-plot-style` and whatever other packages you need:
+Next, download the desired version of `dune_plot_style` from [the GitHub releases page](https://github.com/DUNE/dune_plot_style/releases).
+You can then install `dune_plot_style` and whatever other packages you need:
 
 ```bash
 # dependencies first
 python3 -m pip install matplotlib numpy scipy
 
-# now dune-plot-style
+# now dune_plot_style
 cd /path/to/unpacked/tarball
 python3 -m pip install .
 ```
@@ -73,7 +73,7 @@ At this point you should be able to `from dunestyle import ...` as described bel
 #### Standalone C++ ROOT setup
 
 A single header file provides the entire C++ ROOT interface: `src/root/cpp/include/DUNEStyle.h`.
-You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune-plot-style/releases).
+You may download this file independently from the repository, or (recommended), download [a tagged source distribution](https://github.com/DUNE/dune_plot_style/releases).
 Then, simply copy it to wherever you would like it to live.
 
 If you are using it exclusively with ROOT macros, you'll need to ensure that the directory where `DUNEStyle.h` is located
@@ -99,7 +99,7 @@ These have dedicated functions you can invoke:
 * Centering axis titles
 * Choosing appropriate palettes for "colz" plots
 
-Check out the source of [`DUNEStyle.h`](https://github.com/DUNE/dune-plot-style/blob/main/src/root/cpp/include/DUNEStyle.h)
+Check out the source of [`DUNEStyle.h`](https://github.com/DUNE/dune_plot_style/blob/main/src/root/cpp/include/DUNEStyle.h)
   for one-stop functions you can call to get this behavior.  They have in-line Doxygen style comments explaining how to use them.
 The [examples](#3-examples) noted below also show how to use them.
 
@@ -162,7 +162,7 @@ The matplotlib style tools consist of two parts:
 * a ["style sheet"](https://matplotlib.org/stable/tutorials/introductory/customizing.html#using-style-sheets) file which sets most of the default stylings
 * an importable module which contains functions to apply watermarks, etc.  This module also applies the style sheet by default (this behavior can be disabled using the same mechanism as described in the [PyROOT section](#pyroot), above).
 
-To enable these, you'll need to install `dune-plot-style` as a Python module.
+To enable these, you'll need to install `dune_plot_style` as a Python module.
 This will setup the `$MPLCONFIGDIR` environment variable to pick up the style sheet. 
 
 To enable `dunestyle` in your scripts, simply
@@ -177,13 +177,39 @@ See the [examples](#3-examples) for more ideas of what you can do.
 
 ## 3. Examples
 
-_[**todo**: include images from `examples/` dir.  also point out how the various features were obtained with the code in `examples/` ]_
+There are example scripts for ROOT C++, PyROOT, and Matplotlib in the `examples/` directory.
+They are built automatically using GitHub's Continuous Integration suite (see [Continuous integration](#5-continuous-integration), below).
+You can also generate them yourself to see how they work.
+Similary
 
-_[**todo**: add ROOT and PyROOT examples]_
+### ROOT
+
+There are C++ and PyROOT examples in `dune_plot_style/examples/root/cpp/example.C` and `dune_plot_style/examples/root/cpp/example.py`, respectively. To run the C++ version, ensure your `$ROOT_INCLUDE_PATH` is set to include the appropriate directory (see [Installation](#1-installation) above).
+Then, you can simply
+```c++
+root -l -b -q example.C
+```
+
+Running the PyROOT version is similar.  First ensure your `$PYTHONPATH` is set correctly (again see [Installation](#1-installation) above), then:
+```python
+python3 example.py
+```
+
+The output (which is identical between them) is illustrated below.
+
+<div style="text-align: center">
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.datamc.png" width="30%" ></a>
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.hist1D.png" width="30%" ></a>
+<a href="examples/images/example.root.datamc.png"><img src="examples/images/example.root.hist2D.png" width="30%" ></a>
+
+<a href="examples/images/example.root.histoverlay.png"><img src="examples/images/example.root.histoverlay.png" width="30%" ></a>
+<a href="examples/images/example.root.histstacked.png"><img src="examples/images/example.root.histstacked.png" width="30%" ></a>
+</div>
+
 
 ### matplotlib
 
-The matplotlib example script can be found in `dune-plot-style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
+The matplotlib example script can be found in `dune_plot_style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
 
 ```
 python3 example.py
@@ -191,33 +217,36 @@ python3 example.py
 
 from the `examples/matplotlib` subdirectory. Note that you'll need to have `matplotlib`, `numpy`, and `scipy` installed for this to work (see instructions above).  The `matplotlib` versions of the example plots are shown below.
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.datamc.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist1D.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.hist2D.png" align="left" height="256" ></a>
+<div style="text-align: center">
+<a href="examples/images/example.matplotlib.datamc.png"><img src="examples/images/example.matplotlib.datamc.png" width="30%" ></a>
+_<a href="examples/images/example.matplotlib.hist1D.png"><img src="examples/images/example.matplotlib.hist1D.png" width="30%"></a>_
+<a href="examples/images/example.matplotlib.hist2D.png"><img src="examples/images/example.matplotlib.hist2D.png" width="30%"></a>
 
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histoverlay.png" align="left" height="256" ></a>
-<a href="url"><img src="https://github.com/DUNE/dune-plot-style/blob/main/examples/images/example.matplotlib.histstacked.png" align="left" height="256" ></a>
+<a href="examples/images/example.matplotlib.histoverlay.png"><img src="examples/images/example.matplotlib.histoverlay.png" width="30%"></a>
+<a href="examples/images/example.matplotlib.histstacked.png"><img src="examples/images/example.matplotlib.histstacked.png" width="30%"></a>
+</div>
 
 ## 4. Contributing
 
 If you encounter problems, have a suggestion, or (especially) want to contribute an enhancement or bug-fix,
 please use the GitHub tools.
 
-* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune-plot-style/issues).
+* For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
 # 5. Continuous integration
 
-[![matplotlib example status](https://github.com/DUNE/dune-plot-style/actions/workflows/matplotlib.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
-[![ROOT example status](https://github.com/DUNE/dune-plot-style/actions/workflows/root.yml/badge.svg)](https://github.com/DUNE/dune-plot-style/actions/workflows/main.yml)
+[![matplotlib example status](https://github.com/DUNE/dune_plot_style/actions/workflows/matplotlib.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
+[![ROOT example status](https://github.com/DUNE/dune_plot_style/actions/workflows/root.yml/badge.svg)](https://github.com/DUNE/dune_plot_style/actions/workflows/main.yml)
 
-To ensure that the examples are up to date with respect to the style,
+To ensure that the examples can be run with the current style,
 they are automatically rerun using Github Actions,
 in the `ROOT CI` and `Matplotlib CI` workflows,
 which are defined in `.github/workflows/*.yml`.
 Both workflows cache the dependencies and run automatically for every update to main and for all pull requests,
 if files that might affect them were modified.
 A whitelist of paths to watch is defined in each workflow.
+(The output are stored in the Workflow output directory---see the links above---but the branch is not automatically updated.  Contributions that would automate the branch update are welcome!)
 
 For ROOT, the dependencies are defined in `conda.yml` while the matplotlib dependencies are defined directly in the workflow.
 

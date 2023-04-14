@@ -40,7 +40,7 @@ $ ups list -aK+ dune_plot_style
 setup dune_plot_style v01_00
 ```
 
-At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in the following sections.
+At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in [How to use the stylistic coding tools](#2-how-to-use-the-stylistic-coding-tools) below.
 
 ### Standalone Python setup
 
@@ -61,7 +61,7 @@ python --version
 
 If you'll be using `dune_plot_style` on a machine you control, use your operating system package manager or other suitable means to obtain an appropriate version of Python.
 
-<details><summary>If you are installing on a DUNE GPVM, follow these steps instead</summary>
+<details><summary>If you are using the tools on a DUNE GPVM, click the arrow to the left to read how to set up the right version of Python.</summary>
 You will need to set up a more recent version of Python than the base system version.
 The easiest way to do this is to use the UPS system.  First, set that up:
 
@@ -116,7 +116,7 @@ At this point you should be able to `from dunestyle import ...` as described bel
 
 ##### Subsequent use
 
-You'll need to set up your virtual environment (and, if on a GPVM, you'll need the UPS setup for Python or Root before that) as noted in the previous steps.
+You'll need to set up your virtual environment (and, if on a GPVM, you'll need the UPS setup for Python or ROOT before that) as noted in the previous steps.
 You won't need to run the installation instructions more than once, however.
 
 ### Standalone C++ ROOT setup
@@ -156,7 +156,7 @@ Simply `#include` it in your ROOT script(s) to have all subsequent plots take on
 There are a few stylistic items you'll have to enforce by hand, however.
 These have dedicated functions you can invoke:
 
-* "DUNE Simulation", "DUNE Preliminary", "DUNE Work In Progress" watermarks
+* "DUNE", "DUNE Simulation", "DUNE Preliminary", "DUNE Work In Progress" watermarks
 * Centering axis titles
 * Choosing appropriate palettes for "colz" plots
 
@@ -239,9 +239,9 @@ See the [examples](#3-examples) for more ideas of what you can do.
 ## 3. Examples
 
 There are example scripts for ROOT C++, PyROOT, and Matplotlib in the `examples/` directory.
+These create a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn.
 They are built automatically using GitHub's Continuous Integration suite (see [Continuous integration](#5-continuous-integration), below).
 You can also generate them yourself to see how they work.
-Similary
 
 ### ROOT
 
@@ -270,7 +270,8 @@ The output (which is identical between them) is illustrated below.
 
 ### matplotlib
 
-The matplotlib example script can be found in `dune_plot_style/examples/matplotlib`. It creates a handful of common plot types used in HEP, including stacked histograms, data-to-simulation comparisons, and 2D histograms with confidence contours drawn. To run the example script and produce some plots, simply run
+The matplotlib example script can be found in `dune_plot_style/examples/matplotlib`
+To run the example script and produce its plots, simply run
 
 ```
 python3 example.py
@@ -294,6 +295,7 @@ please use the GitHub tools.
 
 * For bug reports or feature requests, please [file an Issue](https://github.com/DUNE/dune_plot_style/issues).
 * To contribute code, please [open a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+* If you're a DUNE collaborator and you need help, visit #plot-style-help on the DUNE Slack.
 
 # 5. Continuous integration
 

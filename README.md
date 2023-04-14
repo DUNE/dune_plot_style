@@ -2,8 +2,6 @@
 
 This repository contains coding tools to help analyzers easily make plots adhering to the DUNE Plot Style documented at https://wiki.dunescience.org/wiki/DUNE_Plot_Styles.
 
-It also contains tools to help embed metadata in plot images that contain "provenance" info so they can be back-traced if necessary.
-
 To illustrate how to use those tools and what the results look like, some examples are also offered.
 
 There are tools designed for use with the most common plotting technologies currently in use:

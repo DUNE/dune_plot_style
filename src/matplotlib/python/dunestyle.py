@@ -137,12 +137,12 @@ def SetDUNELogoColors():
     """ Set the color cycler to use the subset of Okabe-Ito colors that overlap with the DUNE logo colors. """
 
     from cycler import cycler
-    cyc = cycler(color=['D55E00', '56B4E9', 'E69F00'])
+    cyc = cycler(color=['#D55E00', '#56B4E9', '#E69F00'])
     plt.rc("axes", prop_cycle=cyc)
 
 def SetOkabeItoColors():
     """ Set the color cycler to use Okabe-Ito colors.. """
 
     from cycler import cycler
-    cyc = cycler(color=['000000', 'D55E00', '56B4E9', 'E69F00', '009E73', 'CC79A7', '0072B2', 'F0E442',])
+    cyc = cycler(color=['#000000', '#D55E00', '#56B4E9', '#E69F00', '#009E73', '#CC79A7', '#0072B2', '#F0E442',])
     plt.rc("axes", prop_cycle=cyc)

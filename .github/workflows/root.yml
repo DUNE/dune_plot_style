@@ -110,7 +110,7 @@ jobs:
           root -b -q example.C
 
       - name: Upload plot
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: root-cpp-example
           path: ${{ github.workspace }}/examples/root/cpp/example.root.pdf

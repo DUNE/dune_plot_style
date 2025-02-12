@@ -61,7 +61,7 @@ jobs:
           python3 example.py
 
       - name: Upload plot
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: root-python-example
           path: ${{ github.workspace }}/examples/root/python/example.pyroot.pdf

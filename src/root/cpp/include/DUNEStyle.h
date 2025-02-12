@@ -34,19 +34,62 @@ namespace dunestyle
   /// Non-user-facing part of the DUNE style tools
   namespace _internal
   {
+    enum class OIColors
+    {
+      kOrange,
+      kSkyBlue,
+      kBlueGreen,
+      kYellow,
+      kBlue,
+      kVermilion,
+      kRedPurple,
+    };
+
     // The actual TColor objects that correspond to the Okabe-Ito palette,
     // since they need to be explicitly defined.
     // If you're looking for the color *indices*,
     // look in the `colors` namespace, further down
     // The RGB values are taken from here:
-    // https://mikemol.github.io/technique/colorblind/2018/02/11/color-safe-palette.html
-    const TColor __kOIOrange(TColor::GetFreeColorIndex(), 0.90, 0.60, 0);
-    const TColor __kOISkyBlue(TColor::GetFreeColorIndex(), 0.35, 0.70, 0.90);
-    const TColor __kOIBlueGreen(TColor::GetFreeColorIndex(), 0, 0.60, 0.50);
-    const TColor __kOIYellow(TColor::GetFreeColorIndex(), 0.95, 0.90, 0.25);
-    const TColor __kOIBlue(TColor::GetFreeColorIndex(), 0, 0.45, 0.70);
-    const TColor __kOIVermilion(TColor::GetFreeColorIndex(), 0.80, 0.40, 0);
-    const TColor __kOIRedPurple(TColor::GetFreeColorIndex(), 0.80, 0.60, 0.70);
+    // https://mikemol.github.io/technique/colorblind/2018/02/11/color-safe-palette.html.
+    //
+    // They're packed into a function to avoid the Static Initialization Order Fiasco
+    // (https://en.cppreference.com/w/cpp/language/siof)
+    const TColor & GetOIColor(OIColors color)
+    {
+      switch (color)
+      {
+        case OIColors::kOrange:
+          static const TColor __kOIOrange(TColor::GetFreeColorIndex(), 0.90, 0.60, 0);
+          return __kOIOrange;
+
+        case OIColors::kSkyBlue:
+          static const TColor __kOISkyBlue(TColor::GetFreeColorIndex(), 0.35, 0.70, 0.90);
+          return __kOISkyBlue;
+
+        case OIColors::kBlueGreen:
+          static const TColor __kOIBlueGreen(TColor::GetFreeColorIndex(), 0, 0.60, 0.50);
+          return __kOIBlueGreen;
+
+        case OIColors::kYellow:
+          static const TColor __kOIYellow(TColor::GetFreeColorIndex(), 0.95, 0.90, 0.25);
+          return __kOIYellow;
+
+        case OIColors::kBlue:
+          static const TColor __kOIBlue(TColor::GetFreeColorIndex(), 0, 0.45, 0.70);
+          return __kOIBlue;
+
+        case OIColors::kVermilion:
+          static const TColor __kOIVermilion(TColor::GetFreeColorIndex(), 0.80, 0.40, 0);
+          return __kOIVermilion;
+
+        case OIColors::kRedPurple:
+          static const TColor __kOIRedPurple(TColor::GetFreeColorIndex(), 0.80, 0.60, 0.70);
+          return __kOIRedPurple;
+
+        default:
+          throw std::out_of_range("Unknown OIColor");
+      }
+    }
   }
 
   // ----------------------------------------------------------------------------
@@ -70,13 +113,13 @@ namespace dunestyle
     ///@{
     /// Colors from the Okabe-Ito palette, which is deisgned to be friendly
     /// for those with Color Vision Deficiencies (CVD).
-    Color_t kOkabeItoOrange = _internal::__kOIOrange.GetNumber();
-    Color_t kOkabeItoSkyBlue = _internal::__kOISkyBlue.GetNumber();
-    Color_t kOkabeItoBlueGreen = _internal::__kOIBlueGreen.GetNumber();
-    Color_t kOkabeItoBlue = _internal::__kOIBlue.GetNumber();
-    Color_t kOkabeItoYellow = _internal::__kOIYellow.GetNumber();
-    Color_t kOkabeItoVermilion = _internal::__kOIVermilion.GetNumber();
-    Color_t kOkabeItoRedPurple = _internal::__kOIRedPurple.GetNumber();
+    inline Color_t kOkabeItoOrange = _internal::GetOIColor(_internal::OIColors::kOrange).GetNumber();
+    inline Color_t kOkabeItoSkyBlue = _internal::GetOIColor(_internal::OIColors::kSkyBlue).GetNumber();
+    inline Color_t kOkabeItoBlueGreen = _internal::GetOIColor(_internal::OIColors::kBlueGreen).GetNumber();
+    inline Color_t kOkabeItoBlue = _internal::GetOIColor(_internal::OIColors::kBlue).GetNumber();
+    inline Color_t kOkabeItoYellow = _internal::GetOIColor(_internal::OIColors::kYellow).GetNumber();
+    inline Color_t kOkabeItoVermilion = _internal::GetOIColor(_internal::OIColors::kVermilion).GetNumber();
+    inline Color_t kOkabeItoRedPurple = _internal::GetOIColor(_internal::OIColors::kRedPurple).GetNumber();
     ///@}
 
     /// If you would like all the colors in one package

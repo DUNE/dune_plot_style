@@ -39,7 +39,7 @@ jobs:
           python3 example.py
 
       - name: Upload plots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: matplotlib-example
           path: ${{ github.workspace }}/examples/matplotlib/example.matplotlib.pdf

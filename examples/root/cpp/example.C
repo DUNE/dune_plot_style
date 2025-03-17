@@ -252,3 +252,11 @@ void example()
   c.SaveAs("example.root.histoverlay.png");
 
 }
+
+#ifndef __ROOTCLING__
+int main()
+{
+  example();
+  return 0;
+}
+#endif

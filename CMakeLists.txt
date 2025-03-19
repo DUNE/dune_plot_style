@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(DUNEPlotStyle VERSION 01.01 LANGUAGES CXX)
 
-find_package(ROOT REQUIRED)
-
 add_library(DUNEPlotStyle INTERFACE)
 target_include_directories(DUNEPlotStyle INTERFACE
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src/root/cpp/include>
@@ -19,10 +17,12 @@ install(TARGETS DUNEPlotStyle
 		LIBRARY DESTINATION lib/
 		PUBLIC_HEADER DESTINATION include/)
 
-add_executable(DUNEPlotStyleExample examples/root/cpp/example.C)
-target_link_libraries(DUNEPlotStyleExample DUNEPlotStyle ROOT::Core ROOT::Hist ROOT::Gpad ROOT::Postscript)
-install(TARGETS DUNEPlotStyleExample)
-
+find_package(ROOT)
+if (ROOT_FOUND)
+	add_executable(DUNEPlotStyleExample examples/root/cpp/example.C)
+	target_link_libraries(DUNEPlotStyleExample DUNEPlotStyle ROOT::Core ROOT::Hist ROOT::Gpad ROOT::Postscript)
+	install(TARGETS DUNEPlotStyleExample)
+endif()
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(

@@ -18,3 +18,4 @@ ACTION=SETUP
   PathPrepend(PYTHONPATH, ${UPS_PROD_DIR}/python)
   PathPrepend(MPLCONFIGDIR, ${UPS_PROD_DIR}/stylelib/)
   PathPrepend(ROOT_INCLUDE_PATH, ${UPS_PROD_DIR}/include)
+  PathPrepend(CMAKE_PREFIX_PATH, ${UPS_PROD_DIR}/share/cmake)

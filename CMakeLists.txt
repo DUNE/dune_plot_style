@@ -35,7 +35,7 @@ configure_package_config_file(
 		"${PROJECT_BINARY_DIR}/DUNEPlotStyleConfig.cmake"
 		INSTALL_DESTINATION share/cmake/DUNEPlotStyle
 )
-install(EXPORT DUNEPlotStyleTargets DESTINATION lib/cmake/DUNEPlotStyle)
+install(EXPORT DUNEPlotStyleTargets DESTINATION share/cmake/DUNEPlotStyle)
 install(FILES "${PROJECT_BINARY_DIR}/DUNEPlotStyleConfigVersion.cmake"
 		"${PROJECT_BINARY_DIR}/DUNEPlotStyleConfig.cmake"
 		DESTINATION share/cmake/DUNEPlotStyle)

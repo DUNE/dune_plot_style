@@ -86,8 +86,13 @@ if which cmake > /dev/null 2>&1; then
   cmake -DCMAKE_INSTALL_PREFIX=${preorg_dir} ${preorg_dir} || exit 1
   make install || exit 1
   popd || exit 1
+  echo
+  echo -e "\033[1;33mNOTE:\033[0m If you do not have an installation of ROOT set up in this shell,"
+  echo    "      You may have seen warnings in the CMake output above about its absence."
+  echo    "      ROOT is not needed for the UPS package construction and installation to succeed,"
+  echo    "      and those warnings can be ignored."
 else
-  echo "WARNING: CMake is not available, so the CMake interface will not be installed.  Check that's what you expected!"
+  echo -e "\033[1;33mWARNING:\033[0m CMake is not available, so the CMake interface will not be installed.  Check that's what you expected!"
 fi
 
 # need to do some reogranising for the ups product
@@ -106,6 +111,7 @@ rm -rf ${preorg_dir}
 proddir=${path}/${reponame}
 dest=${proddir}/${version}
 
+echo
 echo "$reponame will be created in $dest"
 
 if [ ! -d "${proddir}" ]; then
@@ -116,7 +122,7 @@ fi
 # in general we won't want to do this
 if [ -d "${proddir}/${version}" ]; then
   echo ""
-  echo "Product ${reponame} with version ${version} already exists." 
+  echo -e "\033[1;33mWARNING: Product '${reponame}' with version '${version}' already exists.\033[0m"
   echo "Making it again will over-write the existing one."
   echo ""
   read -p "Are you sure you want to proceed (y/n)? " -n 1 -r
@@ -130,7 +136,7 @@ if [ -d "${proddir}/${version}" ]; then
   fi
 fi
 
-# now copy the code to it's location in the /grid area
+# now copy the code to it's location in the target area
 mkdir -p ${dest}
 rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/* ${dest}
 
@@ -163,7 +169,13 @@ eval $cmd
 retval=$?
 test $retval -ne 0 && echo "Error! 'ups declare' returned non-zero - BAILING" && exit 1
 
+echo "UPS declare succeeded."
+echo
+echo -e "\033[1;33mWARNING\033[0m: If you intend to relocate this installation to another install area (e.g., /cvmfs),"
+echo     "         you will need to edit the '${proddir}/${version}.version' file"
+echo     "         to point to the new location after relocation, or UPS will not find the package."
+
 rm -rf ${tmpdir}
 
 echo
-echo "Done"
+echo "Finished successfully.  Bye!"

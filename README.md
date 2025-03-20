@@ -38,10 +38,15 @@ $ ups list -aK+ dune_plot_style
 setup dune_plot_style v01_00
 ```
 
-At this point you should be able to `#include "DUNEStyle.h"` or `from dunestyle import ...` as described in [How to use the stylistic coding tools](#2-how-to-use-the-stylistic-coding-tools) below.
+At this point you should be able to `from dunestyle import ...` (Python) as described in [How to use the stylistic coding tools](#2-how-to-use-the-stylistic-coding-tools) below.
+If you write C++ in scripts executed by running `root` on them, the UPS setup should also set the relevant environment variable
+(`$ROOT_INCLUDE_PATH`) for `#include "DUNEStyle.h"` to work as well.
+However, if you use C++ ROOT in a compiled project, you should consult either the
+[CMake](#c-root-use-with-cmake) or [Standalone C++](#standalone-c-root-setup) sections below.
+(The UPS setup adds `dune_plot_style` to the `$CMAKE_PREFIX_PATH` such that the steps below do not require any extra intervention.)
+
 
 ### Standalone Python setup
-
 
 `dune_plot_style` supports being set up as a standalone Python package.
 You'll need to install a handful of common Python libraries for the examples to work.
@@ -116,6 +121,56 @@ At this point you should be able to `from dunestyle import ...` as described bel
 
 You'll need to set up your virtual environment (and, if on a GPVM, you'll need the UPS setup for Python or ROOT before that) as noted in the previous steps.
 You won't need to run the installation instructions more than once, however.
+
+### C++ ROOT use with CMake
+
+As noted in the next section, a single header file provides the entire C++ ROOT interface.
+If you are working with a CMake project, `dune_plot_style` includes CMake files that export the `DUNEPlotStyle.h` as a
+non-compiled target that your CMake targets can depend on.
+
+#### Installing the CMake package
+The CMake files and relevant other package files need to be installed by CMake in order for them to be usable.
+This is relatively straightforward:
+
+* Download the source distribution (either `git clone` the repository or download [a tagged source distribution](https://github.com/DUNE/dune_plot_style/releases)). 
+* Decide where you want the installed package to go.  
+  (`dune_plot_style` is currently configured to create a monolithic install package, rather than install according to the Linux [FHS](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard).)
+* Ensure `cmake` is available.
+
+Then:
+```bash
+# assumes:
+# $DUNE_PLOT_STYLE_SRC is downloaded + unrolled source distribution
+# $DUNE_PLOT_STYLE_INSTALLDIR is where you want it to go
+# $DUNE_PLOT_STYLE_BUILDDIR is a temporary build location that doesn't already exist
+
+# create the build dir
+mkdir ${DUNE_PLOT_STYLE_BUILDDIR}; cd ${DUNE_PLOT_STYLE_BUILDDIR}
+
+# configure the package
+cmake -DCMAKE_INSTALL_PREFIX=${DUNE_PLOT_STYLE_INSTALLDIR} ${DUNE_PLOT_STYLE_SRC}
+
+# build & install
+make install
+```
+
+#### Subsequent use
+
+If you installed the package yourself using the steps in the previous section, 
+you'll need to ensure that `$DUNE_PLOT_STYLE_INSTALLDIR` is contained in the `$CMAKE_PREFIX_PATH`
+for when configuring your own project with cmake.
+(If you use the UPS package mentioned previously, this is done automatically for you with package setup.)
+
+Then, when constructing your `CMakeLists.txt`(s), you can load `dune_plot_style`'s CMake files using
+```cmake
+find_package(DUNEPlotStyle)
+```
+
+This exports a `DUNEPlotStyle` interface (=non-compiled) target that you can add as a dependency 
+of any target that you're building, which will add the `DUNEPlotStyle.h`'s include path to your target:
+```cmake
+target_link_libraries(mytarget DUNEPlotStyle)
+```
 
 ### Standalone C++ ROOT setup
 

@@ -134,7 +134,9 @@ fi
 mkdir -p ${dest}
 rsync --exclude '*~' --exclude '*.git' -rL $tmpdir/${reponame}/* ${dest}
 
-chmod o+rx ${dest}
+# make sure all the permissions make sense
+find ${dest} -type d -exec chmod go+rx {} \;
+find ${dest} -type f -exec chmod go+r {} \;
 
 # update the ups table to give the correct version number
 ups_table=${dest}/ups/${reponame}.table

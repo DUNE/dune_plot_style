@@ -11,9 +11,17 @@ The numbering scheme looks like `vXX_YY`:
 
 ##### current
 
+##### [v01_01] -- 2025-03-19
+* Use hashes for matplotlib color codes (8e12969)
+* Fix initialization of Okabe-Ito custom colors in ROOT (#50)
+* Update to modern Github Actions (also #50)
+* Introduce CMake build with exported targets (#51)
+
+##### [v01_00] -- 2023-04-13
+* First official version.
+
 ##### [v00_02] -- 2023-01-27
 * First pre-release issued for collaboration comment.
-
 
 ##### [v00_01] -- 2022-08-26
 * First testing pre-release (primarily for exercising the UPS package machinery). 

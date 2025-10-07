@@ -418,7 +418,17 @@ namespace dunestyle
 
     return ret;
   }
+  // ----------------------------------------------------------------------------
 
+  /// Change the background color to an off-white color (#f0f0f0) for use on updated DUNE slide (new template)
+
+  void Off_white_bkg()
+  {
+    static const TColor __off_white(TColor::GetFreeColorIndex(), 0.94, 0.94, 0.94);
+    gStyle->SetCanvasColor(__off_white);
+    gStyle->SetTitleFillColor(__off_white);
+    gStyle->SetStatColor(__off_white);
+  }
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 

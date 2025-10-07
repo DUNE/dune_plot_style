@@ -348,7 +348,7 @@ namespace dunestyle
     gStyle->SetFrameFillColor(colors::kOffWhite);
     gStyle->SetCanvasColor(colors::kOffWhite);
     gStyle->SetPadColor(colors::kOffWhite);
-    gStyle->SetStatColor(colors::kOffWhite);g
+    gStyle->SetStatColor(colors::kOffWhite);
 
   // ----------------------------------------------------------------------------
 

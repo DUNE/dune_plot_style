@@ -11,6 +11,9 @@ The numbering scheme looks like `vXX_YY`:
 
 ##### current
 
+##### [v01_02] -- 2025-10-07
+* Introduce "off-white" background support for dyslexia accessibility
+
 ##### [v01_01] -- 2025-03-19
 * Use hashes for matplotlib color codes (8e12969)
 * Fix initialization of Okabe-Ito custom colors in ROOT (#50)

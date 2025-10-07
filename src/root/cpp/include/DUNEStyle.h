@@ -90,6 +90,12 @@ namespace dunestyle
           throw std::out_of_range("Unknown OIColor");
       }
     }
+
+    const TColor & GetOffWhiteColor()
+    {
+      static const TColor __kOffWhite(TColor::GetFreeColorIndex(), 0.9412, 0.9412, 0.9412);
+      return __kOffWhite;
+    }
   }
 
   // ----------------------------------------------------------------------------
@@ -121,6 +127,9 @@ namespace dunestyle
     inline Color_t kOkabeItoVermilion = _internal::GetOIColor(_internal::OIColors::kVermilion).GetNumber();
     inline Color_t kOkabeItoRedPurple = _internal::GetOIColor(_internal::OIColors::kRedPurple).GetNumber();
     ///@}
+
+    /// Off-white color, used to improve access for those with dyslexia
+    inline Color_t kOffWhite = _internal::GetOffWhiteColor().GetNumber();
 
     /// If you would like all the colors in one package
     const std::map<Cycle, std::vector<Color_t>> kColorCycles
@@ -333,6 +342,16 @@ namespace dunestyle
   }
 
   // ----------------------------------------------------------------------------
+  void OffWhiteBackground()
+  {
+    duneStyle->SetFillColor(colors::kOffWhite);
+    duneStyle->SetFrameFillColor(colors::kOffWhite);
+    duneStyle->SetCanvasColor(colors::kOffWhite);
+    duneStyle->SetPadColor(colors::kOffWhite);
+    duneStyle->SetStatColor(colors::kOffWhite);
+  }
+
+  // ----------------------------------------------------------------------------
 
   /// Divide a TCanvas into two pads.
   ///
@@ -440,7 +459,8 @@ namespace dunestyle
     // No info box
     duneStyle->SetOptStat(0);
 
-    //set the background color to white
+    //set the background color to white.
+    // see OffWhiteBackground() above for an alternative...
     duneStyle->SetFillColor(10);
     duneStyle->SetFrameFillColor(10);
     duneStyle->SetCanvasColor(10);

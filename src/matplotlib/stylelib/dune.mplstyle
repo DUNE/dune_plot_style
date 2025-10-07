@@ -13,9 +13,9 @@ text.hinting_factor : 8
 
 #mathtext.fontset : cm
 
-figure.facecolor: white
+figure.facecolor: white (default, can be changed with off_white_bkg to #f0f0f0 for slides)
 
-axes.facecolor: white # eeeeee
+axes.facecolor: white # eeeeee (default, can be changed with off_white_bkg to #f0f0f0 for slides)
 axes.edgecolor: black
 axes.grid :     False
 axes.linewidth: 1.0

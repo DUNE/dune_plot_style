@@ -146,3 +146,10 @@ def SetOkabeItoColors():
     from cycler import cycler
     cyc = cycler(color=['#000000', '#D55E00', '#56B4E9', '#E69F00', '#009E73', '#CC79A7', '#0072B2', '#F0E442',])
     plt.rc("axes", prop_cycle=cyc)
+
+def off_white_bkg():
+    """ Set the background color of the figure to match the off-white background of the updated DUNE slide template. """
+    
+    plt.rcParams['axes.facecolor'] = '#f0f0f0'
+    plt.rcParams['figure.facecolor'] = '#f0f0f0'
+    plt.rcParams['savefig.facecolor'] = '#f0f0f0'

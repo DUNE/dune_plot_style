@@ -344,12 +344,11 @@ namespace dunestyle
   // ----------------------------------------------------------------------------
   void OffWhiteBackground()
   {
-    duneStyle->SetFillColor(colors::kOffWhite);
-    duneStyle->SetFrameFillColor(colors::kOffWhite);
-    duneStyle->SetCanvasColor(colors::kOffWhite);
-    duneStyle->SetPadColor(colors::kOffWhite);
-    duneStyle->SetStatColor(colors::kOffWhite);
-  }
+    gStyle->SetFillColor(colors::kOffWhite);
+    gStyle->SetFrameFillColor(colors::kOffWhite);
+    gStyle->SetCanvasColor(colors::kOffWhite);
+    gStyle->SetPadColor(colors::kOffWhite);
+    gStyle->SetStatColor(colors::kOffWhite);g
 
   // ----------------------------------------------------------------------------
 

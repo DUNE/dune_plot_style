@@ -79,8 +79,17 @@ All plots **must**:
 - Check journal style guidelines carefully.
 - Ensure plot text size is similar to that in the body of the article as possible. 
 
-### Colo(u)r palette:
+### Colo(u)r considerations:
 Color choices should look appealing and be accessible to those with color-vision deficiency (CVD).
+
+#### Plot backgrounds:
+
+The high contrast resulting from fully saturated colors against a white background can be difficult for individuals with dyslexia.
+Consider using an "off-white" background instead.
+The functions `OffWhiteBackground()` in both ROOT and matplotlib toolkits in this package will set figure backgrounds 
+to match the off-white background in the [official DUNE slide template](https://docs.dunescience.org/cgi-bin/ShowDocument?docid=78).
+
+#### Markers/lines:
 
 - When discrete curves are shown, the [Okabe-Ito color cycle](https://jfly.uni-koeln.de/color/) is recommended.
   (`dune_plot_style` sets the default matplotlib cycler to Okabe-Ito; 

@@ -22,6 +22,8 @@ from plotting_helpers import Gauss, CovEllipse
 # how many histograms to draw in multi-hist plots
 N_HISTS = 8   # exhibits all the colors in the Okabe-Ito cycler
 
+dunestyle.OffWhiteBackground()
+
 ### 1D histogram example ###
 def Hist1D(pdf):
     x = np.random.normal(0, 1, 1000)
@@ -103,7 +105,7 @@ def DataMC(pdf):
              transform=axs[0].transAxes)
 
     fontdict = {"size": 14}
-    axs[0].text(0.68, 0.52, 'A = {0:0.2f}$\pm${1:0.2f}'.format(A, dA),
+    axs[0].text(0.68, 0.52, r'A = {0:0.2f}$\pm${1:0.2f}'.format(A, dA),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
     axs[0].text(0.68, 0.46, r'$\mu$ = {0:0.2f}$\pm${1:0.2f}'.format(x0, dx0),
@@ -112,7 +114,7 @@ def DataMC(pdf):
     axs[0].text(0.68, 0.40, r'$\sigma$ = {0:0.2f}$\pm${1:0.2f}'.format(sig, dsig),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
-    axs[0].text(0.68, 0.34, '$\chi^2$/ndof = {0:0.2f}/{1:d}'.format(chi2, ndf),
+    axs[0].text(0.68, 0.34, r'$\chi^2$/ndof = {0:0.2f}/{1:d}'.format(chi2, ndf),
                 fontdict=fontdict,
                 transform=axs[0].transAxes)
     axs[0].legend(fontsize="xx-large")  # since the upper panel is only 70% of the whole canvas, the legend is (by default) too small

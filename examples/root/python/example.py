@@ -204,6 +204,8 @@ def OverlayExample(c, hists):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 if __name__ == "__main__":
+	dunestyle.OffWhiteBackground()
+
 	c = ROOT.TCanvas()
 	OneDHistExample(c)
 	c.SaveAs("example.pyroot.pdf(")

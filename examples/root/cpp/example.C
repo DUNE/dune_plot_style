@@ -225,6 +225,7 @@ void OverlayExample(TCanvas * c, std::vector<TH1D>& hists)
 //-------------------------------------------------------------------
 void example()
 {
+  dunestyle::OffWhiteBackground();
 
   TCanvas c;
 

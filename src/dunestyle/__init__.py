@@ -15,4 +15,3 @@ try:
 except:
     pass
 
-from .dunestyle import *

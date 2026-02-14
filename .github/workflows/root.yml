@@ -103,7 +103,7 @@ jobs:
 
       - name: Create ROOT example plot using C++
         run: |
-          export ROOT_INCLUDE_PATH=$GITHUB_WORKSPACE/src/root/cpp/include:${ROOT_INCLUDE_PATH}
+          export ROOT_INCLUDE_PATH=$GITHUB_WORKSPACE/src/dunestyle/data:${ROOT_INCLUDE_PATH}
           cd $GITHUB_WORKSPACE/examples/root/cpp
           root -b -q example.C
 

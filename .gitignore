@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignoring plot results
+*.pdf
+*.png
+!examples/images/*.png
+
+# Distribution / packaging
+build/
+*.egg-info/
+
+

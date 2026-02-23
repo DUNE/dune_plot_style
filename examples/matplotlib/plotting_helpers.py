@@ -38,10 +38,10 @@ def CovEllipse(xdata, ydata, cov, q=None, nsig=None, facecolor='none', **kwargs)
     width, height = 2 * np.sqrt(val[:, None] * r2)
     angle = np.degrees(np.arctan2(*vec[::-1, 0]))
 
-    xmean = np.mean(xdata)
-    ymean = np.mean(ydata)
+    xmean = np.squeeze(np.mean(xdata))
+    ymean = np.squeeze(np.mean(ydata))
 
-    ellipse = Ellipse(xy=(xmean,ymean), width=width, height=height, angle=angle,
+    ellipse = Ellipse(xy=(xmean,ymean), width=np.squeeze(width), height=np.squeeze(height), angle=np.squeeze(angle),
                           facecolor=facecolor, **kwargs)
 
     return ellipse

@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# generally ignore image files (but updates to the examples/images directory should still be noticed)
+*.pdf
+*.png
+!examples/images/*.png
+
+# Distribution / packaging
+build/
+*.egg-info/

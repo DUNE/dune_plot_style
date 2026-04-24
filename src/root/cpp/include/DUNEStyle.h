@@ -454,6 +454,7 @@ namespace dunestyle
     // Center title
     duneStyle->SetTitleAlign(22);
     duneStyle->SetTitleX(.5);
+    duneStyle->SetTitleW(1.);
     duneStyle->SetTitleY(.95);
     duneStyle->SetTitleBorderSize(0);
 
